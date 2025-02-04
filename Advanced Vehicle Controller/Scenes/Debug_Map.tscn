@@ -1,0 +1,2077 @@
+[gd_scene load_steps=22 format=3 uid="uid://duhhppmjo7k6f"]
+
+[ext_resource type="Material" uid="uid://bqhg03u7uopp1" path="res://Advanced Vehicle Controller/Debug content/Black Box.tres" id="1_mhgok"]
+[ext_resource type="Material" uid="uid://dgucgrkhjqrj0" path="res://Advanced Vehicle Controller/Debug content/Red Box.tres" id="2_c6hdh"]
+[ext_resource type="PackedScene" uid="uid://drtkaugr7kqas" path="res://Advanced Vehicle Controller/Vehicle/NightSky/NightSky_Body.tscn" id="2_n77my"]
+[ext_resource type="Material" uid="uid://dcladqkfg3jij" path="res://Advanced Vehicle Controller/Debug content/Emission White Box.tres" id="2_qu8ow"]
+[ext_resource type="Material" uid="uid://c01w6cl6ib7pf" path="res://Advanced Vehicle Controller/Debug content/White Box.tres" id="3_tcfm6"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3rrre"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+sky_energy_multiplier = 0.2
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_cebjg"]
+sky_material = SubResource("ProceduralSkyMaterial_3rrre")
+
+[sub_resource type="Environment" id="Environment_fqky0"]
+background_mode = 2
+sky = SubResource("Sky_cebjg")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="TextMesh" id="TextMesh_brt0e"]
+material = ExtResource("3_tcfm6")
+uv2_padding = 0.0
+text = "Speed Way for Max Speed/RPM checks"
+font_size = 120
+uppercase = true
+
+[sub_resource type="TextMesh" id="TextMesh_yyk77"]
+text = "ELEVATOR"
+font_size = 127
+
+[sub_resource type="PrismMesh" id="PrismMesh_w3biv"]
+size = Vector3(2, 2, 0.1)
+
+[sub_resource type="TextMesh" id="TextMesh_wu2op"]
+text = "You've Made IT! :D"
+font_size = 100
+uppercase = true
+
+[sub_resource type="TextMesh" id="TextMesh_fqc1l"]
+text = "ROTTOR
+WORK IN PROGRESS!"
+font_size = 75
+
+[sub_resource type="Animation" id="Animation_f4ab6"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_w2p8s"]
+resource_name = "Rotate"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l06ah"]
+_data = {
+"RESET": SubResource("Animation_f4ab6"),
+"Rotate": SubResource("Animation_w2p8s")
+}
+
+[sub_resource type="BoxMesh" id="BoxMesh_n3c46"]
+size = Vector3(10, 0.5, 10)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8s0ym"]
+points = PackedVector3Array(-5, -0.25, -5, -5, 0.25, -5, 5, -0.25, -5, -5, -0.25, 5, -5, 0.25, 5, 5, 0.25, -5, 5, -0.25, 5, 5, 0.25, 5)
+
+[sub_resource type="Animation" id="Animation_2gg5o"]
+resource_name = "Elevator"
+length = 13.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RigidBody3D:linear_velocity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 5, 8, 10, 13),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 30, 0), Vector3(0, -8.69234e-07, 0), Vector3(0, -30, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_v76yj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RigidBody3D:linear_velocity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_apwts"]
+_data = {
+"Elevator": SubResource("Animation_2gg5o"),
+"RESET": SubResource("Animation_v76yj")
+}
+
+[node name="Debug_Map" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fqky0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.5, -2.18557e-08, 0, -4.37114e-08, 1, -0.5, 0.866025, 3.78552e-08, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 200.0
+
+[node name="Arena" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Arena"]
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(300, 1, 300)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150.5, 9.5, 0)
+use_collision = true
+size = Vector3(1, 20, 302)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150.5, 9.5, 0)
+use_collision = true
+size = Vector3(1, 20, 302)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.5, -150.5)
+use_collision = true
+size = Vector3(300, 20, 1)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 9.5, 150.5)
+use_collision = true
+size = Vector3(100, 20, 1)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 0.3, 0, 0, 0, 1, 40, 13.5, 149.5)
+use_collision = true
+size = Vector3(48, 20, 1)
+material = ExtResource("1_mhgok")
+
+[node name="CSGMesh3D" type="MeshInstance3D" parent="Arena/CSGBox3D7"]
+transform = Transform3D(-1.9, 0, -5.59506e-07, 0, 11.6667, 0, 1.66103e-07, 0, -6.4, 0, 1.66666, -0.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("TextMesh_brt0e")
+skeleton = NodePath("../../..")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 0.3, 0, 0, 0, 1, -12.5, 14.4, 72.1755)
+use_collision = true
+size = Vector3(13, 14, 1)
+material = ExtResource("1_mhgok")
+
+[node name="CSGMesh3D" type="MeshInstance3D" parent="Arena/CSGBox3D8"]
+transform = Transform3D(-1.9, 0, -5.59506e-07, 0, 11.6667, 0, 1.66103e-07, 0, -6.4, 0, 1, -0.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("TextMesh_yyk77")
+skeleton = NodePath("../../..")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 9.5, 150.5)
+use_collision = true
+size = Vector3(180, 20, 1)
+material = ExtResource("1_mhgok")
+
+[node name="Corridor" type="Node3D" parent="Arena"]
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 1813.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 1, 3327)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 798)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 791)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 784)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 778)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 771)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 764)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 758)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 751)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 744)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 738)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 731)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 724)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 718)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 711)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 704)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 698)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 691)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 684)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 678)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D30" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 671)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D31" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 664)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D32" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 658)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D33" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 651)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D34" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 644)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D35" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 637)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D36" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 630)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D37" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 623)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D38" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 617)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D39" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 610)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D40" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 603)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D41" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 597)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D42" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 590)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D43" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 583)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D44" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 577)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D45" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 570)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D46" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 563)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D47" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 556)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D48" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 549)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D49" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 542)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D50" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 536)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D51" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 529)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D52" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 522)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D53" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 516)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D54" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 509)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D55" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 502)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D56" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 496)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D57" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 489)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D58" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 482)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D59" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 476)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D60" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 470)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D61" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 463)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D62" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 456)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D63" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 450)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D64" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 443)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D65" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 436)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D66" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 430)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D67" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 423)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D68" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 416)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D69" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 410)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D70" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 403)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D71" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 396)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D72" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 389)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D73" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 382)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D74" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 375)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D75" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 369)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D76" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 362)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D77" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 355)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D78" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 349)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D79" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 342)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D80" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 335)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D81" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 329)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D82" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 322)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D83" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 315)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D84" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 308)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D85" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 301)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D86" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 294)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D87" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 288)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D88" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 281)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D89" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 274)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D90" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 268)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D91" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 261)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D92" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 254)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D93" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 248)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D94" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 241)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D95" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 234)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5, 9.5, 1814)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 20, 3326)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.5, 9.5, 1814)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 20, 3326)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D97" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 9.5, 3477.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(22, 20, 1)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D98" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1455)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D99" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1448)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D100" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1441)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D101" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1435)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D102" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1428)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D103" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1421)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D104" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1415)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D105" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1408)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D106" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1401)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D107" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1395)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D108" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1388)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D109" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1381)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D110" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1375)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D111" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1368)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D112" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1361)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D113" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1355)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D114" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1348)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D115" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1341)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D116" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1335)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D117" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1328)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D118" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1321)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D119" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1315)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D120" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1308)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D121" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1301)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D122" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1294)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D123" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1287)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D124" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1280)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D125" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1274)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D126" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1267)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D127" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1260)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D128" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1254)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D129" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1247)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D130" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1240)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D131" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1234)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D132" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1227)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D133" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1220)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D134" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1213)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D135" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1206)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D136" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1199)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D137" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1193)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D138" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1186)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D139" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1179)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D140" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1173)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D141" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1166)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D142" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1159)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D143" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1153)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D144" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1146)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D145" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1139)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D146" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1133)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D147" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1127)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D148" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1120)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D149" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1113)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D150" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1107)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D151" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1100)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D152" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1093)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D153" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1087)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D154" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1080)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D155" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1073)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D156" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1067)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D157" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1060)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D158" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1053)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D159" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1046)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D160" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1039)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D161" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1032)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D162" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1026)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D163" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1019)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D164" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1012)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D165" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1006)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D166" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 999)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D167" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 992)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D168" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 986)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D169" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 979)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D170" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 972)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D171" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 965)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D172" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 958)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D173" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 951)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D174" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 945)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D175" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 938)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D176" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 931)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D177" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 925)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D178" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 918)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D179" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 911)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D180" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 905)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D181" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 898)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D182" type="CSGBox3D" parent="Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 891)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="Obstacles" type="Node3D" parent="."]
+
+[node name="Tunel" type="CSGCombiner3D" parent="Obstacles"]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2.5, 7)
+size = Vector3(42, 4, 27)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 1)
+operation = 2
+size = Vector3(5, 3, 15)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2, 11.5)
+operation = 2
+size = Vector3(5, 3, 18)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2, 11.5)
+operation = 2
+size = Vector3(5, 3, 18)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2, 5.5)
+operation = 2
+size = Vector3(20, 3, 6)
+material = ExtResource("1_mhgok")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Tunel"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 2, 2, -6.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("PrismMesh_w3biv")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Obstacles/Tunel"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -6, 2, -6.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("PrismMesh_w3biv")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Obstacles/Tunel"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -23, 2, 20.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("PrismMesh_w3biv")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Obstacles/Tunel"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -31, 2, 20.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("PrismMesh_w3biv")
+skeleton = NodePath("../../..")
+
+[node name="Platform Ramp" type="CSGPolygon3D" parent="Obstacles/Tunel"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8.99512, 0.500001, -6.47865)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 6.09126, 2.29308, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 20.0
+material = ExtResource("2_c6hdh")
+
+[node name="Railing" type="Node3D" parent="Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 20)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Obstacles/Tunel/Railing"]
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6, 0.351504, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(43, 0.5, 0.25)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="Ramp" type="CSGPolygon3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.5, 11)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0, 3, 0.488358, 2.68822, 1.03863, 2.37046, 1.57678, 2.09083, 2.11517, 1.83002, 2.62949, 1.60488, 3.23144, 1.39032, 3.94583, 1.14298, 4.61387, 0.911114, 5.31897, 0.695835, 6.04636, 0.498671, 6.82274, 0.326103, 7.6745, 0.143182, 8.317, 0.0557576, 9, 0)
+depth = 6.0
+
+[node name="Bumps" type="Node3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0.5, -13)
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D4" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -1)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D5" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -2)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D6" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -3)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D7" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -4)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D8" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D9" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -6)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D10" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -7)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D11" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -8)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D12" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -9)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D13" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -10)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D14" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -11)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D15" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -12)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D16" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -13)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D17" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -14)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D18" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -15)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D19" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -16)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D20" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -17)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D21" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -18)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D22" type="CSGPolygon3D" parent="Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -19)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="Climb Platforms" type="Node3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2.5, -15)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(30, 4, 23)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 7, -14)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5, 10, -16.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(21, 1, 12)
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 10, -7)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(7, 1, 5)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.5, 10, -16.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(21, 1, 12)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.5, 11.5, -16.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 2, 12)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Climb Platforms/CSGBox3D16"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.501305, 0, 0)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("TextMesh_wu2op")
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 11.5, -22)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 1)
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.5, 11.5, -11)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 2, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 7, -19)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 7, -7)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 5, -22)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 5, -11)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 5, -22)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 5, -11)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.5, 5, -22)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.5, 5, -11)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2.5, 16.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(8, 4, 16)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 5.5, 11)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(11, 10, 27)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -15, 4.5, -3)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-12, 0, -11, 0.2, 0, 0.2, 1, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -13.75, 4.5, -3)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-12, 0, -11, 0.2, 0, 0.2, 1, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 6.3125, 10.5, -14.5413)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-12, 0, -11, 0.2, 1.859, 0.2, 3, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D6" type="CSGPolygon3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 6.9375, 10.5, -13.4587)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-12, 0, -11, 0.2, 1.727, 0.2, 3, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D7" type="CSGPolygon3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(0.866026, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866026, -11.0625, 10.5, -8.54127)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-13, 0, -12, 0.2, 1.859, 0.2, 3, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D8" type="CSGPolygon3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(0.866026, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866026, -11.6875, 10.5, -7.45873)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-13, 0, -12, 0.25, 1.727, 0.2, 3, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D4" type="CSGPolygon3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11, 4.5, 18.75)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-23, 6, -21.9992, 6.0557, 1, 0, 0, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D5" type="CSGPolygon3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11, 4.5, 20)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-23, 6, -21.9992, 6.0557, 1, 0, 0, 0)
+depth = 0.5
+
+[node name="Ramp2" type="CSGPolygon3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 14, 10.5, -2)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.0124398, 1.26769, 1.9125, 0.873471, 3.70618, 0.575716, 5.54524, 0.295923, 7.41842, 0.130228, 8.317, 0.0557576, 9, 0)
+depth = 6.0
+
+[node name="Platform Ramp2" type="CSGPolygon3D" parent="Obstacles/Climb Platforms"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9.005, 0.500001, -26.4787)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(12, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.20828, 3.25473, 4.17848, 2.87638, 5.04035, 2.42706, 5.78656, 2.05721, 6.46123, 1.64937, 7.2342, 1.23234, 8.02588, 0.84063, 8.65591, 0.561722, 9.22346, 0.374189, 9.89252, 0.238101, 10.6666, 0.104079, 11.2923, 0.0423995)
+depth = 20.0
+
+[node name="Loop" type="CSGCombiner3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.5678, 17.4313, 0)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Obstacles/Loop"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+material_override = ExtResource("2_c6hdh")
+radius = 18.0
+height = 48.0509
+sides = 10
+
+[node name="CSGCylinder3D4" type="CSGCylinder3D" parent="Obstacles/Loop"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+material_override = ExtResource("2_c6hdh")
+operation = 2
+radius = 17.0
+height = 50.0
+sides = 64
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Obstacles/Loop"]
+transform = Transform3D(1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, 9.5, -6, -13)
+operation = 2
+size = Vector3(18, 22, 25)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Obstacles/Loop"]
+transform = Transform3D(1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, -9.5, -6, 12)
+operation = 2
+size = Vector3(18, 22, 25)
+
+[node name="Ramps" type="Node3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.5, -81)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Obstacles/Ramps"]
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0, 3, 4.61403, 1.77948, 9.02554, 0.812912, 11.6816, 0.285645, 14, 0)
+depth = 5.0
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Obstacles/Ramps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -58, 0, -38)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-2, 0, -2, 43, -1, 43, -0.824707, 12.4591, -0.583496, 10.8677, -0.0468292, 8.99305, 0.546738, 7.79341, 1.45055, 6.43619, 2.34456, 5.53428, 3.42307, 4.64902, 4.6529, 3.96058, 5.97348, 3.37677, 7.08243, 3.03443, 8.25853, 2.71926, 9.80353, 2.34506, 11.4719, 2.02176, 13.4506, 1.70131, 15.7065, 1.38869, 17.9474, 1.14357, 19.9516, 0.921703, 22.2867, 0.708008, 24.9959, 0.530234, 29.5797, 0.276566, 35.1234, 0.120235, 39, 0)
+depth = 10.0
+
+[node name="Platform Ramp2" type="CSGPolygon3D" parent="Obstacles/Ramps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24, 0, 17)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="Platform Ramp3" type="CSGPolygon3D" parent="Obstacles/Ramps"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -63, 0, -5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="Platform Ramp5" type="CSGPolygon3D" parent="Obstacles/Ramps"]
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -50, 0, -20)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 3.876, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="Platform Ramp6" type="CSGPolygon3D" parent="Obstacles/Ramps"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -50, 0, -25)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 3.876, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Obstacles/Ramps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, 2, -2.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(44, 4, 5)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Obstacles/Ramps"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21.5, 2, 8.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(17, 4, 5)
+material = ExtResource("1_mhgok")
+
+[node name="Rottor" type="Node3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94, 0.5, 85)
+
+[node name="Rottor Base" type="CSGCylinder3D" parent="Obstacles/Rottor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+radius = 3.0
+height = 4.0
+sides = 12
+cone = true
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Obstacles/Rottor/Rottor Base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+radius = 1.44472
+height = 14.0
+sides = 12
+
+[node name="Bilbord" type="CSGBox3D" parent="Obstacles/Rottor/Rottor Base/CSGCylinder3D2"]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 9, 0)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+size = Vector3(9, 4, 3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Rottor/Rottor Base/CSGCylinder3D2/Bilbord"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0339279, 0, 1.519)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("TextMesh_fqc1l")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Obstacles/Rottor"]
+libraries = {
+"": SubResource("AnimationLibrary_l06ah")
+}
+
+[node name="Moving Platform" type="Node3D" parent="Obstacles"]
+
+[node name="Platform Ramp7" type="CSGPolygon3D" parent="Obstacles/Moving Platform"]
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 13, 0.5, 117)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="Platform Ramp4" type="CSGPolygon3D" parent="Obstacles/Moving Platform"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -69, 0.5, 112)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="Base" type="CSGBox3D" parent="Obstacles/Moving Platform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 2, 114.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(2, 3, 2)
+
+[node name="Platform" type="CSGBox3D" parent="Obstacles/Moving Platform/Base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+material_override = ExtResource("1_mhgok")
+size = Vector3(7, 1, 6)
+
+[node name="Elevator" type="Node3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1, 82)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 62.5, 2)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 126, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 62.5, 2)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 126, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 62.5, -9)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 126, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 62.5, -9)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 126, 1)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.489026, 0)
+mass = 1000.0
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp_mode = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Obstacles/Elevator/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, -0.710819, -3.5)
+material_override = ExtResource("2_c6hdh")
+mesh = SubResource("BoxMesh_n3c46")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacles/Elevator/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, -0.710819, -3.5)
+shape = SubResource("ConvexPolygonShape3D_8s0ym")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Obstacles/Elevator"]
+libraries = {
+"": SubResource("AnimationLibrary_apwts")
+}
+autoplay = "Elevator"
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -0.5, 1.5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0.00661373, 0.0190496, 0.00705194, 0.527864, 1.90366, 0.354546, 4.58129, 0.177727, 6.59934, 0.0834407, 9, 0)
+depth = 10.0
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Obstacles/Elevator"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.5, -0.5, -8.5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0.00661373, 0.0190496, 0.00705194, 0.527864, 1.90366, 0.354546, 4.58129, 0.177727, 6.59934, 0.0834407, 9, 0)
+depth = 10.0
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="Obstacles/Elevator"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7.5, -0.5, -8.5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0.00661373, 0.0190496, 0.00705194, 0.527864, 1.90366, 0.354546, 4.58129, 0.177727, 6.59934, 0.0834407, 9, 0)
+depth = 10.0
+
+[node name="CSGPolygon3D4" type="CSGPolygon3D" parent="Obstacles/Elevator"]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -7.5, -0.5, 1.5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0.00661373, 0.0190496, 0.00705194, 0.527864, 1.90366, 0.354546, 4.58129, 0.177727, 6.59934, 0.0834407, 9, 0)
+depth = 10.0
+
+[node name="NightSky_Body" parent="." instance=ExtResource("2_n77my")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 1, -144)
+collision_layer = 9
+is_current_veh = true

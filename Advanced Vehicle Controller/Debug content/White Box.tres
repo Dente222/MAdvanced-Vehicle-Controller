@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c01w6cl6ib7pf"]
+
+[ext_resource type="Texture2D" uid="uid://te08na6s2juo" path="res://Advanced Vehicle Controller/Debug content/texture_02.png" id="1_hjf3h"]
+
+[resource]
+albedo_texture = ExtResource("1_hjf3h")
+albedo_texture_force_srgb = true
+uv1_triplanar = true

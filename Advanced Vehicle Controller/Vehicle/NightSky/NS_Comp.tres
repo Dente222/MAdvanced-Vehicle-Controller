@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bg64ka54o05w2"]
+
+[ext_resource type="Texture2D" uid="uid://c25uvqqll0ted" path="res://Assets/Vehicles/NightSky/Skyline_Body_Glass_BaseColor.png" id="1_ejfqk"]
+
+[resource]
+albedo_texture = ExtResource("1_ejfqk")

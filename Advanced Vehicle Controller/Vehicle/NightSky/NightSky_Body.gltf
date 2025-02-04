@@ -1,0 +1,295 @@
+{
+    "asset": {
+        "copyright": "(C)2021 Millu",
+        "generator": "maya2glTF main fbbc95e5dc4d",
+        "version": "2.0"
+    },
+    "scenes": [
+        {
+            "nodes": [
+                0
+            ]
+        }
+    ],
+    "scene": 0,
+    "nodes": [
+        {
+            "name": "Sport_Body",
+            "mesh": 0
+        }
+    ],
+    "meshes": [
+        {
+            "name": "Sport_BodyShape",
+            "extras": {
+                "targetNames": []
+            },
+            "primitives": [
+                {
+                    "attributes": {
+                        "NORMAL": 1,
+                        "POSITION": 2,
+                        "TANGENT": 3,
+                        "TEXCOORD_0": 4
+                    },
+                    "indices": 0,
+                    "mode": 4,
+                    "material": 0
+                },
+                {
+                    "attributes": {
+                        "NORMAL": 6,
+                        "POSITION": 7,
+                        "TANGENT": 8,
+                        "TEXCOORD_0": 9
+                    },
+                    "indices": 5,
+                    "mode": 4,
+                    "material": 1
+                }
+            ]
+        }
+    ],
+    "materials": [
+        {
+            "name": "Glass",
+            "pbrMetallicRoughness": {
+                "baseColorFactor": [
+                    0.4000000059604645,
+                    0.07440000027418137,
+                    0.07440000027418137,
+                    1.0
+                ],
+                "metallicFactor": 0.0,
+                "roughnessFactor": 1.0
+            }
+        },
+        {
+            "name": "Body",
+            "pbrMetallicRoughness": {
+                "baseColorFactor": [
+                    0.024626219645142556,
+                    0.012812803499400616,
+                    0.1664000004529953,
+                    1.0
+                ],
+                "metallicFactor": 0.0,
+                "roughnessFactor": 1.0
+            }
+        }
+    ],
+    "accessors": [
+        {
+            "name": "Sport_BodyShape#0/indices",
+            "bufferView": 0,
+            "byteOffset": 0,
+            "componentType": 5123,
+            "count": 588,
+            "max": [
+                341
+            ],
+            "min": [
+                0
+            ],
+            "type": "SCALAR"
+        },
+        {
+            "name": "Sport_BodyShape#0/vertices/NORMAL",
+            "bufferView": 1,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 342,
+            "max": [
+                0.97315776348114,
+                0.9782161712646484,
+                0.8978781700134277
+            ],
+            "min": [
+                -0.9731577038764954,
+                -0.9782167077064514,
+                -0.9901036024093628
+            ],
+            "type": "VEC3"
+        },
+        {
+            "name": "Sport_BodyShape#0/vertices/POSITION",
+            "bufferView": 1,
+            "byteOffset": 4104,
+            "componentType": 5126,
+            "count": 342,
+            "max": [
+                0.7510051727294922,
+                1.4580633640289309,
+                1.9692424535751346
+            ],
+            "min": [
+                -0.7510051727294922,
+                0.8045476078987122,
+                -1.958575963973999
+            ],
+            "type": "VEC3"
+        },
+        {
+            "name": "Sport_BodyShape#0/vertices/TANGENT",
+            "bufferView": 2,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 342,
+            "max": [
+                1.0,
+                0.978216588497162,
+                0.9999879598617554,
+                1.0
+            ],
+            "min": [
+                -1.0,
+                -0.97821706533432,
+                -0.81569904088974,
+                -1.0
+            ],
+            "type": "VEC4"
+        },
+        {
+            "name": "Sport_BodyShape#0/vertices/TEXCOORD_0",
+            "bufferView": 3,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 342,
+            "max": [
+                1.968920111656189,
+                0.9229749441146852
+            ],
+            "min": [
+                1.0451215505599976,
+                0.02943575382232666
+            ],
+            "type": "VEC2"
+        },
+        {
+            "name": "Sport_BodyShape#1/indices",
+            "bufferView": 0,
+            "byteOffset": 1176,
+            "componentType": 5123,
+            "count": 5232,
+            "max": [
+                3265
+            ],
+            "min": [
+                0
+            ],
+            "type": "SCALAR"
+        },
+        {
+            "name": "Sport_BodyShape#1/vertices/NORMAL",
+            "bufferView": 1,
+            "byteOffset": 8208,
+            "componentType": 5126,
+            "count": 3266,
+            "max": [
+                1.0,
+                1.0,
+                0.9999996423721314
+            ],
+            "min": [
+                -1.0,
+                -1.0,
+                -0.9998540282249452
+            ],
+            "type": "VEC3"
+        },
+        {
+            "name": "Sport_BodyShape#1/vertices/POSITION",
+            "bufferView": 1,
+            "byteOffset": 47400,
+            "componentType": 5126,
+            "count": 3266,
+            "max": [
+                0.8305114507675171,
+                1.4931180477142337,
+                2.1324939727783205
+            ],
+            "min": [
+                -0.8305115699768066,
+                0.2765143215656281,
+                -2.0249390602111818
+            ],
+            "type": "VEC3"
+        },
+        {
+            "name": "Sport_BodyShape#1/vertices/TANGENT",
+            "bufferView": 2,
+            "byteOffset": 5472,
+            "componentType": 5126,
+            "count": 3266,
+            "max": [
+                1.0,
+                0.9998539090156556,
+                1.0,
+                1.0
+            ],
+            "min": [
+                -1.0,
+                -0.994798183441162,
+                -1.0,
+                -1.0
+            ],
+            "type": "VEC4"
+        },
+        {
+            "name": "Sport_BodyShape#1/vertices/TEXCOORD_0",
+            "bufferView": 3,
+            "byteOffset": 2736,
+            "componentType": 5126,
+            "count": 3266,
+            "max": [
+                0.9933618307113648,
+                0.989832639694214
+            ],
+            "min": [
+                0.026599138975143434,
+                0.04530882835388184
+            ],
+            "type": "VEC2"
+        }
+    ],
+    "bufferViews": [
+        {
+            "name": "NightSky_Body/data/indices-2",
+            "buffer": 0,
+            "byteOffset": 173184,
+            "byteLength": 11640,
+            "target": 34963
+        },
+        {
+            "name": "NightSky_Body/data/vertices-12",
+            "buffer": 0,
+            "byteOffset": 57728,
+            "byteLength": 86592,
+            "byteStride": 12,
+            "target": 34962
+        },
+        {
+            "name": "NightSky_Body/data/vertices-16",
+            "buffer": 0,
+            "byteOffset": 0,
+            "byteLength": 57728,
+            "byteStride": 16,
+            "target": 34962
+        },
+        {
+            "name": "NightSky_Body/data/vertices-8",
+            "buffer": 0,
+            "byteOffset": 144320,
+            "byteLength": 28864,
+            "byteStride": 8,
+            "target": 34962
+        }
+    ],
+    "buffers": [
+        {
+            "name": "NightSky_Body/data",
+            "byteLength": 184824,
+            "uri": "NightSky_Body0.bin"
+        }
+    ]
+}

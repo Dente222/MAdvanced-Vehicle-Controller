@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://duxuprtoq10dr"]
+
+[ext_resource type="Script" path="res://Advanced Vehicle Controller/Scripts/Cam_Holder.gd" id="1_702ig"]
+
+[node name="Cam_Holder" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+script = ExtResource("1_702ig")
+
+[node name="P_Cam" type="Camera3D" parent="."]
+transform = Transform3D(-1, 3.55272e-15, -8.74228e-08, -8.33961e-09, 0.99544, 0.0953941, 8.70241e-08, 0.0953941, -0.99544, 0, 0.696398, -4.07878)
+current = true

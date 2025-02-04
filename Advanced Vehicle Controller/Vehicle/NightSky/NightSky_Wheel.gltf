@@ -1,0 +1,185 @@
+{
+    "asset": {
+        "copyright": "(C)2021 Millu",
+        "generator": "maya2glTF main fbbc95e5dc4d",
+        "version": "2.0"
+    },
+    "scenes": [
+        {
+            "nodes": [
+                0
+            ]
+        }
+    ],
+    "scene": 0,
+    "nodes": [
+        {
+            "name": "Sport_Wheel",
+            "mesh": 0
+        }
+    ],
+    "meshes": [
+        {
+            "name": "Sport_WheelShape",
+            "extras": {
+                "targetNames": []
+            },
+            "primitives": [
+                {
+                    "attributes": {
+                        "NORMAL": 1,
+                        "POSITION": 2,
+                        "TANGENT": 3,
+                        "TEXCOORD_0": 4
+                    },
+                    "indices": 0,
+                    "mode": 4,
+                    "material": 0
+                }
+            ]
+        }
+    ],
+    "materials": [
+        {
+            "name": "lambert1",
+            "pbrMetallicRoughness": {
+                "baseColorFactor": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    1.0
+                ],
+                "metallicFactor": 0.0,
+                "roughnessFactor": 1.0
+            }
+        }
+    ],
+    "accessors": [
+        {
+            "name": "Sport_WheelShape#0/indices",
+            "bufferView": 0,
+            "byteOffset": 0,
+            "componentType": 5123,
+            "count": 1728,
+            "max": [
+                777
+            ],
+            "min": [
+                0
+            ],
+            "type": "SCALAR"
+        },
+        {
+            "name": "Sport_WheelShape#0/vertices/NORMAL",
+            "bufferView": 1,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 778,
+            "max": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "min": [
+                -1.0,
+                -1.0,
+                -1.0
+            ],
+            "type": "VEC3"
+        },
+        {
+            "name": "Sport_WheelShape#0/vertices/POSITION",
+            "bufferView": 1,
+            "byteOffset": 9336,
+            "componentType": 5126,
+            "count": 778,
+            "max": [
+                0.17103087902069093,
+                0.4003228843212128,
+                0.4003229141235352
+            ],
+            "min": [
+                -0.1566096693277359,
+                -0.4003229141235352,
+                -0.4003229141235352
+            ],
+            "type": "VEC3"
+        },
+        {
+            "name": "Sport_WheelShape#0/vertices/TANGENT",
+            "bufferView": 2,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 778,
+            "max": [
+                1.0,
+                0.9807854890823364,
+                0.9807854890823364,
+                1.0
+            ],
+            "min": [
+                -1.0,
+                -0.9832552671432496,
+                -1.0,
+                1.0
+            ],
+            "type": "VEC4"
+        },
+        {
+            "name": "Sport_WheelShape#0/vertices/TEXCOORD_0",
+            "bufferView": 3,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 778,
+            "max": [
+                0.9668484330177308,
+                0.9481366276741028
+            ],
+            "min": [
+                0.06903207302093506,
+                0.009133696556091309
+            ],
+            "type": "VEC2"
+        }
+    ],
+    "bufferViews": [
+        {
+            "name": "NightSky_Wheel/data/indices-2",
+            "buffer": 0,
+            "byteOffset": 37344,
+            "byteLength": 3456,
+            "target": 34963
+        },
+        {
+            "name": "NightSky_Wheel/data/vertices-12",
+            "buffer": 0,
+            "byteOffset": 12448,
+            "byteLength": 18672,
+            "byteStride": 12,
+            "target": 34962
+        },
+        {
+            "name": "NightSky_Wheel/data/vertices-16",
+            "buffer": 0,
+            "byteOffset": 0,
+            "byteLength": 12448,
+            "byteStride": 16,
+            "target": 34962
+        },
+        {
+            "name": "NightSky_Wheel/data/vertices-8",
+            "buffer": 0,
+            "byteOffset": 31120,
+            "byteLength": 6224,
+            "byteStride": 8,
+            "target": 34962
+        }
+    ],
+    "buffers": [
+        {
+            "name": "NightSky_Wheel/data",
+            "byteLength": 40800,
+            "uri": "NightSky_Wheel0.bin"
+        }
+    ]
+}
