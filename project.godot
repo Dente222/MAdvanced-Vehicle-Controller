@@ -37,6 +37,10 @@ config/icon="res://AVC.png"
 
 Ui="*res://Advanced Vehicle Controller/Scenes/ui.tscn"
 
+[dotnet]
+
+project/assembly_name="Advanced Vehicle Controller"
+
 [input]
 
 Acceleration={
@@ -97,4 +101,28 @@ lights={
 "deadzone": 0.5,
 "events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":2,"axis_value":-1.0,"script":null)
 ]
+}
+"Gear Reverse"={
+"deadzone": 0.5,
+"events": []
+}
+"Gear 1"={
+"deadzone": 0.5,
+"events": []
+}
+"Gear 2"={
+"deadzone": 0.5,
+"events": []
+}
+"Gear 3"={
+"deadzone": 0.5,
+"events": []
+}
+"Gear 4"={
+"deadzone": 0.5,
+"events": []
+}
+"Gear 5"={
+"deadzone": 0.5,
+"events": []
 }
