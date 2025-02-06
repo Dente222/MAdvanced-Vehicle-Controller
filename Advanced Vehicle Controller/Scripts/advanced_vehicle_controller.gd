@@ -45,12 +45,16 @@ extends VehicleBody3D
 # F Or Left Stick = Front Lights
 # Q Or XBox RB Or Sonny R1 = Shift UP
 # A Or XBox LB Or Sonny L1 = Shift Down
+# NOTE: Setup for shifter and steering wheel is not provided since it is individual to ones devices!
 #//////////////////////////////////////////////////////////////////////////////////////////////////#
 
 @export_group("Car Setup")
-@export var is_current_veh: bool = false # Sets vehicle to be the current vehicle, sets camera and allow player to controll vehicle that has this checked on, works similar to the car swith in Need For Speed Mostwanted from 2012
-@export var gear_ratio : Array = [7.0, 6.0, 5.8, 5.5, 4.0] # Adjustable Gear ratio for cars, works along with differential
-@export var differential : Array = [33.0, 25.0, 24.0, 22.0, 20.0] # Differential so that vehicle RPM does not get limited by RPM limit, Adjust Carefully along with gear_ratio
+@export_category("Basic settings")
+@export var veh_name : String # Sets vehicle name. Treat it as ID for custom body mods and decals. It is not necessary to use but makes it easier to restrict exclusive mods or decals for specific vehicle so they don't look missplaced
+@export var is_current_veh : bool = false # Sets vehicle to be the current vehicle, sets camera and allow player to controll vehicle that has this checked on, works similar to the car swith in Need For Speed Mostwanted from 2012
+@export_category("Gearbox setup")
+@export var gear_ratio : Array = [0.0, 7.0, 6.0, 5.8, 5.5, 4.0] # Adjustable Gear ratio for cars, works along with differential Note: First value which is 0.0 is for neutral gear only!
+@export var differential : Array = [0.0, 33.0, 25.0, 24.0, 22.0, 20.0] # Differential so that vehicle RPM does not get limited by RPM limit, Adjust Carefully along with gear_ratio
 @export_range(0, 2) var reverse_ratio : float = 1.5 # Reverse Ratio defines how fast and how many RPM will car get when driving backwards
 @export var ratio_limiter : Array = [400, 600, 720, 1000] # Tells us at what point our RPM will switch to the next gear, modify along with Gear Ratio and Differential to prevent inconsystency
 @export var manual_ratio_limiter : Array = [150 , 400, 550, 720] # Tells us at what RPM our gear should start limiting our speed, this is separate to Automatic since automatic does not prvent gears from driving faster!
@@ -58,16 +62,22 @@ extends VehicleBody3D
 @export var rpm_wheel : VehicleWheel3D # A wheel that you wish to calculate RPM from, its recomended to use wheel that has traction ON!
 enum transmission {automatic, manual} # Enum for transmission. Allows to change between Manual and Automatic gearbox
 @export var gearbox_transmission : transmission # This allows to change vehicle transmision, use it along settings menu to switch.
+@export_category("Additional mechanics")
 @export var front_light : Node3D # Reference to front car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
 @export var rare_lights : Node3D # Reference to rare car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
 @export var engine_sound : AudioStreamPlayer3D # Reference to engine sound
 @export var engine_pitch_modifier : float = 50 # Sets the modifier to adjust engine pitch sound accordingly
+@export var decal_markers : Array = [Decal] # Optional if player wants to add decals to vehicle. Keep it in that order to prevent mistakes [0 = Hood, 1 = Left side, 2 = Right side, 3 = Trunk, 4 = Roof]. NOTE: Keep decals empty or simply ignore this and reference to them only when wanting to remove or replace decals 
+@export var shifter : bool = false # Allows to switch function for manual shifter instead of buttons if desired to use steering wheel instead
 
-@export_group("Wheels Setup")
+@export_group("Wheels")
+@export_category("Grip Settings")
 @export_range(0,3) var wheel_grip : float = 3.0 # Default grip for wheels this will always be the value set in _ready() function
 @export_range(0,3) var wet_grip : float = 2.0 # Modifier for penalty on wet surface, "closer to wheel_grip, More drifty it becomse!" Used for handbreak but can also be used in the environment if desired
+@export_category("Wheel Setup")
 @export var wheels : Array [VehicleWheel3D] # Array of all wheels that player wants to apply wet_grip modifier
 @export var all_wheels : Array [VehicleWheel3D] # Array of all car wheels in case we want to apply different grip based on map setting to all wheels
+@export_category("Additional settings for wheels")
 @export var smoke_particles : Array [GPUParticles3D] # Array of our particle nodes for easy access
 @export var tyre_sound : AudioStreamPlayer3D # Reference to our tyre audio stream
 
@@ -140,7 +150,9 @@ func _physics_process(delta: float) -> void:
 		Ui.get_node("VBoxContainer/Acceleration").text = "Acceleration: " + str(acceleration)
 		if gear == -1: # This one checks if our gear is -1 "Reverse" and if soo then change icon to R, otherwise display gears properly
 			Ui.get_node("VBoxContainer/Gear Shaft").text = "Gear: R"
-		else: Ui.get_node("VBoxContainer/Gear Shaft").text = "Gear: " + str(gear + 1)
+		elif gear == 0: 
+			Ui.get_node("VBoxContainer/Gear Shaft").text = "Gear: N"
+		else: Ui.get_node("VBoxContainer/Gear Shaft").text = "Gear: " + str(gear)
 		Ui.get_node("VBoxContainer/Absolute RPM").text = "Absolute RPM: " + str(round(veh_speed)) + " KMPH"
 		Ui.get_node("VBoxContainer/Max RPM").text = "Current Engine Force: " + str(engine_force) + " Multiplied by: " + str(gear_ratio[gear])
 		Ui.get_node("Info").text = "Current RPM: " + str(rpm_calclated)
@@ -198,19 +210,20 @@ func _physics_process(delta: float) -> void:
 				# Here it takes our calculated RPM and clamps it
 				# If our RPM reaches its max or min value, gear will be switched and we will
 				# get different ratio for another gear
+				# Note: We dont need to add Neutral in automatic transmission
 				if rpm_calclated == clamp(rpm_calclated, 0.0, 200.0): # This should switch gears at 200 RPM or above 25km
-					gear = 0
-				elif rpm_calclated == clamp(rpm_calclated,  200.0,  ratio_limiter[0]):
 					gear = 1
-				elif rpm_calclated == clamp(rpm_calclated,  ratio_limiter[0] + 1.0, ratio_limiter[1]):
+				elif rpm_calclated == clamp(rpm_calclated,  200.0,  ratio_limiter[0]):
 					gear = 2
-				elif rpm_calclated == clamp(rpm_calclated, ratio_limiter[1] + 1.0, ratio_limiter[2]):
+				elif rpm_calclated == clamp(rpm_calclated,  ratio_limiter[0] + 1.0, ratio_limiter[1]):
 					gear = 3
+				elif rpm_calclated == clamp(rpm_calclated, ratio_limiter[1] + 1.0, ratio_limiter[2]):
+					gear = 4
 					#//////////////////////////////////////////////////////////////////////////////#
 					# Last gear. It will go beyond ratio limiter but it doesn't matter at this point
 					# Note: Adding more gears will require adjustment in all 3 "Gear Ratio, Differential and Ratio Limiter"
 				elif rpm_calclated == clamp(rpm_calclated, ratio_limiter[2] + 1, ratio_limiter[3]): 
-					gear = 4
+					gear = 5
 					# Reverse gear checks if our RPM are below -0.11 then changes the gear to make it more consistent
 				elif rpm_calclated == clamp(rpm_calclated, -100.0, -0.11):
 					gear = -1
@@ -218,20 +231,53 @@ func _physics_process(delta: float) -> void:
 			# Switch for manual transmission
 			transmission.manual:
 				
+				# Plays engine sound when full throtel in neutral gear to make it more realistic
+				if gear == 0 and acceleration != 0: # If we have gear 0 on manual it will not play sound unless accelerated in that gear "We actually dont need to check for Acceleration but it will throw errors in our console because it can't apply 0.0 to pitch scale
+					engine_sound.pitch_scale = abs(acceleration) # We apply pitch scale to our engine sound based on our acceleration, we put it in "abs" function to give same pitch value weather we accelerate or de-accelerate "abs turns any value into positive, example abs(-50) will turn -50 into 50"
+					
 				#//////////////////////////////////////////////////////////////////////////////////#
 				# Manual transmission system
-				if Input.is_action_just_pressed("shift_up"): # Default Button is Q
-					if !gear == 4: # Prevents us from going above the gear limit
-						gear = gear + 1 # Increase gear by 1
-						brake = 10.0 # Applies brake for a second to simulate clutch
-						await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+				match shifter:
 					
-				elif Input.is_action_just_pressed("shift_down"): # Default Button is A
-					if !gear == -1: # Prevents us from hitting gear lower than -1 where -1 is Reverse gear
-						gear = gear - 1 # Decrease gear by 1 when shifting donw
-						brake = 10.0 # Applies brake for a second to simulate clutch
-						await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						
+					false: # This is here if you dont use external shifter, gear change will be button based
+						if Input.is_action_just_pressed("shift_up"): # Default Button is Q
+							if !gear == 5: # Prevents us from going above the gear limit
+								gear = gear + 1 # Increase gear by 1
+								brake = 10.0 # Applies brake for a second to simulate clutch
+								await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+							
+						elif Input.is_action_just_pressed("shift_down"): # Default Button is A
+							if !gear == -1: # Prevents us from hitting gear lower than -1 where -1 is Reverse gear
+								gear = gear - 1 # Decrease gear by 1 when shifting donw
+								brake = 10.0 # Applies brake for a second to simulate clutch
+								await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+								
+					true: # This is here in case you want to use external shifter instead of buttons
+						if Input.is_action_just_pressed("Gear 1"): # This will change gear to gear 1 if external gear shaft is moved to gear 1 position
+							gear = 1 # Set Gear
+							brake = 10.0 # Applies brake for a second to simulate clutch
+							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+						if Input.is_action_just_pressed("Gear 2"):
+							gear = 2 # Set Gear
+							brake = 10.0 # Applies brake for a second to simulate clutch
+							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+						if Input.is_action_just_pressed("Gear 3"):
+							gear = 3 # Set Gear
+							brake = 10.0 # Applies brake for a second to simulate clutch
+							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+						if Input.is_action_just_pressed("Gear 4"):
+							gear = 4 # Set Gear
+							brake = 10.0 # Applies brake for a second to simulate clutch
+							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+						if Input.is_action_just_pressed("Gear 5"):
+							gear = 5 # Set Gear
+							brake = 10.0 # Applies brake for a second to simulate clutch
+							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+						if Input.is_action_just_pressed("Gear Reverse"):
+							gear = -1 # Set Gear
+							brake = 10.0 # Applies brake for a second to simulate clutch
+							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+							
 				#//////////////////////////////////////////////////////////////////////////////////#
 				# For Manual Gearbox only. It checks what gear it is and will
 				# apply brake if RPM's are trying to go over the limit.
@@ -256,27 +302,34 @@ func _physics_process(delta: float) -> void:
 						if rpm_calclated <= 0.00 and acceleration <= -0.11:
 							brake = 10
 					1:
+						if rpm_calclated >= manual_ratio_limiter[0]: # Checks if our RPM hits the limit then apply brakes to force gear shift
+							brake = 5
+						else: brake = 0.0
+						
+						if rpm_calclated <= 0.00 and acceleration <= -0.11:
+							brake = 10
+					2:
 						if rpm_calclated >= manual_ratio_limiter[1]:
 							brake = 3
 						else: brake = 0.0
 						
 						if rpm_calclated <= 0.00 and acceleration <= -0.11:
 							brake = 10
-					2:
+					3:
 						if rpm_calclated >= manual_ratio_limiter[2]:
 							brake = 2.5
 						else: brake = 0.0
 						
 						if rpm_calclated <= 0.00 and acceleration <= -0.11:
 							brake = 10
-					3:
+					4:
 						if rpm_calclated >= manual_ratio_limiter[3]:
 							brake = 2.5
 						else: brake = 0.0
 						
 						if rpm_calclated <= 0.00 and acceleration <= -0.11:
 							brake = 10
-					4:
+					5:
 						#//////////////////////////////////////////////////////////////////////////#
 						# Last gear. Unlike previous gears, this has no limit just like in Automatic transmission
 						# Gear limits itself at a certain point on its own just like on automatic,
@@ -334,3 +387,7 @@ func reset_vehicle() -> void:
 func play_tyre_sound() -> void:
 	if tyre_sound.is_playing() == false:
 		tyre_sound.playing = true
+
+#func _unhandled_input(event: InputEvent) -> void: # Debug purpose use only to check what Imput device is in what order
+	#print(Input.get_joy_name(1))
+	#pass
