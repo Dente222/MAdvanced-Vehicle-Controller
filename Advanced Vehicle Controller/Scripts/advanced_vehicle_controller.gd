@@ -48,7 +48,8 @@ extends VehicleBody3D
 # NOTE: Setup for shifter and steering wheel is not provided since it is individual to ones devices!
 #//////////////////////////////////////////////////////////////////////////////////////////////////#
 
-@export_group("Car Setup")
+class_name MVehicle3D # Class name for easy access in other scripts and in create node window
+
 @export_category("Basic settings")
 @export var veh_name : String # Sets vehicle name. Treat it as ID for custom body mods and decals. It is not necessary to use but makes it easier to restrict exclusive mods or decals for specific vehicle so they don't look missplaced
 @export var is_current_veh : bool = false # Sets vehicle to be the current vehicle, sets camera and allow player to controll vehicle that has this checked on, works similar to the car swith in Need For Speed Mostwanted from 2012
@@ -70,7 +71,7 @@ enum transmission {automatic, manual} # Enum for transmission. Allows to change 
 @export var decal_markers : Array = [Decal] # Optional if player wants to add decals to vehicle. Keep it in that order to prevent mistakes [0 = Hood, 1 = Left side, 2 = Right side, 3 = Trunk, 4 = Roof]. NOTE: Keep decals empty or simply ignore this and reference to them only when wanting to remove or replace decals 
 @export var shifter : bool = false # Allows to switch function for manual shifter instead of buttons if desired to use steering wheel instead
 
-@export_group("Wheels")
+
 @export_category("Grip Settings")
 @export_range(0,3) var wheel_grip : float = 3.0 # Default grip for wheels this will always be the value set in _ready() function
 @export_range(0,3) var wet_grip : float = 2.0 # Modifier for penalty on wet surface, "closer to wheel_grip, More drifty it becomse!" Used for handbreak but can also be used in the environment if desired
