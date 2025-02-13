@@ -1,6 +1,9 @@
 extends VehicleBody3D
 
 #//////////////////////////////////////////////////////////////////////////////////////////////////#
+## Advanced Vehicle Controller that allows for easy modification of cluth and other aspects
+## of the vehicel in a flexible way
+#//////////////////////////////////////////////////////////////////////////////////////////////////#
 # Advanced vehicle controll system for Godot 4, created by Millu30
 # This vehicle controller was made with an intention to provide more advance features such as
 # transmission, lights, tyre smoke, grip controll and more features while keeping it basic and
@@ -33,7 +36,6 @@ extends VehicleBody3D
 #==================================================================================================#
 # Copyright 2025 Millu30 A.K.A Gidan
 #//////////////////////////////////////////////////////////////////////////////////////////////////#
-
 
 #//////////////////////////////////////////////////////////////////////////////////////////////////#
 # List of Controlls and corresponding buttons for different controllers including Sonny, XBox and Nintendo

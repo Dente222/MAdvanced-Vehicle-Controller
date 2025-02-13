@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://xuitbjlknu2y"]
+
+[ext_resource type="Texture2D" uid="uid://c07fsef1twsm7" path="res://Advanced Vehicle Controller/Vehicle/Muscle/Muscle TXT/Bodykit_Base_Color.png" id="1_r374f"]
+
+[resource]
+albedo_color = Color(1, 0.113725, 0, 1)
+albedo_texture = ExtResource("1_r374f")

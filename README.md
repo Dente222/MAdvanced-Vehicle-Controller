@@ -22,6 +22,7 @@ Vehicle Reset Button<br>
 Easy to use / understand, simply plug and play<br>
 Example map and vehicle provided for testing<br>
 List of Controlls for both Keyboard and Controllers<br>
+AI Based on node location and NavigationAgent3D for easy racing track setup<br>
 
 
 Copyright 2025 Millu30 A.K.A Gidan</details><br>
