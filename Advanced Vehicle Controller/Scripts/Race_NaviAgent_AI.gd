@@ -25,7 +25,7 @@ class_name MVehicle_AI_NaviRegion # Class so it is easier to find in Add Child N
 @export var right_rc : RayCast3D # Raycast for context steering WIP!!!
 @export var nav : NavigationAgent3D # Definition for our navigation agent
 @export var target_ray : Node3D # Definition for nodes we want our AI to generate path to
-@export var steering_sensitivity: float = 40.0 # Max angle our car cant turn its wheels
+@export var steering_sensitivity: float = 40.0 # Max angle our car can turn its wheels
 var nav_direction # Variable to store our points that are generated for the path, we need to access this in both, _process and _physical_process
 #var path : PackedVector3Array = [] # We define path as a variable for vectors, we might not need it since we are not checking for all the points in path but leave it in case for now if we need it in future
 
@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 	
 	if nav: # Check if we have NavigationAgent3D and if not do nothing, this is here to prevent crashes in case of missing NavigationAgent3D
 		nav.set_target_position(target_ray.global_position) # Generate path to our target position based on Navigation Mesh. !!NOTE!! This need's to be in _process and not _physical_process to prevent issues, since _process starts immiediatly when entering the scene unlike _physical_process
-		nav_direction = nav.get_next_path_position() # We get next point on the path that is leading to out main target. NOTE: NavigationAgent3D will go towards another point if it has already previous point on the path
+		nav_direction = nav.get_next_path_position() # We get next point on the path that is leading to out main target. NOTE: NavigationAgent3D will go towards another point if it reached already previous point on the path
 		#path = nav.get_current_navigation_path() # This gets us an array of all the points of the generated path, Don't need it but might keep it just in case
 
 	
