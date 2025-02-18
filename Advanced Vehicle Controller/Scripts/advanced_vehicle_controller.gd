@@ -1,20 +1,17 @@
 extends VehicleBody3D
 
-#//////////////////////////////////////////////////////////////////////////////////////////////////#
-## Advanced Vehicle Controller that allows for easy modification of cluth and other aspects
-## of the vehicel in a flexible way
-#//////////////////////////////////////////////////////////////////////////////////////////////////#
+#////////////////////////////////////////////////////////////////////////////////////////////////#
 # Advanced vehicle controll system for Godot 4, created by Millu30
 # This vehicle controller was made with an intention to provide more advance features such as
 # transmission, lights, tyre smoke, grip controll and more features while keeping it basic and
 # easy to modify according to own needs/preferences, its more simply and easy to understand
 # version of Vita Vehicles that utilize the VehicleBody3D and VehicleWheel3D Node.
 # I tried to provide enough informations and explain what everything does for better understanding
-#==================================================================================================#
+#================================================================================================#
 # Disclaimer! This might not be the most optimal way of solving some issues but it is enough
 # to build around it. If there is anything that can be optimised or changer then feel free
 # to modify it as you like! :)
-#==================================================================================================#
+#================================================================================================#
 # MIT License
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +19,10 @@ extends VehicleBody3D
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-#==================================================================================================#
+#================================================================================================#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-#==================================================================================================#
+#================================================================================================#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,11 +30,12 @@ extends VehicleBody3D
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-#==================================================================================================#
+#================================================================================================#
 # Copyright 2025 Millu30 A.K.A Gidan
-#//////////////////////////////////////////////////////////////////////////////////////////////////#
+#////////////////////////////////////////////////////////////////////////////////////////////////#
 
-#//////////////////////////////////////////////////////////////////////////////////////////////////#
+
+#////////////////////////////////////////////////////////////////////////////////////////////////#
 # List of Controlls and corresponding buttons for different controllers including Sonny, XBox and Nintendo
 # Arrow UP Or Right Trigger = Gas
 # Arrow DOWN Or Left Trigger = Brake/Reverse
@@ -48,13 +46,14 @@ extends VehicleBody3D
 # Q Or XBox RB Or Sonny R1 = Shift UP
 # A Or XBox LB Or Sonny L1 = Shift Down
 # NOTE: Setup for shifter and steering wheel is not provided since it is individual to ones devices!
-#//////////////////////////////////////////////////////////////////////////////////////////////////#
+#////////////////////////////////////////////////////////////////////////////////////////////////#
 
 class_name MVehicle3D # Class name for easy access in other scripts and in create node window
 
 @export_category("Basic settings")
 @export var veh_name : String # Sets vehicle name. Treat it as ID for custom body mods and decals. It is not necessary to use but makes it easier to restrict exclusive mods or decals for specific vehicle so they don't look missplaced
 @export var is_current_veh : bool = false # Sets vehicle to be the current vehicle, sets camera and allow player to controll vehicle that has this checked on, works similar to the car swith in Need For Speed Mostwanted from 2012
+
 @export_category("Gearbox setup")
 @export var gear_ratio : Array = [0.0, 7.0, 6.0, 5.8, 5.5, 4.0] # Adjustable Gear ratio for cars, works along with differential Note: First value which is 0.0 is for neutral gear only!
 @export var differential : Array = [0.0, 33.0, 25.0, 24.0, 22.0, 20.0] # Differential so that vehicle RPM does not get limited by RPM limit, Adjust Carefully along with gear_ratio
@@ -65,6 +64,7 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export var rpm_wheel : VehicleWheel3D # A wheel that you wish to calculate RPM from, its recomended to use wheel that has traction ON!
 enum transmission {automatic, manual} # Enum for transmission. Allows to change between Manual and Automatic gearbox
 @export var gearbox_transmission : transmission # This allows to change vehicle transmision, use it along settings menu to switch.
+
 @export_category("Additional mechanics")
 @export var front_light : Node3D # Reference to front car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
 @export var rare_lights : Node3D # Reference to rare car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
@@ -72,14 +72,20 @@ enum transmission {automatic, manual} # Enum for transmission. Allows to change 
 @export var engine_pitch_modifier : float = 50 # Sets the modifier to adjust engine pitch sound accordingly
 @export var decal_markers : Array = [Decal] # Optional if player wants to add decals to vehicle. Keep it in that order to prevent mistakes [0 = Hood, 1 = Left side, 2 = Right side, 3 = Trunk, 4 = Roof]. NOTE: Keep decals empty or simply ignore this and reference to them only when wanting to remove or replace decals 
 @export var shifter : bool = false # Allows to switch function for manual shifter instead of buttons if desired to use steering wheel instead
+@export var use_energy : bool = true # Checks if we should use energy or not
+@export var max_energy : float = 150.0 # Max Energy capacity we can have
+@export var energy_consumption_rate : float = 0.01 # Rate in which we gonna consume energy from our vehicle
+@export var drain_penalty : int = 6 # Penalty that will be applie to gear_ratio when we run out of energy
 
 
 @export_category("Grip Settings")
 @export_range(0,3) var wheel_grip : float = 3.0 # Default grip for wheels this will always be the value set in _ready() function
 @export_range(0,3) var wet_grip : float = 2.0 # Modifier for penalty on wet surface, "closer to wheel_grip, More drifty it becomse!" Used for handbreak but can also be used in the environment if desired
+
 @export_category("Wheel Setup")
 @export var wheels : Array [VehicleWheel3D] # Array of all wheels that player wants to apply wet_grip modifier
 @export var all_wheels : Array [VehicleWheel3D] # Array of all car wheels in case we want to apply different grip based on map setting to all wheels
+
 @export_category("Additional settings for wheels")
 @export var smoke_particles : Array [GPUParticles3D] # Array of our particle nodes for easy access
 @export var tyre_sound : AudioStreamPlayer3D # Reference to our tyre audio stream
@@ -89,7 +95,7 @@ var veh_speed : float # Displays Vehicle speed, not very accurate but can be adj
 const speed_modifier : float = 2.8 # Modifies actuall speed to be more accurate on speed o metter
 var gear : int = 0 # Displays current gear based on gear_ratio
 var can_reset : bool = true # Switch to allow player to reset vehicle and set cooldown to prevent spamming it
-
+var energy : float # Variable in which we store vehicle energy or fuel and exports it to progress bar in UI scene
 
 # Everything that needs to be set when our car is initiated
 func _ready() -> void:
@@ -98,6 +104,8 @@ func _ready() -> void:
 		# then we add it as a child node to our car but only if this is the car we want to drive
 		# otherwise camera will not be attached
 		var camera_scene : = preload("res://Advanced Vehicle Controller/Scenes/cam_holder.tscn").instantiate() 
+		energy = max_energy # We set vehicle energy to its max limit soo it is full
+		Ui.get_node("ProgressBar").max_value = max_energy
 		self.add_child(camera_scene) # Adds preloaded and instantiated camera scene to our car
 		engine_sound.playing = true
 		
@@ -110,7 +118,7 @@ func _physics_process(delta: float) -> void:
 	var speed # Our Speed variable reference
 	var rpm # RPM reference
 	var rpm_calclated # Calculated RPM reference
-	acceleration = 0 # We will be setting acceleration to 0 on every physical tick just in case
+	acceleration = 0.0 # We will be setting acceleration to 0.0 on every physical tick just in case
 	
 	
 	#//////////////////////////////////////////////////////////////////////////////////////////////#
@@ -140,13 +148,21 @@ func _physics_process(delta: float) -> void:
 	# if vehicle is not selected as main one then it will not provide any info for player
 	# also player will not be able to controll it
 	if is_current_veh:
-		speed = linear_velocity.length() # Calculates linear velocity of our vehicle for reference only!
+		var velocity_xz = Vector3(linear_velocity.x, 0, linear_velocity.z) # Gets linear velocity of our vehicle in X/Z axis to calculate speed NOTE: We are ignoring Y axis here soo no sound neither speed will be calculated when car will be falling off in Y axis only
+		speed = velocity_xz.length() # Calculates linear velocity of our vehicle to be used in Speed o meter and engine sound
 		steering = lerp(steering, Input.get_axis("Right", "Left") * 0.4, 5 * delta) # Allows our vehicle to turn. Note: This already supports gamepad!
 		acceleration = Input.get_axis("Brake", "Acceleration") # Allows our car to move forward and reverse. Controller supported!
 		veh_speed = speed * speed_modifier # Gets vehicle velocity and multiplies it to get semi accurate velocity display on speed o meter, adjustable
 		rpm = rpm_wheel.get_rpm() # Gets RPM from our selected wheel
 		rpm_calclated = clamp(rpm, -max_rpm * gear_ratio[gear], max_rpm * gear_ratio[gear]) # Gets our RPM and calculate it to have max negative RPM and positive RPM to limit our geabox and overall power
+		#print("My Steering: " + str(steering))
 		
+		# If we have more energy and our acceleration is not 0.0 then drain energy
+		# We check for acceleration to prevent car from loosing energy when in mid air
+		# We also check if we do use energy "Used for different gamemodes when needed"
+		if energy > 0.0 and use_energy:
+			if acceleration != 0.0:
+				energy -= energy_consumption_rate # We gonna decrease energy by its consumption rate every physical frame we are making our car drive
 		
 		
 		# Some On Screen debug stats to track whats going on with our car
@@ -159,8 +175,9 @@ func _physics_process(delta: float) -> void:
 		Ui.get_node("VBoxContainer/Absolute RPM").text = "Absolute RPM: " + str(round(veh_speed)) + " KMPH"
 		Ui.get_node("VBoxContainer/Max RPM").text = "Current Engine Force: " + str(engine_force) + " Multiplied by: " + str(gear_ratio[gear])
 		Ui.get_node("Info").text = "Current RPM: " + str(rpm_calclated)
+		Ui.get_node("ProgressBar").value = energy
 		
-		engine_sound.pitch_scale = linear_velocity.length()/engine_pitch_modifier + 0.1 # Sets the pitch of our vehicle engine sound based on its velocity
+		engine_sound.pitch_scale = speed/engine_pitch_modifier + 0.1 # Sets the pitch of our vehicle engine sound based on its velocity
 		
 		#//////////////////////////////////////////////////////////////////////////////////////////#
 		# Applies break instead of reverse gear when Acceleration is negative and RPM's are high.
@@ -354,7 +371,9 @@ func _apply_torque() -> void:
 	if acceleration >= 0: # Checks if we are driving forward or reversing
 		# Here is where we multiplying our acceleration by our gear ratio picked by our
 		# current gear and again multiplied by our differential to give cars more power
-		torque = acceleration * (gear_ratio[gear] * differential[gear])
+		if energy <= 0.0: # If energy is below 0.0 we gona cut gear_ratio by drain_penalty to limit vehicle speed
+			torque = acceleration * (gear_ratio[gear] / drain_penalty * differential[gear])
+		else: torque = acceleration * (gear_ratio[gear] * differential[gear]) # Apply normal gear_ratio when having sufficient energy
 		engine_force = torque # We apply our torque to our vehicle engine
 		
 	elif acceleration == -1: # Same as above but we only take our reverse ratio and multiplying it by 50 or whatever
@@ -378,6 +397,8 @@ func reset_vehicle() -> void:
 		# Flips car if Reset button was pressed, Default Button: R
 	if Input.is_action_pressed("Reset") and can_reset and is_current_veh:
 		can_reset = !can_reset # Switches if player can reset or not
+		if energy > 5.0 and use_energy: # If we have more than 5.0 energy then drain it else don't "Same if we actually are using energy"
+			energy -= 5.0
 		var Y_rot = global_rotation.y # Gets our right default global Y rotation
 		self.set_linear_velocity(Vector3.ZERO) # Sets our Velocity to 0
 		self.set_angular_velocity(Vector3.ZERO) # Sets our angular velocity to 0 to prevent barrel rolling in case

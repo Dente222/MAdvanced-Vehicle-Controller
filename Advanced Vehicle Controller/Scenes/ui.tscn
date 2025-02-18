@@ -42,3 +42,9 @@ offset_top = 155.0
 offset_right = 45.0
 offset_bottom = 178.0
 text = "Test"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 38.0
+offset_top = 585.0
+offset_right = 365.0
+offset_bottom = 612.0
