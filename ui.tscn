@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3moukotm6vv8"]
+
+[sub_resource type="SystemFont" id="SystemFont_0w7lc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_reim7"]
+font = SubResource("SystemFont_0w7lc")
+font_size = 24
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Acceleration" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Acceleration: "
+label_settings = SubResource("LabelSettings_reim7")
+
+[node name="Gear Shaft" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TEST"
+label_settings = SubResource("LabelSettings_reim7")
+
+[node name="Absolute RPM" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TEST"
+label_settings = SubResource("LabelSettings_reim7")
+
+[node name="Max RPM" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TEST"
+label_settings = SubResource("LabelSettings_reim7")
+
+[node name="Info" type="Label" parent="."]
+offset_left = 5.0
+offset_top = 155.0
+offset_right = 45.0
+offset_bottom = 178.0
+text = "Test"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 38.0
+offset_top = 585.0
+offset_right = 365.0
+offset_bottom = 612.0
