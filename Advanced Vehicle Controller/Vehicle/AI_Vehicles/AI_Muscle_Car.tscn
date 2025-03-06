@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://difi1uhwesclv"]
+[gd_scene load_steps=9 format=4 uid="uid://difi1uhwesclv"]
 
-[ext_resource type="Script" path="res://Advanced Vehicle Controller/Scripts/Race_follow_AI.gd" id="1_vk038"]
+[ext_resource type="Script" uid="uid://sgl2831dr1i0" path="res://Advanced Vehicle Controller/Scripts/Race_follow_AI.gd" id="1_vk038"]
 [ext_resource type="Material" uid="uid://xuitbjlknu2y" path="res://Advanced Vehicle Controller/Vehicle/AI_Vehicles/AI_Muscle_Body.tres" id="2_xo8iw"]
 [ext_resource type="Material" uid="uid://c4raulc1so1ph" path="res://Advanced Vehicle Controller/Vehicle/Muscle/Muscle TXT/Muscle Details.tres" id="3_e6x16"]
 [ext_resource type="PackedScene" uid="uid://cl7ae8f6sti0r" path="res://Advanced Vehicle Controller/Vehicle/Muscle/New Muscle Wheel.tscn" id="4_impq5"]
+[ext_resource type="Texture2D" uid="uid://cw1xby0awir0u" path="res://Advanced Vehicle Controller/Textures/Map_indicator2.png" id="5_l6u46"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yu63s"]
 points = PackedVector3Array(-0.882814, 0.661055, 1.23131, 0.898045, 0.5364, -1.85366, 0.234358, 1.28798, -0.103913, -0.897181, 0.246794, -1.44795, -0.723383, 0.883724, -1.73754, -0.913301, 0.325041, 1.44002, 0.89204, 0.227641, -0.6484, 0.84005, 0.883724, 1.44795, -0.723383, 0.883724, 1.56371, 0.724247, 0.883724, -1.73754, -0.598966, 1.2371, -0.208371, 0.893091, 0.227004, 0.649164, 0.41733, 0.378848, 1.72399, -0.892227, 0.227004, 0.649164, 0.898045, 0.246794, -1.44795, -0.955176, 0.5364, -1.21642, 0.599658, 1.23696, -0.208311, 0.0784156, 1.28841, 0.207998, -0.806888, 0.433991, -1.78236, 0.376838, 0.883724, 1.67984, 0.95604, 0.5364, -1.21642, -0.128404, 1.23236, -0.567396, 0.84005, 0.883724, -1.27376, -0.839186, 0.883724, 1.44795, -0.839186, 0.883724, -1.27376, -0.416492, 0.378824, 1.7241, 0.434646, 0.941668, -1.73754, 0.913963, 0.325139, 1.4397, -0.191669, 0.768063, 1.75753, -0.536664, 1.22843, 0.204522, -0.433783, 0.941668, -1.73754, 0.500569, 1.18927, -0.684716)
@@ -66,8 +67,10 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_bdd1i")
 
-[node name="AI_Muscle" type="VehicleBody3D"]
+[node name="AI_Muscle" type="VehicleBody3D" node_paths=PackedStringArray("all_wheels")]
 script = ExtResource("1_vk038")
+energy_consumption_rate = 0.0
+all_wheels = [NodePath("LF_Wheel"), NodePath("RF_Wheel"), NodePath("LB_Wheel"), NodePath("RB_Wheel")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_yu63s")
@@ -113,3 +116,10 @@ suspension_stiffness = 50.0
 
 [node name="Muscle_CarWheel" parent="RB_Wheel" instance=ExtResource("4_impq5")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Car_Indicator" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, -1.67037e-22, 0, 1, 0, -1.67037e-22, 0, 1, 0, 20, 0)
+layers = 512
+pixel_size = 0.05
+axis = 1
+texture = ExtResource("5_l6u46")

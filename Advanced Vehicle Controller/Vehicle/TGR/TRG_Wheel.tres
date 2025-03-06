@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://djshtupa7hdle"]
+
+[ext_resource type="Texture2D" uid="uid://dlys6b0lntrwy" path="res://Advanced Vehicle Controller/Vehicle/TGR/TGR TXT/TRG_Wheel_Wheel_BaseColor.png" id="1_x54y2"]
+
+[resource]
+albedo_texture = ExtResource("1_x54y2")

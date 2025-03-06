@@ -11,6 +11,7 @@ font_size = 24
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Acceleration" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -36,15 +37,18 @@ layout_mode = 2
 text = "TEST"
 label_settings = SubResource("LabelSettings_reim7")
 
-[node name="Info" type="Label" parent="."]
-offset_left = 5.0
-offset_top = 155.0
-offset_right = 45.0
-offset_bottom = 178.0
+[node name="Info" type="Label" parent="VBoxContainer"]
+layout_mode = 2
 text = "Test"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-offset_left = 38.0
-offset_top = 585.0
-offset_right = 365.0
-offset_bottom = 612.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 33.0
+offset_top = -64.0
+offset_right = 301.0
+offset_bottom = -37.0
+grow_vertical = 0
+rounded = true
+metadata/_edit_use_anchors_ = true

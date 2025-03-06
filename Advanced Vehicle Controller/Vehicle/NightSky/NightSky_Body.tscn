@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=4 uid="uid://drtkaugr7kqas"]
 
-[ext_resource type="Script" path="res://Advanced Vehicle Controller/Scripts/advanced_vehicle_controller.gd" id="1_ho4fo"]
+[ext_resource type="Script" uid="uid://bbhuci2yxbttx" path="res://Advanced Vehicle Controller/Scripts/advanced_vehicle_controller.gd" id="1_ho4fo"]
 [ext_resource type="Material" uid="uid://bg64ka54o05w2" path="res://Advanced Vehicle Controller/Vehicle/NightSky/NS_Comp.tres" id="2_8gvh2"]
 [ext_resource type="Material" uid="uid://b2yqn7x6bqlj5" path="res://Advanced Vehicle Controller/Vehicle/NightSky/NS_Body.tres" id="3_y0ebh"]
 [ext_resource type="PackedScene" uid="uid://i5lfu84yoc3h" path="res://Advanced Vehicle Controller/Vehicle/NightSky/NightSky_Wheel.tscn" id="4_h1fbf"]
@@ -69,17 +69,18 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_poonp")
 
-[node name="NightSky_Body" type="VehicleBody3D" node_paths=PackedStringArray("rpm_wheel", "front_light", "rare_lights", "engine_sound", "wheels", "all_wheels", "smoke_particles", "tyre_sound")]
+[node name="NightSky_Body" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "engine_sound", "tyre_sound", "smoke_particles", "rpm_wheel", "wheels", "all_wheels")]
 script = ExtResource("1_ho4fo")
 veh_name = "Night Sky"
-rpm_wheel = NodePath("RB_Wheel")
+veh_mesh = NodePath("CollisionShape3D/Sport_Body")
 front_light = NodePath("Front_Lights")
 rare_lights = NodePath("Rare_Lights")
 engine_sound = NodePath("Car_Engine_Sound")
+tyre_sound = NodePath("Tyre_Squeek_Sound")
+smoke_particles = [NodePath("Tire_smoke_Left"), NodePath("Tire_smoke_Right")]
+rpm_wheel = NodePath("RB_Wheel")
 wheels = [NodePath("LB_Wheel"), NodePath("RB_Wheel")]
 all_wheels = [NodePath("LF_Wheel"), NodePath("RF_Wheel"), NodePath("LB_Wheel"), NodePath("RB_Wheel")]
-smoke_particles = [NodePath("Tire_smoke_Left"), NodePath("Tire_smoke_Right")]
-tyre_sound = NodePath("Tyre_Squeek_Sound")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_b8f70")

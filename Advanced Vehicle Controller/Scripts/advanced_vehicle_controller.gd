@@ -50,11 +50,31 @@ extends VehicleBody3D
 
 class_name MVehicle3D # Class name for easy access in other scripts and in create node window
 
-@export_category("Basic settings")
+@export_group("Vehicle settings")
 @export var veh_name : String # Sets vehicle name. Treat it as ID for custom body mods and decals. It is not necessary to use but makes it easier to restrict exclusive mods or decals for specific vehicle so they don't look missplaced
 @export var is_current_veh : bool = false # Sets vehicle to be the current vehicle, sets camera and allow player to controll vehicle that has this checked on, works similar to the car swith in Need For Speed Mostwanted from 2012
+@export var veh_mesh : MeshInstance3D # We take path to our vehicle mesh for future reference
+@export var front_light : Node3D # Reference to front car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
+@export var rare_lights : Node3D # Reference to rare car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
+@export var decal_markers : Array = [Decal] # Optional if player wants to add decals to vehicle. Keep it in that order to prevent mistakes [0 = Hood, 1 = Left side, 2 = Right side, 3 = Trunk, 4 = Roof]. NOTE: Keep decals empty or simply ignore this and reference to them only when wanting to remove or replace decals 
 
-@export_category("Gearbox setup")
+@export_subgroup("Sounds settings")
+@export var engine_pitch_modifier : float = 50 # Sets the modifier to adjust engine pitch sound accordingly
+@export var engine_sound : AudioStreamPlayer3D # Reference to engine sound
+@export var tyre_sound : AudioStreamPlayer3D # Reference to our tyre audio stream
+
+@export_subgroup("Particles settings")
+@export var smoke_particles : Array [GPUParticles3D] # Array of our particle nodes for easy access
+
+@export_subgroup("Colour settings")
+@export var allow_color_change : bool = true # We check if Player is allowed to change vehicle colour or not, you can restrict some vehicle from their colour to be changed if necessary
+@export var material_id : int = 1 # This determines which overrided material we wanna change colour of, my vehicles have 2 materials "0: for windows and details, and 1: for actuall body colour of the vehicle" this way we determine which material we wanna change and prevent from changing wrong material 
+@export_color_no_alpha var veh_color : Color = "#ffffff" # We set our color for vehicle here "Default is White" We apply this then directly add it to our veh_mesh and override material albedo with our albedo colour NOTE: Car should not use any color texture, if you want to use premade texture on it then dissable Allow Colour Change!
+
+@export_group("Transmission settings")
+enum transmission {automatic, manual} # Enum for transmission. Allows to change between Manual and Automatic gearbox
+@export var gearbox_transmission : transmission # This allows to change vehicle transmision, use it along settings menu to switch.
+@export var shifter : bool = false # Allows to switch function for manual shifter instead of buttons if desired to use steering wheel instead
 @export var gear_ratio : Array = [0.0, 7.0, 6.0, 5.8, 5.5, 4.0] # Adjustable Gear ratio for cars, works along with differential Note: First value which is 0.0 is for neutral gear only!
 @export var differential : Array = [0.0, 33.0, 25.0, 24.0, 22.0, 20.0] # Differential so that vehicle RPM does not get limited by RPM limit, Adjust Carefully along with gear_ratio
 @export_range(0, 2) var reverse_ratio : float = 1.5 # Reverse Ratio defines how fast and how many RPM will car get when driving backwards
@@ -62,33 +82,20 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export var manual_ratio_limiter : Array = [150 , 400, 550, 720] # Tells us at what RPM our gear should start limiting our speed, this is separate to Automatic since automatic does not prvent gears from driving faster!
 @export_range(0, 2000) var max_rpm : float = 220 # Vehicle MAX RPM that will be modified by gear ratio, commonly used in transmission to limit its engine force based on current gear, lower value might cause gearbox to ignore engine force and allow for infinite acceleration 
 @export var rpm_wheel : VehicleWheel3D # A wheel that you wish to calculate RPM from, its recomended to use wheel that has traction ON!
-enum transmission {automatic, manual} # Enum for transmission. Allows to change between Manual and Automatic gearbox
-@export var gearbox_transmission : transmission # This allows to change vehicle transmision, use it along settings menu to switch.
 
-@export_category("Additional mechanics")
-@export var front_light : Node3D # Reference to front car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
-@export var rare_lights : Node3D # Reference to rare car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
-@export var engine_sound : AudioStreamPlayer3D # Reference to engine sound
-@export var engine_pitch_modifier : float = 50 # Sets the modifier to adjust engine pitch sound accordingly
-@export var decal_markers : Array = [Decal] # Optional if player wants to add decals to vehicle. Keep it in that order to prevent mistakes [0 = Hood, 1 = Left side, 2 = Right side, 3 = Trunk, 4 = Roof]. NOTE: Keep decals empty or simply ignore this and reference to them only when wanting to remove or replace decals 
-@export var shifter : bool = false # Allows to switch function for manual shifter instead of buttons if desired to use steering wheel instead
+@export_group("Vehicle Energy settings")
 @export var use_energy : bool = true # Checks if we should use energy or not
 @export var max_energy : float = 150.0 # Max Energy capacity we can have
 @export var energy_consumption_rate : float = 0.01 # Rate in which we gonna consume energy from our vehicle
-@export var drain_penalty : int = 6 # Penalty that will be applie to gear_ratio when we run out of energy
+@export_range(1, 10) var drain_penalty : int = 6 # Penalty that will be applie to gear_ratio when we run out of energy
 
-
-@export_category("Grip Settings")
+@export_group("Wheels settings")
 @export_range(0,3) var wheel_grip : float = 3.0 # Default grip for wheels this will always be the value set in _ready() function
 @export_range(0,3) var wet_grip : float = 2.0 # Modifier for penalty on wet surface, "closer to wheel_grip, More drifty it becomse!" Used for handbreak but can also be used in the environment if desired
-
-@export_category("Wheel Setup")
 @export var wheels : Array [VehicleWheel3D] # Array of all wheels that player wants to apply wet_grip modifier
 @export var all_wheels : Array [VehicleWheel3D] # Array of all car wheels in case we want to apply different grip based on map setting to all wheels
 
-@export_category("Additional settings for wheels")
-@export var smoke_particles : Array [GPUParticles3D] # Array of our particle nodes for easy access
-@export var tyre_sound : AudioStreamPlayer3D # Reference to our tyre audio stream
+
 
 var acceleration : float # Controlls value of acceleration, range from -1 to 1. Note: this support controllers too!
 var veh_speed : float # Displays Vehicle speed, not very accurate but can be adjusted below
@@ -96,17 +103,24 @@ const speed_modifier : float = 2.8 # Modifies actuall speed to be more accurate 
 var gear : int = 0 # Displays current gear based on gear_ratio
 var can_reset : bool = true # Switch to allow player to reset vehicle and set cooldown to prevent spamming it
 var energy : float # Variable in which we store vehicle energy or fuel and exports it to progress bar in UI scene
+var camera_scene : = preload("res://Advanced Vehicle Controller/Scenes/cam_holder.tscn").instantiate() # We Instantiate our vehicle main camera and add it to our vehicle as a child node
+var minimap : = preload("res://Advanced Vehicle Controller/Scenes/MinimapCamera.tscn").instantiate() # We Instantiate our Minimap Scene and add it to our vehicle as a child node, this will create camera above our car and add necessary markers to id also adds smal display for our minimap
 
 # Everything that needs to be set when our car is initiated
 func _ready() -> void:
+	
+	
+	if allow_color_change and veh_mesh.get_surface_override_material(material_id): # If player is allowed to change colour of this specific vehicle
+		veh_mesh.get_surface_override_material(material_id).albedo_color = veh_color # We get our material that controlls vehicle color and change its albed to our albedo value
+	
 	if is_current_veh: # Sets viewport to use provided camera. Read comment on is_current_veh variable to learn more
 		# We preload our scene containing camera and instantiate it
 		# then we add it as a child node to our car but only if this is the car we want to drive
 		# otherwise camera will not be attached
-		var camera_scene : = preload("res://Advanced Vehicle Controller/Scenes/cam_holder.tscn").instantiate() 
 		energy = max_energy # We set vehicle energy to its max limit soo it is full
 		Ui.get_node("ProgressBar").max_value = max_energy
 		self.add_child(camera_scene) # Adds preloaded and instantiated camera scene to our car
+		self.add_child(minimap) # Adds Minimap to the vehicle we controll
 		engine_sound.playing = true
 		
 		for x in all_wheels: # Sets the default grip for all the wheels that are in variable
@@ -157,6 +171,10 @@ func _physics_process(delta: float) -> void:
 		rpm_calclated = clamp(rpm, -max_rpm * gear_ratio[gear], max_rpm * gear_ratio[gear]) # Gets our RPM and calculate it to have max negative RPM and positive RPM to limit our geabox and overall power
 		#print("My Steering: " + str(steering))
 		
+		
+		if !use_energy: # We check if our vehicle uses energy and if not then Hide the bar
+			Ui.get_node("ProgressBar").visible = false
+		
 		# If we have more energy and our acceleration is not 0.0 then drain energy
 		# We check for acceleration to prevent car from loosing energy when in mid air
 		# We also check if we do use energy "Used for different gamemodes when needed"
@@ -172,9 +190,9 @@ func _physics_process(delta: float) -> void:
 		elif gear == 0: 
 			Ui.get_node("VBoxContainer/Gear Shaft").text = "Gear: N"
 		else: Ui.get_node("VBoxContainer/Gear Shaft").text = "Gear: " + str(gear)
-		Ui.get_node("VBoxContainer/Absolute RPM").text = "Absolute RPM: " + str(round(veh_speed)) + " KMPH"
+		Ui.get_node("VBoxContainer/Absolute RPM").text = "Absolute RPM: " + str(roundi(veh_speed)) + " KMPH"
 		Ui.get_node("VBoxContainer/Max RPM").text = "Current Engine Force: " + str(engine_force) + " Multiplied by: " + str(gear_ratio[gear])
-		Ui.get_node("Info").text = "Current RPM: " + str(rpm_calclated)
+		Ui.get_node("VBoxContainer/Info").text = "Current RPM: " + str(rpm_calclated)
 		Ui.get_node("ProgressBar").value = energy
 		
 		engine_sound.pitch_scale = speed/engine_pitch_modifier + 0.1 # Sets the pitch of our vehicle engine sound based on its velocity

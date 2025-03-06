@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://1ngebcmdw4nk"]
+
+[ext_resource type="Texture2D" uid="uid://c8naytrswcab6" path="res://Simple Rally/Vehicle/TGR/TGR TXT/TRG_GlassAndDeco_BaseColor.png" id="1_b14kg"]
+
+[resource]
+albedo_texture = ExtResource("1_b14kg")
