@@ -1,4 +1,7 @@
+@icon("res://Advanced Vehicle Controller/Textures/MVehicleBody3D.png")
 extends VehicleBody3D
+
+## Vehicle Body with advanced settings and lots of customisation!
 
 #////////////////////////////////////////////////////////////////////////////////////////////////#
 # Advanced vehicle controll system for Godot 4, created by Millu30

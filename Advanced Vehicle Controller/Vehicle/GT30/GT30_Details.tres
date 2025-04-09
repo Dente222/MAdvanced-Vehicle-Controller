@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bsncupea80ovf"]
+
+[ext_resource type="Texture2D" uid="uid://tcccgvebsyud" path="res://Advanced Vehicle Controller/Vehicle/GT30/GT30/GT30_GlassAndDeco_BaseColor.png" id="1_uyqox"]
+
+[resource]
+albedo_texture = ExtResource("1_uyqox")

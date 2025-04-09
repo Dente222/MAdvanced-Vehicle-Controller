@@ -67,7 +67,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_bdd1i")
 
-[node name="AI_Muscle" type="VehicleBody3D" node_paths=PackedStringArray("all_wheels")]
+[node name="AI_Muscle" type="VehicleBody3D" node_paths=PackedStringArray("all_wheels") groups=["Vehicle"]]
 script = ExtResource("1_vk038")
 energy_consumption_rate = 0.0
 all_wheels = [NodePath("LF_Wheel"), NodePath("RF_Wheel"), NodePath("LB_Wheel"), NodePath("RB_Wheel")]
@@ -117,7 +117,7 @@ suspension_stiffness = 50.0
 [node name="Muscle_CarWheel" parent="RB_Wheel" instance=ExtResource("4_impq5")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="Car_Indicator" type="Sprite3D" parent="."]
+[node name="Car_Indicator" type="Sprite3D" parent="." groups=["Vehicle"]]
 transform = Transform3D(1, 0, -1.67037e-22, 0, 1, 0, -1.67037e-22, 0, 1, 0, 20, 0)
 layers = 512
 pixel_size = 0.05

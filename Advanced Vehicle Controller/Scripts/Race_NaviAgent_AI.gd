@@ -1,3 +1,4 @@
+@icon("res://Advanced Vehicle Controller/Textures/MVehicleBody3DAI.png")
 extends VehicleBody3D
 
 class_name MVehicle_AI_NaviRegion # Class so it is easier to find in Add Child Node window :)
@@ -21,15 +22,16 @@ class_name MVehicle_AI_NaviRegion # Class so it is easier to find in Add Child N
 @export_group("AI")
 @export var enable_debug : bool = false # This will display debug info like AI path and Vehicle coordinations
 @export var max_speed : float = 50.0 # Max power this car will receive
+@export var max_rev_speed : float = -1500.0
 @export var nav : NavigationAgent3D # Definition for our navigation agent
 @export var target_ray : Node3D # Definition for nodes we want our AI to generate path to
 @export_range(1.0, 45.0) var steering_sensitivity: float = 40.0 # Max angle our car cant turn its wheels
 
 @export_group("Context steering")
-@export var front_rc : RayCast3D # Raycast for context steering WIP!!!
+@export var front_rc : RayCast3D # Checks if there is something in front of the car 
 @export var back_rc : RayCast3D # Raycast for context steering WIP!!!
-@export var left_rc : RayCast3D # Raycast for context steering WIP!!!
-@export var right_rc : RayCast3D # Raycast for context steering WIP!!!
+@export var left_lite_rc : RayCast3D # Raycast for context steering WIP!!!
+@export var right_lite_rc : RayCast3D # Raycast for context steering WIP!!!
 
 @export_category("Vehicle Settings")
 @export_group("Energy")
@@ -75,6 +77,7 @@ func _process(delta: float) -> void:
 			nav_direction = nav.get_next_path_position() # We get next point on the path that is leading to out main target. NOTE: NavigationAgent3D will go towards another point if it has already previous point on the path
 			#path = nav.get_current_navigation_path() # This gets us an array of all the points of the generated path, Don't need it but might keep it just in case
 
+
 	
 func _physics_process(delta: float) -> void:
 	
@@ -108,9 +111,23 @@ func _physics_process(delta: float) -> void:
 			engine_force = max_speed # Apply our speed to engine force
 		else:
 			engine_force = max_speed / drain_penalty
-		
+			
+	# Check if front collider is colliding and check if collided object is in Vehicle Group
+	# This is to prevent vehicle slowing down or turning out of nowhere if it reaches another vehicle
+	# NOTE: This is not an idiot proof way of fixing it but it will work for now, currently it reverse
+	# If it detects obstacle directly in front of it, however, it will not gonna move if there is player in front
+	# which means that it will keep player stuck in certain situations, I am planning to fix that soon tho :)
+	if front_rc.is_colliding() and not front_rc.get_collider().is_in_group("Vehicle"):
+		_reverse_car(delta, target_angle) # Goes to reverse function if conditions are meet
+			
 	if enable_debug: # We will print some debug settings
 		print(nav_direction) # Simple print to get our first point location
 		print(target_angle)  # Printing angle to target
 		print("Currently facing angle: " + str(current_angle)) # Print our AI Y rotation
 		print("Vehicle Speed: " + str(roundi(speed_xz)), "km")
+			
+			
+	# This part makes the car go in reverse if obstacle is in front of it
+func _reverse_car(delta: float, target_angle) -> void:
+	engine_force = max_rev_speed # Apply negative engine force to make car drive in reverse
+	target_angle = target_angle * PI # Get vehicle steering and apply PI to reverse it soo that car will not get stuck

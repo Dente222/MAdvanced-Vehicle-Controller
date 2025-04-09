@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://1p26pa17e30j" path="res://Advanced Vehicle Controller/Scripts/Cam_Holder.gd" id="1_702ig"]
 
-[node name="Cam_Holder" type="Node3D"]
+[node name="Cam_Holder" type="Node3D" node_paths=PackedStringArray("cam_holder")]
 script = ExtResource("1_702ig")
+cam_holder = NodePath(".")
 
 [node name="P_Cam" type="Camera3D" parent="."]
 transform = Transform3D(-1, 3.55272e-15, -8.74228e-08, -8.33961e-09, 0.99544, 0.0953941, 8.70241e-08, 0.0953941, -0.99544, 0, 2, -4)

@@ -1,4 +1,4 @@
-# MAdvanced Vehicle Controller
+# Polyliner
 <img src="AVC.png"></img><br>  
 
 Millu30 Advanced Vehicle Controller.<br>
@@ -16,7 +16,7 @@ Vehicle engine and skid sound<br>
 Skiding particles<br>
 Customisable settings so that it can be reused on different vehicles<br>
 In Deep documetation explaining what each line does in detail<br>
-Debug info displaying Gears, Speed, Calculated RPM<br>
+Debug info displaying Gears, Speed, Calculated RPM including AI cars<br>
 Vehicle Lights sytem<br>
 Vehicle Reset Button<br>
 Easy to use / understand, simply plug and play<br>
@@ -25,6 +25,7 @@ List of Controlls for both Keyboard and Controllers<br>
 AI Based on node location and NavigationAgent3D for easy racing track setup<br>
 Minimap with 2 render modes and rotation settings<br>
 In game vehicle colour changing<br>
+Custom node icons for easier reference<br>
 
 
 Copyright 2025 Millu30 A.K.A Gidan</details><br>

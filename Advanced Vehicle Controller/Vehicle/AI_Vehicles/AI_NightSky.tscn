@@ -67,9 +67,13 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_poonp")
 
-[node name="AI_NightSky_NavigationMesh" type="VehicleBody3D" node_paths=PackedStringArray("nav")]
+[node name="AI_NightSky_NavigationMesh" type="VehicleBody3D" node_paths=PackedStringArray("nav", "front_rc", "back_rc", "left_lite_rc", "right_lite_rc") groups=["Vehicle"]]
 script = ExtResource("1_gfe7f")
 nav = NodePath("NavigationAgent3D")
+front_rc = NodePath("FrontRC")
+back_rc = NodePath("BackRC")
+left_lite_rc = NodePath("LeftLiteRC")
+right_lite_rc = NodePath("RightLiteRC")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_b8f70")
@@ -116,7 +120,7 @@ suspension_stiffness = 50.0
 [node name="NS_Wheel" parent="RB_Wheel" instance=ExtResource("4_cv25h")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="Car_Indicator" type="Sprite3D" parent="."]
+[node name="Car_Indicator" type="Sprite3D" parent="." groups=["Vehicle"]]
 transform = Transform3D(1, 0, -1.67037e-22, 0, 1, 0, -1.67037e-22, 0, 1, 0, 20, 0)
 layers = 512
 pixel_size = 0.05
@@ -124,3 +128,19 @@ axis = 1
 texture = ExtResource("5_sysh3")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="BackRC" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+target_position = Vector3(0, 0, -2.5)
+
+[node name="FrontRC" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+target_position = Vector3(0, 0, 4)
+
+[node name="LeftLiteRC" type="RayCast3D" parent="."]
+transform = Transform3D(0.978148, 0, 0.207912, 0, 1, 0, -0.207912, 0, 0.978148, 0, 0.5, 0)
+target_position = Vector3(0, 0, 4)
+
+[node name="RightLiteRC" type="RayCast3D" parent="."]
+transform = Transform3D(0.978148, 0, -0.207912, 0, 1, 0, 0.207912, 0, 0.978148, 0, 0.5, 0)
+target_position = Vector3(0, 0, 4)

@@ -1,3 +1,4 @@
+@icon("res://Advanced Vehicle Controller/Textures/MVehicleBody3DAI.png")
 extends VehicleBody3D
 class_name MVehicleBasicFollowAI
 

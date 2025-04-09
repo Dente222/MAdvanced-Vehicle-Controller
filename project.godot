@@ -41,6 +41,10 @@ Ui="*res://Advanced Vehicle Controller/Scenes/ui.tscn"
 
 project/assembly_name="Advanced Vehicle Controller"
 
+[global_group]
+
+Vehicle=""
+
 [input]
 
 Acceleration={

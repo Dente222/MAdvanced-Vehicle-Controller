@@ -81,7 +81,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_v5nm0")
 
-[node name="TRG" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "engine_sound", "tyre_sound", "smoke_particles", "rpm_wheel", "wheels", "all_wheels")]
+[node name="TRG" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "engine_sound", "tyre_sound", "smoke_particles", "rpm_wheel", "wheels", "all_wheels") groups=["Vehicle"]]
 script = ExtResource("1_dqu01")
 veh_name = "TRG"
 veh_mesh = NodePath("CollisionShape3D/TRG_Mesh")
