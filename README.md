@@ -1,8 +1,8 @@
-# Polyliner
+# Advanced Vehicle system for Godot
 <img src="AVC.png"></img><br>  
 
 Millu30 Advanced Vehicle Controller.<br>
-Supports Godot 4.3.
+Supports Godot 4.4.x
 
 # Usage
 
@@ -25,6 +25,7 @@ List of Controlls for both Keyboard and Controllers<br>
 AI Based on node location and NavigationAgent3D for easy racing track setup<br>
 Minimap with 2 render modes and rotation settings<br>
 In game vehicle colour changing<br>
+Vehicle visual customisations<br>
 Custom node icons for easier reference<br>
 
 

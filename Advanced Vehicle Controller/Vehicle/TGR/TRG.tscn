@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://bo0sxuk33kxaa"]
+[gd_scene load_steps=17 format=4 uid="uid://bo0sxuk33kxaa"]
 
 [ext_resource type="Script" uid="uid://bbhuci2yxbttx" path="res://Advanced Vehicle Controller/Scripts/advanced_vehicle_controller.gd" id="1_dqu01"]
 [ext_resource type="Material" uid="uid://1ngebcmdw4nk" path="res://Advanced Vehicle Controller/Vehicle/TGR/TRG_Glass_And_Details.tres" id="2_toh6a"]
@@ -81,12 +81,25 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_v5nm0")
 
-[node name="TRG" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "engine_sound", "tyre_sound", "smoke_particles", "rpm_wheel", "wheels", "all_wheels") groups=["Vehicle"]]
+[sub_resource type="BoxShape3D" id="BoxShape3D_akdt0"]
+size = Vector3(0.265, 0.135, 0.67)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ap7rf"]
+size = Vector3(0.265, 0.135, 0.67)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4fcig"]
+size = Vector3(0.265, 0.135, 0.67)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3el7h"]
+size = Vector3(0.265, 0.135, 0.67)
+
+[node name="TRG" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "engine_sound", "tyre_sound", "smoke_particles", "rpm_wheel", "wheels", "all_wheels", "tire_points") groups=["Vehicle"]]
 script = ExtResource("1_dqu01")
 veh_name = "TRG"
 veh_mesh = NodePath("CollisionShape3D/TRG_Mesh")
 front_light = NodePath("Front_Lights")
 rare_lights = NodePath("Rare_Lights")
+hood_cam = NodePath("Hood_Cam")
 engine_sound = NodePath("Car_Engine_Sound")
 tyre_sound = NodePath("Tyre_Squeek_Sound")
 smoke_particles = [NodePath("Tire_smoke_Left"), NodePath("Tire_smoke_Right")]
@@ -94,6 +107,8 @@ rpm_wheel = NodePath("LB_Wheel")
 use_energy = false
 wheels = [NodePath("LB_Wheel"), NodePath("RB_Wheel")]
 all_wheels = [NodePath("LF_Wheel"), NodePath("RF_Wheel"), NodePath("LB_Wheel"), NodePath("RB_Wheel")]
+can_puncture = true
+tire_points = [NodePath("LFTirePuncture"), NodePath("RFTirePuncture"), NodePath("LBTirePuncture"), NodePath("RBTirePuncture")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_vw55t")
@@ -123,7 +138,7 @@ wheel_friction_slip = 3.0
 suspension_stiffness = 35.0
 
 [node name="TRG_Wheel" parent="RF_Wheel" instance=ExtResource("4_xc5h6")]
-transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="LB_Wheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.573, 0.38169, -0.897252)
@@ -144,7 +159,7 @@ wheel_friction_slip = 3.0
 suspension_stiffness = 35.0
 
 [node name="TRG_Wheel" parent="RB_Wheel" instance=ExtResource("4_xc5h6")]
-transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="Tire_smoke_Left" parent="." instance=ExtResource("4_j0kpw")]
 transform = Transform3D(-1.64713e-08, 0, -0.552685, -1.64713e-08, 0.552685, 2.22535e-09, 0.552685, -1.64713e-08, -2.03042e-08, 0.604, 0.0412144, -1.1096)
@@ -164,7 +179,7 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.497,
 layers = 2
 light_color = Color(0.806062, 0.644883, 0.489558, 1)
 light_energy = 20.0
-spot_range = 198.447
+spot_range = 200.0
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Front_Lights/SpotLight3D"]
 layers = 2
@@ -176,7 +191,7 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.497
 layers = 2
 light_color = Color(0.806062, 0.644883, 0.489558, 1)
 light_energy = 20.0
-spot_range = 198.447
+spot_range = 200.0
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="Front_Lights/SpotLight3D2"]
 layers = 2
@@ -208,3 +223,34 @@ stream = ExtResource("5_kdq0a")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.308331, -0.943587)
 stream = ExtResource("6_4aql4")
 volume_db = -15.0
+
+[node name="LFTirePuncture" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.573, 0.353629, 0.901)
+shape = SubResource("BoxShape3D_akdt0")
+target_position = Vector3(0, -0.3, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RFTirePuncture" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.573, 0.336, 0.901)
+shape = SubResource("BoxShape3D_ap7rf")
+target_position = Vector3(0, -0.3, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="LBTirePuncture" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.573, 0.382, -0.897)
+shape = SubResource("BoxShape3D_4fcig")
+target_position = Vector3(0, -0.3, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RBTirePuncture" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.573, 0.382, -0.897)
+shape = SubResource("BoxShape3D_3el7h")
+target_position = Vector3(0, -0.3, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Hood_Cam" type="Marker3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.04256, 0.789074)

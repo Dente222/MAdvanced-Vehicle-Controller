@@ -30,13 +30,19 @@ func _process(delta: float) -> void:
 		else: current_cam = 0 # If our camera location ID is 2 then set it to 0 on next button press
 		
 		# We match our current_camera and with our array entries and place it at its location here 
-		camera.reparent(cam_positions[current_cam]) # Reparenting camera to current location
-		camera.rotation = Vector3(0,0,0) # We set our rotation vector here, this is to prevent missplacement of camera when switching it
-		camera.global_position = cam_positions[current_cam].global_position # Adjust the location of camera to be at our markers location
+		# We check the ID of our camera position and adjust it accordingly
+		if current_cam != 2: # If our camera location ID is not equal to 2 we reparent camera to one of the locations from our array
+			camera.reparent(cam_positions[current_cam]) # Reparenting camera to current location
+			camera.global_position = cam_positions[current_cam].global_position # Adjust the location of camera to be at our markers location
+		elif current_cam == 2: # If our cam location ID is 2 then we reparent it to the location marker in our car
+			camera.reparent(cam_parent.get_parent().hood_cam) # We reparent our camera to the marker that is in our car scene, we use separated one from the array to prevent camera clipping through model
+			camera.global_position = cam_parent.get_parent().hood_cam.global_position # Adjust the position of our camera to match the location on the hood
+		camera.rotation = Vector3(0,0,0) # We zero the rotation of our camera, to prevent it getting stuck at specific angle and to face correct direction
 
 
 # The physics of camera starts here
 func _physics_process(delta: float) -> void:
+	
 	
 	var current_velocity = cam_parent.get_parent().get_linear_velocity() # We are calculating linear velocity of our car here
 	current_velocity.y = 0 # We dont want to calculate Y velocity since we don't need that

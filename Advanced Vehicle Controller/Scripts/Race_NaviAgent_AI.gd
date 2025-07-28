@@ -3,8 +3,8 @@ extends VehicleBody3D
 
 class_name MVehicle_AI_NaviRegion # Class so it is easier to find in Add Child Node window :)
 
-## AI Based on NavigationMesh3D and NavigationAgent3D, It has its own pathfinding which makes it
-## viable to be used as a traffic or on race tracks
+##AI Based on NavigationMesh3D and NavigationAgent3D, It has its own pathfinding which makes it
+##viable to be used as a traffic or on race tracks
 
 #////////////////////////////////////////////////////////////////////////////////////////////////#
 # This is where we set up our Vehicle AI based on NavigationRegion3D node, our vehicle should

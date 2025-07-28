@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ds0rcf78ir644"]
+
+[ext_resource type="Texture2D" uid="uid://d2tu5p8hiq8lu" path="res://Advanced Vehicle Controller/Vehicle/Cleo V8/Rare_Default_Bumper_Bumper_Details_BaseColor.png" id="1_vui2e"]
+
+[resource]
+albedo_texture = ExtResource("1_vui2e")

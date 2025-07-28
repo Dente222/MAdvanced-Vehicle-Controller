@@ -29,7 +29,7 @@ List of Controlls for both Keyboard and Controllers
 
 Copyright 2025 Millu30 A.K.A Gidan"
 config/version="1.0"
-run/main_scene="res://Advanced Vehicle Controller/Scenes/Debug_Map.tscn"
+run/main_scene="uid://duhhppmjo7k6f"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://AVC.png"
 
@@ -44,6 +44,7 @@ project/assembly_name="Advanced Vehicle Controller"
 [global_group]
 
 Vehicle=""
+Spikes=""
 
 [input]
 
@@ -139,6 +140,12 @@ lights={
 "Camera Change"={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":67,"key_label":0,"unicode":99,"location":0,"echo":false,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":4,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":8,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+Nitro={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":90,"key_label":0,"unicode":122,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":2,"pressure":0.0,"pressed":true,"script":null)
 ]
 }

@@ -2,7 +2,7 @@
 extends VehicleBody3D
 class_name MVehicleBasicFollowAI
 
-## AI Based on node Location, Its simply and efficient but not accurate enough for anything more
+##AI Based on node Location, Its simply and efficient but not accurate enough for anything more
 
 #////////////////////////////////////////////////////////////////////////////////////////////////#
 # This is where we set up our Vehicle AI based on node global position, our vehicle should

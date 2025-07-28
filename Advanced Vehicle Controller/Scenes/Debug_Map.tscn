@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://duhhppmjo7k6f"]
+[gd_scene load_steps=33 format=3 uid="uid://duhhppmjo7k6f"]
 
 [ext_resource type="Material" uid="uid://bqhg03u7uopp1" path="res://Advanced Vehicle Controller/Debug content/Black Box.tres" id="1_mhgok"]
 [ext_resource type="Material" uid="uid://dgucgrkhjqrj0" path="res://Advanced Vehicle Controller/Debug content/Red Box.tres" id="2_c6hdh"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://beg78x7knveom" path="res://Advanced Vehicle Controller/Vehicle/AI_Vehicles/AI_NightSky.tscn" id="9_ado17"]
 [ext_resource type="PackedScene" uid="uid://bo0sxuk33kxaa" path="res://Advanced Vehicle Controller/Vehicle/TGR/TRG.tscn" id="10_qtsp6"]
 [ext_resource type="PackedScene" uid="uid://bat0h5s3lfqru" path="res://Advanced Vehicle Controller/Vehicle/GT30/GT30.tscn" id="11_0wlyr"]
+[ext_resource type="PackedScene" uid="uid://dfkvhad85ka63" path="res://Advanced Vehicle Controller/Scenes/spikes.tscn" id="12_6xb8w"]
+[ext_resource type="PackedScene" uid="uid://ygshfd6uxqye" path="res://Advanced Vehicle Controller/Vehicle/Cleo V8/CleoV8.tscn" id="13_fafsd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3rrre"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -2109,12 +2111,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.798, 0.74, -144.1)
 use_energy = false
 
 [node name="TRG" parent="." instance=ExtResource("10_qtsp6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 1, -144)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0.97425, -144)
 veh_color = Color(0.764655, 0.485504, 0.280555, 1)
+nos = 3
 
 [node name="GT30" parent="." groups=["Vehicle"] instance=ExtResource("11_0wlyr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 1, -144)
-is_current_veh = true
+can_puncture = false
 
 [node name="AI_Muscle" parent="." node_paths=PackedStringArray("target_ray") instance=ExtResource("7_cib27")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 81, 1, -83)
@@ -2134,7 +2137,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 curve = SubResource("Curve3D_qtsp6")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D" node_paths=PackedStringArray("target_veh")]
-transform = Transform3D(-0.0124968, 0, 0.999701, 0, 0.999926, 0, -0.999747, 0, -0.0124962, 58.0049, 0, -83.1686)
+transform = Transform3D(-0.0124968, 0, 0.999701, 0, 0.999954, 0, -0.999747, 0, -0.0124962, 58.0049, 0, -83.1686)
 rotation_mode = 4
 script = ExtResource("7_m3kbc")
 active = true
@@ -2146,3 +2149,16 @@ max_distance = 30.0
 material_override = ExtResource("2_c6hdh")
 mesh = SubResource("SphereMesh_warua")
 metadata/_edit_lock_ = true
+
+[node name="Spikes" parent="." instance=ExtResource("12_6xb8w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5799, 0.529141, 7.98054)
+priority = -1
+
+[node name="CleoV8" parent="." instance=ExtResource("13_fafsd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.914, 0.932452, -144.085)
+is_current_veh = true
+veh_color = Color(0.488651, 0.105284, 4.81308e-08, 1)
+hood_mod = 1
+front_bumper_mod = 1
+rare_bumper_mod = 1
+can_puncture = true

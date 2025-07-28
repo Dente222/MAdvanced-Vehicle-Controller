@@ -1,7 +1,7 @@
 @icon("res://Advanced Vehicle Controller/Textures/MVehicleBody3D.png")
 extends VehicleBody3D
 
-## Vehicle Body with advanced settings and lots of customisation!
+##Vehicle Body with advanced settings and lots of customisation!
 
 #////////////////////////////////////////////////////////////////////////////////////////////////#
 # Advanced vehicle controll system for Godot 4, created by Millu30
@@ -48,6 +48,8 @@ extends VehicleBody3D
 # F Or Left Stick = Front Lights
 # Q Or XBox RB Or Sonny R1 = Shift UP
 # A Or XBox LB Or Sonny L1 = Shift Down
+# Z Or XBox X Or Sonny Square = Nitro
+# C Or Right Stick = Change Camera
 # NOTE: Setup for shifter and steering wheel is not provided since it is individual to ones devices!
 #////////////////////////////////////////////////////////////////////////////////////////////////#
 
@@ -60,6 +62,7 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export var front_light : Node3D # Reference to front car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
 @export var rare_lights : Node3D # Reference to rare car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
 @export var decal_markers : Array = [Decal] # Optional if player wants to add decals to vehicle. Keep it in that order to prevent mistakes [0 = Hood, 1 = Left side, 2 = Right side, 3 = Trunk, 4 = Roof]. NOTE: Keep decals empty or simply ignore this and reference to them only when wanting to remove or replace decals 
+@export var hood_cam : Marker3D # Marker where hood camera will be placed
 
 @export_subgroup("Sounds settings")
 @export var engine_pitch_modifier : float = 50 # Sets the modifier to adjust engine pitch sound accordingly
@@ -73,6 +76,20 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export var allow_color_change : bool = true # We check if Player is allowed to change vehicle colour or not, you can restrict some vehicle from their colour to be changed if necessary
 @export var material_id : int = 1 # This determines which overrided material we wanna change colour of, my vehicles have 2 materials "0: for windows and details, and 1: for actuall body colour of the vehicle" this way we determine which material we wanna change and prevent from changing wrong material 
 @export_color_no_alpha var veh_color : Color = "#ffffff" # We set our color for vehicle here "Default is White" We apply this then directly add it to our veh_mesh and override material albedo with our albedo colour NOTE: Car should not use any color texture, if you want to use premade texture on it then dissable Allow Colour Change!
+@export_range(0, 1) var material_tint : float = 1.0 # This determines how rough is our vehicle body 0 means its shiny and metalic while 1 is matte paint
+
+@export_group("Bodymod settings")
+@export var mod_list : Script # A file that will contain the array of all available mods for the specific car, each car should have its own library file, but that does not mean one canot make a modular file containing all mods for all cars
+@export var hood_location : Marker3D # Location where our Hood mods will be placed on the car
+@export var front_bumper_location : Marker3D # Location where our Front Bumper will be placed
+@export var rare_bumper_location : Marker3D # Location where our Rare Bumper will be placed
+
+@export_subgroup("Bodymod ID's")
+# Here are the ID's for all the mods that are in our mod list file, 0 means stock parts for the car
+@export var hood_mod : int = 0
+@export var front_bumper_mod : int = 0
+@export var rare_bumper_mod : int = 0
+
 
 @export_group("Transmission settings")
 enum transmission {automatic, manual} # Enum for transmission. Allows to change between Manual and Automatic gearbox
@@ -86,6 +103,16 @@ enum transmission {automatic, manual} # Enum for transmission. Allows to change 
 @export_range(0, 2000) var max_rpm : float = 220 # Vehicle MAX RPM that will be modified by gear ratio, commonly used in transmission to limit its engine force based on current gear, lower value might cause gearbox to ignore engine force and allow for infinite acceleration 
 @export var rpm_wheel : VehicleWheel3D # A wheel that you wish to calculate RPM from, its recomended to use wheel that has traction ON!
 
+@export_subgroup("NOS settings")
+enum nitro_trigger_type {hold, triggered} # Enum defining 2 ways to trigger NOS. Hold: Will use NOS when button is held. Trigger: Will start depleating NOS untill it runs out "Similar way like is in Need For Speed ProStreet"
+@export var nos_system : nitro_trigger_type # This will pick what NOS trigger is used
+enum nos_level {Empty, Tier1, Tier2, Tier3} # Tiers of NOS that we have available.
+@export var nos : nos_level # Selects the tier of the NOSS
+@export var nos_power : Array = [0.0, 25.0, 50.0, 75.0] # NOS power rate that we will apply to our engine power based on NOS tier
+@export var nos_consumption_rate : Array = [0.0, 0.28, 0.82, 1.0] # The rates in which NOS is consumed when in use
+@export var nos_tank : Array = [0.0, 100.0, 200.0, 300.0] # Capacity for NOS tanks based on Tiers
+@export var nos_drift_bonus : float = 0.2 # Determines how much NOS is added back to our tank, this is multiplied by the tier of our NOS for example 0.2 * Tier3 will multiply it by 3
+
 @export_group("Vehicle Energy settings")
 @export var use_energy : bool = true # Checks if we should use energy or not
 @export var max_energy : float = 150.0 # Max Energy capacity we can have
@@ -98,8 +125,15 @@ enum transmission {automatic, manual} # Enum for transmission. Allows to change 
 @export var wheels : Array [VehicleWheel3D] # Array of all wheels that player wants to apply wet_grip modifier
 @export var all_wheels : Array [VehicleWheel3D] # Array of all car wheels in case we want to apply different grip based on map setting to all wheels
 
+@export_subgroup("Wheel Damage")
+@export var can_puncture : bool = false # Allows for tire puncture
+@export var tire_points : Array [ShapeCast3D] # List of Shapecasts that will check for object that will make the tires puncture
 
-
+var nos_in_tank : float = 0.0 # Quantity of NOS we have in our tank
+var nos_boost : float = 0.0 # Boost to Engine power that NOS adds, 0.0 means NOS is not active
+var nos_lock : bool = false # Triggers NOS and blocks it from turnig it off "Used for Trigger NOS settings"
+var punctured_tires : Array = [false, false, false, false] # Array to check what tire is punctured. It works as a tag to determine which tire is punctured, it should apply with the same order as the wheels. Note: This is used to prevent handbrake from glitching and changing tires friction back to default even when tires were flat
+var wheel_def_radius : float # This is the radius of our wheels that we set when we make them, we need this to imitate the visual of a flat tire, for some reason we can't decrease its value directly and when we try that it sets the value instead
 var acceleration : float # Controlls value of acceleration, range from -1 to 1. Note: this support controllers too!
 var veh_speed : float # Displays Vehicle speed, not very accurate but can be adjusted below
 const speed_modifier : float = 2.8 # Modifies actuall speed to be more accurate on speed o metter
@@ -111,23 +145,59 @@ var minimap : = preload("res://Advanced Vehicle Controller/Scenes/MinimapCamera.
 
 # Everything that needs to be set when our car is initiated
 func _ready() -> void:
-	
+
 	
 	if allow_color_change and veh_mesh.get_surface_override_material(material_id): # If player is allowed to change colour of this specific vehicle
 		veh_mesh.get_surface_override_material(material_id).albedo_color = veh_color # We get our material that controlls vehicle color and change its albed to our albedo value
+		veh_mesh.get_surface_override_material(material_id).roughness = material_tint # This one changes roughness of our materiall which makes it matte or shiny metalic
+		
+	if mod_list != null: # Checks if car has a file with mods and if not just do nothing
+		var mod_instance = mod_list.new()  # Create an instance of the script
+		# From here we instantiate all the mods that our modlist contains, everything is sorted in its own array so it can be easily modified
+		# Everything can be modified from the Mod List file and does not require any changes here, just keep in mind that first mod on the list should always be the FACTORY PART of the car
+		# Note: This will add the mods as a child node to our Location markers, this is here to ensure that mods are positioned correctly and always at the same place, It also makes it easier for adjusting everything while editing
+		# NOTE: This is provided as is! In future I will rewrite this a little bit to prevent crashes in case of missing arrays, for example if car will not have any hood mods, it will not crash because missing array!
+		hood_location.add_child(mod_instance.Mod_Hood[hood_mod].instantiate())
+		front_bumper_location.add_child(mod_instance.Mod_FBumper[front_bumper_mod].instantiate())
+		rare_bumper_location.add_child(mod_instance.Mod_RBumper[rare_bumper_mod].instantiate())
+		
+		# From here we just check if we have installed the mods and change their material. Note: Use the same material as the car uses for better consistency and keep it the same.
+		# To avoid any bugs and issues with colors, The main material of the part should always be in slot 0 of the material list IF it uses more than one materials since it is easier to keep it consistent for all the parts that way, you can change material order in Blender before exporting it
+		if hood_location.get_child_count() > 0: # Here we check if our Hood location marker have any modifications added to it, mostly to prevent crashes
+			hood_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color # Here we take the color of our main material of the car and apply it to out main color material in our custom par
+			hood_location.get_child(0).get_surface_override_material(0).roughness = material_tint # Here we copy the tint of out material to make it consisten with car body, This will make our part matte or metalic at the same level as our car is
+
+
+		# For the next two checks, same rule apply, we only change to what part we apply the color and tint and for what part we are actully looking for
+		if front_bumper_location.get_child_count() > 0:
+			front_bumper_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color
+			front_bumper_location.get_child(0).get_surface_override_material(0).roughness = material_tint
+
+
+		if rare_bumper_location.get_child_count() > 0:
+			rare_bumper_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color
+			rare_bumper_location.get_child(0).get_surface_override_material(0).roughness = material_tint
+	
 	
 	if is_current_veh: # Sets viewport to use provided camera. Read comment on is_current_veh variable to learn more
 		# We preload our scene containing camera and instantiate it
 		# then we add it as a child node to our car but only if this is the car we want to drive
 		# otherwise camera will not be attached
 		energy = max_energy # We set vehicle energy to its max limit soo it is full
+		nos_in_tank = nos_tank[nos] # We set our NOS tank to its limit
 		Ui.get_node("ProgressBar").max_value = max_energy
+		Ui.get_node("NosBar").max_value = nos_in_tank
 		self.add_child(camera_scene) # Adds preloaded and instantiated camera scene to our car
 		self.add_child(minimap) # Adds Minimap to the vehicle we controll
 		engine_sound.playing = true
+		wheel_def_radius = rpm_wheel.wheel_radius # This one sets the default radius of our wheels based on the radius of our RPM wheel, we need this to decrease the radius when wheel is punctured since we cant simply decrease it directly cuz that way it will replace the value of the wheel radius
+		
+		
 		
 		for x in all_wheels: # Sets the default grip for all the wheels that are in variable
 				x.wheel_friction_slip = wheel_grip
+
+
 
 # Everything that is triggered on Physical CPU Ticks
 func _physics_process(delta: float) -> void:
@@ -137,6 +207,16 @@ func _physics_process(delta: float) -> void:
 	var rpm_calclated # Calculated RPM reference
 	acceleration = 0.0 # We will be setting acceleration to 0.0 on every physical tick just in case
 	
+	# We check if our car can have punctured tires then we apply changes to the wheels
+	if can_puncture:
+		for i in tire_points.size(): # First we roll through all our Shapecasts to check which one are colliding
+			if tire_points[i].is_colliding() and tire_points[i].get_collider(0).is_in_group("Spikes"): # We detects which Shapecast in our array is colliding with our spikes
+				all_wheels[i].wheel_radius = wheel_def_radius - 0.05 # We decrease the radius of our wheel to give effect of a flat tire
+				all_wheels[i].wheel_friction_slip = 0.5 # We change friction of our wheel to imitate lack of air in them
+				all_wheels[i].get_child(0).rotation.x  = deg_to_rad(randi_range(5, 10)) # With this we tilt our model of the wheel in X and Z rotation to make the wheel look damaged
+				all_wheels[i].get_child(0).rotation.z = deg_to_rad(randi_range(5, 10))
+				punctured_tires[i] = true # We change the state of that specific wheel in our array so that Hand Break will not have an effect on our wheel
+				#print(tire_points[i].name, " Hit: ", tire_points[i].get_collider(0).name)
 	
 	#//////////////////////////////////////////////////////////////////////////////////////////////#
 	# Here we are applying our particles under the wheels, both of these IF statements do the exact
@@ -153,6 +233,11 @@ func _physics_process(delta: float) -> void:
 	else: 
 		smoke_particles[1].emitting = false
 		
+		
+	# This part checks if both wheels are sliding and if soo, add nitro to our tank
+	if wheels[0].get_skidinfo() and wheels[1].get_skidinfo() < 0.8:
+		if nos_in_tank < nos_tank[nos]: # Checks if our NOS is equal to our tank capacity and if not then add NOS when drifting
+			nos_in_tank = nos_in_tank + (nos_drift_bonus * nos) # Adds NOS when drifting
 		
 	# This checks if any of our skidding wheels is actually sliding
 	# and if soo then apply tyre sliding sound otherwise stop playing it
@@ -178,6 +263,10 @@ func _physics_process(delta: float) -> void:
 		if !use_energy: # We check if our vehicle uses energy and if not then Hide the bar
 			Ui.get_node("ProgressBar").visible = false
 		
+		if nos == 0: # We check if any Nos is installed in our car and if so then show Nos bar
+			Ui.get_node("NosBar").visible = false
+		else: Ui.get_node("NosBar").visible = true
+		
 		# If we have more energy and our acceleration is not 0.0 then drain energy
 		# We check for acceleration to prevent car from loosing energy when in mid air
 		# We also check if we do use energy "Used for different gamemodes when needed"
@@ -197,6 +286,7 @@ func _physics_process(delta: float) -> void:
 		Ui.get_node("VBoxContainer/Max RPM").text = "Current Engine Force: " + str(engine_force) + " Multiplied by: " + str(gear_ratio[gear])
 		Ui.get_node("VBoxContainer/Info").text = "Current RPM: " + str(rpm_calclated)
 		Ui.get_node("ProgressBar").value = energy
+		Ui.get_node("NosBar").value = nos_in_tank
 		
 		engine_sound.pitch_scale = speed/engine_pitch_modifier + 0.1 # Sets the pitch of our vehicle engine sound based on its velocity
 		
@@ -219,6 +309,32 @@ func _physics_process(delta: float) -> void:
 		else: rare_lights.hide()
 		
 		#//////////////////////////////////////////////////////////////////////////////////////////#
+		# Checks If we have NOS lock, this is based on the way we want our NOS to be triggered
+		# There are 2 ways of triggering NOS. 1) Traditionall while holding button
+		# 2) Tap NOS button to use it until it runs out, NFS ProStreet NOS system
+		if !nos_lock:
+			nos_boost = 0.0 # We constantly reset our NOS Boost rate to prevent constant boost
+			if Input.is_action_pressed("Nitro"): # This checks if we are holding NOS Button
+				match nos_system: # We check which trigger type for the NOS our car uses
+					0: # Hold Button to use NOS
+						if nos_in_tank > 0.0:
+							nos_in_tank = nos_in_tank - nos_consumption_rate[nos]
+							nos_boost = nos_power[nos] # We apply boost from NOS based on our Tier
+						
+						
+					1: # Tap Button to keep on using NOS until it runs out
+						if nos_in_tank >= nos_tank[nos]: # Checks if we have full tank and If not then do not allow on using NOS again
+							nos_in_tank = nos_tank[nos]
+							nos_lock = true
+		else: # If our NOS Lock is on
+			if nos_in_tank > 0.0: # Check if we have enough NOS to use
+				nos_in_tank = nos_in_tank - nos_consumption_rate[nos] # Drain our NOS when in use
+				nos_boost = nos_power[nos] # We apply boost from NOS based on our Tier
+			elif nos_in_tank < 0.0: # If We don't have enough NOS then stop applying boost and unlock it
+				nos_boost = 0.0
+				nos_lock = false
+			
+		#//////////////////////////////////////////////////////////////////////////////////////////#
 		# Hand Brake function, applies brake and stops giving power to the engine
 		# Also supports gamepad
 		if Input.is_action_pressed("Hand Brake"):
@@ -226,12 +342,14 @@ func _physics_process(delta: float) -> void:
 			engine_force = 0.0
 			
 			# Applies wet_grip value to make car more drifty when applying hand brake
-			for x in wheels:
-				x.wheel_friction_slip = wheel_grip - wet_grip
+			for i in wheels.size(): # We run through all of our wheels that are affected by hand brake and check if any is punctured
+				if punctured_tires[i] == false: # If our wheel is not punctured then change its grip while holding Hand Brake to allow for drift
+					wheels[i].wheel_friction_slip = wheel_grip - wet_grip # If wheel is not punctured then apply normal grip minus wet grip to imitate drift
 			
 		else: # Same as above but sets wheel grip back to default when releasing hand brake
-			for x in all_wheels:
-				x.wheel_friction_slip = wheel_grip
+			for i in all_wheels.size(): # We run through our array to find if any of our wheels are actually puntured
+				if punctured_tires[i] == false: # If we find that one of our wheels is flat then our punctured_tires array should indicate that
+					all_wheels[i].wheel_friction_slip = wheel_grip # If our wheel is not punctured then switch back its grip to default
 		
 		# Gearbox system
 		match gearbox_transmission:
@@ -395,7 +513,7 @@ func _apply_torque() -> void:
 		if energy <= 0.0: # If energy is below 0.0 we gona cut gear_ratio by drain_penalty to limit vehicle speed
 			torque = acceleration * (gear_ratio[gear] / drain_penalty * differential[gear])
 		else: torque = acceleration * (gear_ratio[gear] * differential[gear]) # Apply normal gear_ratio when having sufficient energy
-		engine_force = torque # We apply our torque to our vehicle engine
+		engine_force = torque + nos_boost # We apply our torque to our vehicle engine with addition of NOS if one is used
 		
 	elif acceleration == -1: # Same as above but we only take our reverse ratio and multiplying it by 50 or whatever
 		torque = acceleration * (reverse_ratio * 50)

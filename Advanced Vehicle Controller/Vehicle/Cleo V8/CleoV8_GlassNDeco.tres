@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c1bjp86ep2i3p"]
+
+[ext_resource type="Texture2D" uid="uid://b410pwp8pdv0v" path="res://Advanced Vehicle Controller/Vehicle/Cleo V8/Cleo_V8_GlassAndDeco_BaseColor.png" id="1_qgfa5"]
+
+[resource]
+albedo_texture = ExtResource("1_qgfa5")

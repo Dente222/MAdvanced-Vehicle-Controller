@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bat0h5s3lfqru"]
+[gd_scene load_steps=16 format=4 uid="uid://bat0h5s3lfqru"]
 
 [ext_resource type="Script" uid="uid://bbhuci2yxbttx" path="res://Advanced Vehicle Controller/Scripts/advanced_vehicle_controller.gd" id="1_y5skb"]
 [ext_resource type="Material" uid="uid://bsncupea80ovf" path="res://Advanced Vehicle Controller/Vehicle/GT30/GT30_Details.tres" id="2_jlfqj"]
@@ -75,12 +75,25 @@ shadow_mesh = SubResource("ArrayMesh_l08jl")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_mx6kv"]
 points = PackedVector3Array(-0.678074, 0.2588, 1.48782, -0.735708, 0.308118, -1.63501, -0.670751, 1.06407, -1.51476, 0.772898, 0.619905, 1.31684, 0.717291, 1.00845, -1.6261, -0.292076, 1.00715, 0.0323138, 0.772898, 0.231029, -1.51476, -0.781801, 0.675273, 1.15087, 0.669171, 0.2588, 1.48782, -0.781801, 0.231029, -1.51476, 0.327265, 1.0031, 0.0317763, -0.448651, 0.508844, 1.7062, 0.106598, 0.730803, 1.20585, -0.837408, 0.786333, -0.737095, 0.828504, 0.841864, -1.12575, 0.661848, 1.06407, -1.51476, 0.715611, 0.313314, -1.66179, -0.668225, 0.928397, -1.65002, 0.439748, 0.508844, 1.7062, 0.828504, 0.286723, -1.45909, 0.772898, 0.730803, 0.928534, 0.410132, 0.2588, 1.64337, -0.837408, 0.508844, -1.34774, -0.729973, 0.2588, 1.22802, 0.72107, 0.2588, 1.2803, -0.781801, 0.730803, 0.928534, -0.393045, 0.730803, 1.15087, -0.419035, 0.2588, 1.64337, 0.666245, 0.931326, -1.66707, -0.726195, 0.564375, 1.48386, -0.726195, 1.00845, -1.51476, 0.439748, 0.730803, 1.15087)
 
-[node name="GT30" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "engine_sound", "tyre_sound", "smoke_particles", "rpm_wheel", "wheels", "all_wheels")]
+[sub_resource type="BoxShape3D" id="BoxShape3D_y5skb"]
+size = Vector3(0.265, 0.135, 0.565)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jlfqj"]
+size = Vector3(0.265, 0.135, 0.565)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4njtc"]
+size = Vector3(0.265, 0.135, 0.565)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_woi1i"]
+size = Vector3(0.265, 0.135, 0.565)
+
+[node name="GT30" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "engine_sound", "tyre_sound", "smoke_particles", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
 script = ExtResource("1_y5skb")
 veh_name = "GT30"
 veh_mesh = NodePath("GT30")
 front_light = NodePath("Front_Lights")
-rare_lights = NodePath("Node3D")
+rare_lights = NodePath("Rare_Lights")
+hood_cam = NodePath("Hood_Camera")
 engine_sound = NodePath("Engine Sound")
 tyre_sound = NodePath("Tire Sound")
 smoke_particles = [NodePath("LWParticle"), NodePath("RWParticle")]
@@ -89,6 +102,8 @@ rpm_wheel = NodePath("LBWheel")
 use_energy = false
 wheels = [NodePath("LBWheel"), NodePath("RBWheel")]
 all_wheels = [NodePath("LFWheel"), NodePath("RFWheel"), NodePath("LBWheel"), NodePath("RBWheel")]
+can_puncture = true
+tire_points = [NodePath("LFTirePuncture"), NodePath("RFTirePuncture"), NodePath("LBTirePuncture"), NodePath("RBTirePuncture")]
 metadata/_custom_type_script = "uid://bbhuci2yxbttx"
 
 [node name="GT30" type="MeshInstance3D" parent="."]
@@ -141,21 +156,35 @@ visible = false
 [node name="SpotLight3D" type="SpotLight3D" parent="Front_Lights"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.9407e-08, 0, -8.9407e-08, -1, 0.561166, 0.0533999, -0.0838625)
 light_color = Color(0.909348, 0.684672, 0.316603, 1)
+light_energy = 20.0
+spot_range = 200.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Front_Lights/SpotLight3D"]
+layers = 2
+light_color = Color(0.807843, 0.643137, 0.490196, 1)
+omni_range = 0.17
 
 [node name="SpotLight3D2" type="SpotLight3D" parent="Front_Lights"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.9407e-08, 0, -8.9407e-08, -1, -0.561, 0.053, -0.084)
 light_color = Color(0.909348, 0.684672, 0.316603, 1)
+light_energy = 20.0
+spot_range = 200.0
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="Front_Lights/SpotLight3D2"]
+layers = 2
+light_color = Color(0.807843, 0.643137, 0.490196, 1)
+omni_range = 0.17
+
+[node name="Rare_Lights" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6441, -1.76335)
 visible = false
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Node3D"]
+[node name="OmniLight3D" type="OmniLight3D" parent="Rare_Lights"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.386139, 0, 0.00100923)
 light_color = Color(1, 0, 0, 1)
 omni_range = 0.158848
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="Node3D"]
+[node name="OmniLight3D2" type="OmniLight3D" parent="Rare_Lights"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.386, 0, 0.001)
 light_color = Color(1, 0, 0, 1)
 omni_range = 0.158848
@@ -175,3 +204,34 @@ stream = ExtResource("6_ltawu")
 [node name="Tire Sound" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0825822, -0.938659)
 stream = ExtResource("7_i3e32")
+
+[node name="LFTirePuncture" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67, 0.33, 0.85)
+shape = SubResource("BoxShape3D_y5skb")
+target_position = Vector3(0, -0.2, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RFTirePuncture" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67, 0.33, 0.85)
+shape = SubResource("BoxShape3D_jlfqj")
+target_position = Vector3(0, -0.2, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="LBTirePuncture" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67, 0.33, -1.081)
+shape = SubResource("BoxShape3D_4njtc")
+target_position = Vector3(0, -0.2, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="RBTirePuncture" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67, 0.33, -1.081)
+shape = SubResource("BoxShape3D_woi1i")
+target_position = Vector3(0, -0.2, 0)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Hood_Camera" type="Marker3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.898886, 0.762187)
