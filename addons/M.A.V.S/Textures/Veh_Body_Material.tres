@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c3f4kaiqpblyy"]
+
+[resource]
+resource_local_to_scene = true
+clearcoat_roughness = 1.0
+backlight = Color(1, 1, 1, 1)

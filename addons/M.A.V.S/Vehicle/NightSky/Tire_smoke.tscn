@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://ojw67kgcwe61"]
+
+[sub_resource type="ParticleProcessMaterial" id="1"]
+emission_shape = 1
+emission_sphere_radius = 0.5
+gravity = Vector3(0, 5, 0)
+color = Color(0.329412, 0.329412, 0.329412, 1)
+turbulence_noise_scale = 7.936
+
+[sub_resource type="StandardMaterial3D" id="2"]
+albedo_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
+
+[sub_resource type="BoxMesh" id="3"]
+material = SubResource("2")
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="Tire_smoke" type="GPUParticles3D"]
+transform = Transform3D(-2.98023e-08, 0, -1, -2.98023e-08, 1, 4.02643e-09, 1, -2.98023e-08, -3.67374e-08, 0, 0, 0)
+amount = 100
+speed_scale = 0.5
+randomness = 1.0
+fixed_fps = 60
+collision_base_size = 1.0
+visibility_aabb = AABB(-0.642883, -0.322348, -0.664806, 1.28577, 0.644695, 1.32961)
+process_material = SubResource("1")
+draw_pass_1 = SubResource("3")

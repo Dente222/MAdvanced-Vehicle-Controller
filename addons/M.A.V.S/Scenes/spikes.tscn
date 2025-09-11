@@ -1,0 +1,152 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfkvhad85ka63"]
+
+[ext_resource type="Material" uid="uid://cfsjg2wrb74bj" path="res://addons/M.A.V.S/Textures/Spikes.tres" id="1_btf0o"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a8ujm"]
+size = Vector3(6, 0.3, 0.345)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g16kl"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qsc7k"]
+top_radius = 0.0
+bottom_radius = 0.1
+height = 0.1
+radial_segments = 6
+rings = 2
+
+[node name="Spikes" type="Area3D" groups=["Spikes"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0697043, 0)
+shape = SubResource("BoxShape3D_a8ujm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(6, 0, 0, 0, 0.058, 0, 0, 0, 0.315, 0, 0, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("BoxMesh_g16kl")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.271398, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.510903, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.782301, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.04634, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.33828, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.61039, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90258, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.16772, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.44009, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.75267, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D14" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.48127, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D15" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.24177, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D16" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.97037, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D17" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.70633, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D18" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.41439, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D19" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.14228, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D20" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.850096, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D21" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.584949, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D22" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.312586, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.71148, 0.0747817, 0)
+material_override = ExtResource("1_btf0o")
+mesh = SubResource("CylinderMesh_qsc7k")
+skeleton = NodePath("")

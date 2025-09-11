@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://lwrq5l0gacr4"
+path="res://.godot/imported/Car Engine.mp3-be1cb40cf00855f1ee9773370b9faf10.mp3str"
+
+[deps]
+
+source_file="res://addons/M.A.V.S/Vehicle/NightSky/Car Engine.mp3"
+dest_files=["res://.godot/imported/Car Engine.mp3-be1cb40cf00855f1ee9773370b9faf10.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

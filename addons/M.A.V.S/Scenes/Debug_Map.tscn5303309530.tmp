@@ -1,0 +1,2327 @@
+[gd_scene load_steps=40 format=3 uid="uid://duhhppmjo7k6f"]
+
+[ext_resource type="Material" uid="uid://bqhg03u7uopp1" path="res://Advanced Vehicle Controller/Debug content/Black Box.tres" id="1_mhgok"]
+[ext_resource type="Material" uid="uid://dgucgrkhjqrj0" path="res://Advanced Vehicle Controller/Debug content/Red Box.tres" id="2_c6hdh"]
+[ext_resource type="PackedScene" uid="uid://drtkaugr7kqas" path="res://Advanced Vehicle Controller/Vehicle/NightSky/NightSky_Body.tscn" id="2_n77my"]
+[ext_resource type="Material" uid="uid://dcladqkfg3jij" path="res://Advanced Vehicle Controller/Debug content/Emission White Box.tres" id="2_qu8ow"]
+[ext_resource type="Material" uid="uid://c01w6cl6ib7pf" path="res://Advanced Vehicle Controller/Debug content/White Box.tres" id="3_tcfm6"]
+[ext_resource type="PackedScene" uid="uid://d1d0adnny67ho" path="res://Advanced Vehicle Controller/Vehicle/Muscle/Muscle Car.tscn" id="6_qf320"]
+[ext_resource type="PackedScene" uid="uid://difi1uhwesclv" path="res://Advanced Vehicle Controller/Vehicle/AI_Vehicles/AI_Muscle_Car.tscn" id="7_cib27"]
+[ext_resource type="Script" uid="uid://byy3atqki4s0k" path="res://Advanced Vehicle Controller/Scripts/Path_Follow_Setup.gd" id="7_m3kbc"]
+[ext_resource type="PackedScene" uid="uid://beg78x7knveom" path="res://Advanced Vehicle Controller/Vehicle/AI_Vehicles/AI_NightSky.tscn" id="9_ado17"]
+[ext_resource type="PackedScene" uid="uid://bo0sxuk33kxaa" path="res://Advanced Vehicle Controller/Vehicle/TGR/TRG.tscn" id="10_qtsp6"]
+[ext_resource type="PackedScene" uid="uid://bat0h5s3lfqru" path="res://Advanced Vehicle Controller/Vehicle/GT30/GT30.tscn" id="11_0wlyr"]
+[ext_resource type="PackedScene" uid="uid://dfkvhad85ka63" path="res://Advanced Vehicle Controller/Scenes/spikes.tscn" id="12_6xb8w"]
+[ext_resource type="PackedScene" uid="uid://ygshfd6uxqye" path="res://Advanced Vehicle Controller/Vehicle/Cleo V8/CleoV8.tscn" id="13_fafsd"]
+[ext_resource type="Script" uid="uid://dvafvgl3g1s0g" path="res://Advanced Vehicle Controller/Scripts/Change_Lane_For_Traffic.gd" id="14_51kjp"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3rrre"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+sky_energy_multiplier = 0.2
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_cebjg"]
+sky_material = SubResource("ProceduralSkyMaterial_3rrre")
+
+[sub_resource type="Environment" id="Environment_fqky0"]
+background_mode = 2
+sky = SubResource("Sky_cebjg")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_w55dn"]
+vertices = PackedVector3Array(-179.75, 1, 12.25, -179.75, 1, 13, -178, 1, 13, -178, 1, 12.25, -203.5, 1, 32.75, -183, 1, 12.25, -152, 1, -69.5, -152, 1, -148.75, -348.75, 1, -148.75, -348.75, 1, 32.75, -180.5, 1, 11.5, -177.25, 1, 11.5, -152, 1, -50.25, -182.25, 1, 11.5, -151.25, 1, -51, -150.5, 1, -51, -150.5, 1, -68.75, -151.25, 1, -68.75, -175.5, 1, 11.5, -174.75, 1, 12.25, -174.75, 1, 13, -152, 1, 13, -201.75, 1, 32.5, -183, 1, 13.75, -84, 1.5, -102, -84, 1.5, -105, -84.75, 1.25, -105.5, -85, 1.25, -101.25, -83, 1, -129.25, -82.25, 1, -130, -81, 1, -148.75, -81, 1, -107, -80.75, 1, -117.75, -82.25, 1, -117.75, -84.25, 1, -107, -83, 1, -118.5, -97.25, 1, -87, -83, 1, -87, -82.75, 1, -99.75, -84.25, 1, -99.75, -85, 1, -100.5, -97.75, 1.25, -86, -148.75, 1, -148.75, -148.75, 1, -86, -80.75, 1, -130, -55.5, 1, -130, -55.25, 1, -148.75, -59.25, 1.25, -105.5, -60, 1.5, -105, -60, 1.5, -102, -59, 1.25, -101.25, -53.25, 1.25, -119.25, -53.25, 1, -118.5, -40.5, 1, -87, -59.25, 1, -106.5, -54, 1, -117.75, -53.5, 1.25, -128.5, -54.25, 1.5, -128, -54.25, 1.5, -120, -59, 1, -100.5, -53.5, 1, -129.5, -61, 1, -117.75, -61.25, 1, -107, -59.75, 1, -107, -54, 1, -130, -59.75, 1, -99.75, -61.25, 1, -99.75, -61, 1, -87, -39.75, 1, -86.25, -39.75, 1, -84.5, -23, 1, -84.5, -23, 1, -86.25, -12.25, 1, -148.75, -22.25, 1, -87, -12.5, 1, -87, -10.5, 1.25, -81.25, -10.5, 1, -80.5, -9.5, 1, -79.75, -21, 3.75, -85, -21, 3.75, -82, -11.75, 1.5, -82, -11, 1.25, -85, -17.99, 2.75, -83.514, -10.5, 1, -86.5, 64, 1, -23.5, 64.5, 1, -23.5, 64.5, 1, -148.75, -11, 1, -87, 83, 1, -22.75, 84, 1, -23.5, 84, 1, -26.75, 65.5, 1, -23.5, 66.25, 1, -22.75, 84.75, 1, -27.5, 94, 1, -27.5, 94, 1, -35.75, 136.25, 1, -22.75, 136.25, 1, -22, 149, 1, -22, 94.5, 1, -36.25, 135.5, 1, -23.5, 66.25, 1, -22, 83, 1, -22, 96, 1.25, -35.75, 114.25, 1.25, -35.75, 115.75, 1, -36.25, 149, 1, -148.75, 116.25, 1, -22, 133, 1, -22, 133, 1, -22.75, 133.75, 1, -23.5, 116.25, 1, -35.75, 96, 2, -34, 114.25, 2, -34, -76.75, 5.75, -128, -76.75, 5.75, -120, -72.5313, 3.75, -120, -62.6875, 2, -120, -62.6875, 2, -128, -72.5313, 3.75, -128, -80.75, 1, -127.75, -80.75, 1, -120, -68, 1, -120, -68, 1, -127.75, -81.1765, 2, -102, -75.5294, 4.25, -102, -71.2941, 4.75, -102, -68.4706, 4.25, -102, -68.4706, 4.25, -105, -71.2941, 4.75, -105, -75.5294, 4.25, -105, -81.1765, 2, -105, -63.0198, 2, -102.982, -73.5149, 4.75, -103.009, -78.25, 1, -104.75, -78.25, 1, -102, -73.25, 1, -102, -73.25, 1, -104.75, -70.75, 1, -104.75, -70.75, 1, -102, -65.75, 1, -102, -65.75, 1, -104.75, -97.25, 1.25, -82, -95.25, 1.75, -82, -95.25, 1.75, -85, -97.25, 1.25, -85, -148.75, 1, -80.75, -98, 1.25, -80.75, -47.75, 5, -82, -47.75, 5, -85, -87.5887, 4.5, -82, -84.5242, 5, -82, -84.5242, 5, -85, -87.5887, 4.5, -85, -45, 5, -81.25, -45, 5, -79.25, -42, 5, -79.25, -45.75, 5, -82, -42, 5, -85, -91.25, 1, -84.75, -91.25, 1, -82, -86.25, 1, -82, -86.25, 1, -84.75, -83.75, 1, -84.75, -83.75, 1, -82, -42, 1, -82, -42, 1, -84.75, -20.75, 1, -84.75, -20.75, 1, -82, -18.5, 1, -82, -18.5, 1, -84.75, -23, 1, -82, -39.75, 1, -81.75, -11, 1, -79.75, -23, 1, -80.5, -22.25, 1, -79.75, -39.75, 1, -52, -28, 1.25, -18.75, -28, 1.75, -17, -9.75, 1.75, -17, -9.75, 1.25, -18.75, -9, 1.25, -19.25, -29.25, 1, -19.25, -97.25, 1, -79, -97, 1, -79.75, -148.75, 1, -69.75, -149.75, 1, -51, -149.75, 1, -68.75, -47, 1, -79.75, -97.5, 1, -25.5, -47, 1, -51.75, -46.25, 1, -51.25, -44.75, 1, -79.75, -44.75, 1, -65, -42, 1, -65, -42, 1, -79.75, -3.25, 1, -6.75, -3.25, 1, -5, -0.5, 1, -5, -0.5, 1, -6.75, 7.75, 1, -6.75, 17.75, 1, 4, 24.25, 1, 4, -4, 1, -7.5, 0.75, 1, -7.75, 7, 1, -7.5, 63.75, 1, -12.5, 64.5, 1, -12.5, 64.5, 1, -20.25, 63.75, 1, -20.25, -7.75, 1, -18.75, 63, 1, -22.75, -7.75, 1, -7.5, 63, 1, -11.75, 63, 1, -21, 7.75, 1, 6, 17, 1, 6.25, 17, 1, 4.75, 63, 1, -10.25, -45, 1.75, -53.75, -42, 1.75, -53.75, -45, 5, -65.0833, -45, 4.25, -60.8333, -42, 4.25, -60.8333, -42, 5, -65.0833, -102.25, 1, -25.25, -97.75, 1, -25.25, -148.75, 1, -23.25, -103, 1, -23, -103, 1, -24.5, -148.75, 1, -50.25, -44.75, 1, -62.75, -44.75, 1, -57.75, -42, 1, -57.75, -42, 1, -62.75, -97, 1, -24.75, -42, 1.25, -51.75, -45, 1.25, -51.75, -85, 1, -1.5, -84.25, 1, -0.75, -36.5, 1, 0.5, -36.5, 1, -6.75, -40.75, 1.25, -51, -35.75, 1, -7.5, -30, 1, -18.5, -30, 1, -7.5, -84.25, 1, 0.75, -97, 1.25, -24, -89.5, 1, -1.5, 96, 4.75, -27.25, 114, 5, -26.25, 96, 3.5, -31.3, 114.083, 4.5, -28.8333, 109.49, 3.75, -31.0162, 96.25, 1, -31.75, 96.25, 1, -27.5, 114, 1, -27.5, 114, 1, -31.75, 96, 5, -26.5, 98.5, 5, -21.75, 113, 5, -19.75, 114, 5, -20.5, 100.5, 5, -4.5, 100.5, 5, -5.25, 99.75, 5, -5.25, 86, 5, -4.5, 95.25, 5, -25.5, 86, 5, -25.5, 99, 5, -7.75, 100, 5, -8.5, 99, 5, -6, 86.25, 1, -25.25, 86.25, 1, -4.5, 114, 1, -4.5, 114, 1, -25.25, -96.75, 1.25, -0.25, -90.25, 1.25, -0.25, -90.25, 1, -1, -97.5, 1.25, -1.5, -97.5, 1.25, -23.25, -104.75, 5.25, -23.25, -104.75, 5.25, -1.25, -101.85, 3, -23.25, -101.85, 3, -1.35001, -103.525, 4, -22.025, -100.525, 2.25, -19.0151, -103.525, 4, -6.98552, -100.524, 2.25, -3.97565, -103.504, 4, -2.50368, -148.75, 1, -1.25, -103, 1, -1.5, -107.25, 29.25, -23.25, -107.25, 29.25, 23.25, -80, 29.25, 23.25, -80, 29.25, -23.25, -87.1711, 34.5, -23.25, -88.6053, 35, -23.25, -98.6447, 35, -23.25, -98.6447, 35, 23.25, -88.6053, 35, 23.25, -87.1711, 34.5, 23.25, -86.9788, 34.25, -14.5092, -99.0233, 35, -9.9868, -88.5139, 35, -14.5202, -88.5186, 35, -12.9835, -85.5198, 33, -21.9822, -87.0049, 34.25, -21.9931, -85.5089, 33, 21.4845, -88.5097, 35, 15.5154, -99.0192, 35, 19.9988, -86.9939, 34.25, 21.5235, -86.9795, 34.25, 17.0131, 65.25, 1, -20.25, 65.5, 1, -12.5, 66.25, 1, -11, 83, 1, -10.75, 83, 1, -11.75, 66.25, 1, -11.75, 84, 1, -12.5, 84, 1, -20.25, 83, 1, -21, 66.25, 1, -21.25, 116, 1, -3, 116.25, 1, -3, 116.75, 1, -3.5, 133.75, 1, -12.5, 134.5, 1, -12.5, 134.5, 1, -20.25, 133.75, 1, -20.25, 133, 1, -21, 133, 1, -11.75, 128.25, 1, -3.5, 133.25, 1, -9.75, 135.25, 1, -20.25, 135.5, 1, -12.5, 136.25, 1, -11.75, 136.25, 1, -11, 149, 1, -11, 136.25, 1, -21.25, 113, 5, -14.75, 114, 5, -15.5, 114, 5, -17.25, 113, 5, -18, 101.25, 5, -8.5, 113, 5, -13.25, 115, 11, -21.5, 114.75, 11, -16, 115, 11, -11.5, 134, 11, -11.5, 134, 11, -21.5, 84, 11, -11.5, 84.25, 11, -12.75, 84, 11, -20.25, 66.25, 11, -20.25, 66.25, 11, -12.5, 67.25, 11, -11.5, -28, 4.75, -8, -9.75, 4.75, -8, 101.25, 5, -5.25, 114, 5, -4.5, 114, 5, -12.25, 102.25, 5, -7.75, 102.25, 5, -6.25, -5.5, 1, 1.5, -5.5, 1, -5.25, -9.25, 1, -5.25, -10, 1, -6, -27.75, 1, -12.5, -28, 1, -5.75, -28, 1, 1.5, -10, 1, -12.5, 11.75, 1, 113.25, 11.75, 1, 114.5, 12, 1, 114.5, 12, 1, 111.75, 91, 1, 85.75, 91, 1, 84.25, 86, 1, 25, 11, 1, 112.5, 12.75, 1, 111, -5.25, 1.25, 83.25, -5.25, 1, 84.5, 8.5, 1, 112.5, -6.75, 1, 21.75, -6.75, 1, 71.5, -6, 1, 71.5, 24.5, 1.25, 6, 19, 3.5, 6, 19, 3.5, 10, 24.5, 1.25, 10.25, 20.975, 2.25, 7.97501, 24.5, 1, 12.25, 6.75, 1, 21.75, -5.25, 1, 72.25, 25, 1, 111, 25, 1.25, 10.75, 64, 1, -9.25, 25, 1, 4.75, 86, 1, 8.25, 84, 1, -3, 84, 1, -9.25, 83, 1, -10, 66.25, 1, -10.25, 65.25, 1, -9.25, -6.25, 1.25, 74.75, -7, 1.5, 74.75, -6.75, 1.25, 82.5, -6, 1.25, 82.5, 17, 1, 11.5, 17, 1, 10, 7.75, 1, 10.25, -5.25, 1.25, 73.75, 86.75, 1, 7.5, 88.25, 1, 7.5, 88, 1, -2.25, 84.75, 1, -2.25, 92.75, 1, 82.25, 86.75, 1, 25.75, 17.75, 1, 12.25, 7.75, 1, 20.75, 91.5, 1, 86.5, 93.75, 1, 82, 93.75, 1, 25.75, 133.75, 1, -9.25, 129.25, 1, -2.75, 136.25, 1, -10.25, 135.25, 1, -9.25, 129.25, 1, 23.25, 149, 1, 23.5, 102, 11, -5.5, 102.25, 11, -7.75, 102, 11, -8.5, 96.75, 11, -8.5, 97, 11, -5.5, -9.75, 5, -6.25, -28, 5, -6.25, -7.75, 5, 18.75, -7.5, 5, -5.5, -9, 5, -5.5, -28.75, 5, -5.5, -34.5, 5, 18.75, -34.5, 5, -5.5, -34.25, 1, 3.5, -30.5, 1, 3.75, -30.5, 1, 2.25, -29.75, 1, 1.5, -28.5, 1, -5.25, -34.25, 1, -5.25, 5.5, 5, 18.75, 5.5, 5, -5.5, 1.75, 1, 7.25, 5.5, 1, 7.5, 5.5, 1, -5.25, 1.75, 1, -5.25, -3.25, 1, 2.75, -3.75, 1, 3.25, -3.75, 1, 7.5, -0.5, 1, 7.5, 115.25, 1, -2.25, 116, 1, 23.25, 94.25, 1, -2.25, 94, 1, 7.5, 95.5, 1, 7.5, 96.25, 1, 8.25, 96.25, 1, 23, -90.25, 1.25, 24.25, -90.25, 1.25, 24, -97.75, 1, 0.75, -102.25, 1, 0.75, -103, 1, 0, -148.75, 1, 24.25, 119, 11, 2.5, 119, 11, -1.5, 118, 11, -1.5, 118, 11, 23.5, 125, 11.25, 2.5, 125, 12, -1, 121, 12, -1, 121, 11.25, 2.5, 119.5, 11, 3, 125.75, 11.25, 3.25, 127, 11, 23.5, 127, 11, 2.75, 118.25, 1, -1.25, 118.25, 1, 23.5, 127, 1, 23.5, 127, 1, -1.25, -89.75, 1.25, 0.5, -89.75, 1.25, 23.25, -82.5, 5.25, 23.25, -82.5, 5.25, 0.5, -84.3125, 3.5, 6.1875, -86.5781, 2.25, 13.2969, -85.4, 3, 23.25, -85.4, 3, 0.5, -91.5046, 1, 7.97659, -86.9947, 2.25, 6.48264, -84.25, 1, 19.75, -36.5, 1, 19.5, -28.25, 1, 9.5, -25.5, 1, 9.75, -25.5, 1, 8.25, -4.25, 1, 3.75, -24.75, 1, 7.5, -28.25, 1, 3.75, -34.25, 1, 19.5, -30.5, 1, 19.25, 1.75, 1, 8.75, 0.75, 1, 9.75, 5.5, 1, 19.5, -23.25, 1, 9.75, -23.25, 1, 19.25, -28.25, 1, 19, -25.5, 1, 19.25, 88, 5, 9.5, 88, 5, 23.5, 94, 5, 23.5, 94, 5, 9.5, 88.25, 1, 9.75, 88.25, 1, 23.5, 94, 1, 23.5, 94, 1, 9.75, -201.75, 1, 35.75, -202.5, 1, 35.75, -202.5, 1, 36.5, -201.5, 1, 36.5, -180.75, 1, 14.75, -200.75, 1, 34.75, -200.75, 1, 37.25, -179.5, 1, 98.5, -179, 1, 99.25, -178.25, 1, 98.5, -202, 1, 39.75, -179.75, 1, 13.75, -178, 1, 14, -175.75, 1, 14.75, -177.25, 1, 14.75, -200.75, 1, 38.75, -176.5, 1, 98.5, -174.75, 1, 13.75, -175.75, 1, 99.25, -175.75, 1, 100, -152, 1, 100, -200.75, 1, 33.25, -182.25, 1, 14.75, -181.25, 1, 98.5, -182, 1, 99.5, -28.25, 1, 20.75, -25.5, 1, 21, -18.75, 1, 71.5, -18, 1, 71.5, -18, 1, 21.75, -24.75, 1, 21.75, -29.5, 1, 21.75, -19.5, 1, 72.5, -18.75, 1.25, 82.5, -18, 1.5, 82.5, -18, 1.5, 74.75, -18.75, 1.25, 74.75, -19.5, 1.25, 74, -35.75, 1, 21.75, -19.5, 1.25, 83.25, -69, 1, 111, -84.25, 1, 24.25, -81, 1, 111, -36.5, 1, 21, -19.5, 1, 84.75, -16.25, 1.25, 72.25, -16.25, 1.5, 73, -8.5, 1.5, 73, -8.5, 1.25, 72.25, -7.75, 1.25, 71.5, -17, 1.25, 71.5, 129.25, 1, 24.75, 96.25, 1, 24.75, 116, 1, 25, 95.75, 1, 82.5, 149, 1, 85, 128.25, 1, 25.75, 116.75, 1, 25.75, 95.25, 1, 25.75, 96.5, 1, 83.25, 97, 1, 85, -89.75, 1, 25.25, -148.75, 1, 112, -81.75, 1.25, 112, -81.75, 1, 111.75, -85.25, 1, 25.25, -203.25, 1, 36.5, -203.25, 1, 35.75, -348.75, 1, 39.5, -204, 1, 39, -204, 1, 37.25, -204, 1, 35, -204, 1, 33.25, -203.5, 1, 39.5, -181.75, 1, 149, -181.75, 1, 101.25, -348.75, 1, 149, -16.25, 1.5, 84, -8.5, 1.25, 84.25, -8.5, 1.5, 83.25, -16.25, 1.5, 83.25, -7.75, 1.5, 74.75, -8.5, 1.5, 74, -16.25, 1.5, 73.75, -17.25, 1.5, 74.75, -17, 1.5, 82.5, -7.75, 1.5, 82.5, 90.75, 19, 87, 92, 19, 88.25, 97.25, 19, 83, 96, 19, 81.75, -16.25, 1.25, 84.75, -8.5, 1.25, 85, 7.5, 1, 116, -17.25, 1.25, 85.75, -18.5, 1, 85.75, -68, 1, 117.5, -70, 1, 149, 9.5, 1, 149, -7.75, 1.25, 85.75, 7.5, 1, 113.5, -68, 1, 112, -68.75, 1, 118.25, -70.25, 1, 118.25, -6.5, 1, 85.75, 9.75, 1, 116.75, 8.25, 1, 116.75, 93.75, 1, 84.75, 93.75, 1, 85.25, 94.25, 1, 85.25, 94.25, 1, 84.75, 96.5, 1, 86.75, 95.75, 1, 87.5, 94, 1, 88, 94, 1, 149, 149, 1, 149, 25.75, 1.25, 112.5, 25, 1.5, 113, 25, 1.5, 116, 26, 1.25, 116.75, 26, 1, 117.5, 30.5, 1, 149, 25.75, 1, 111.5, 31.25, 1, 149.75, 31.25, 1, 151.5, 49, 1, 151.5, 49, 1, 149.75, 92.25, 1, 87.5, 49.75, 1, 149, 25.25, 1, 118.25, 23.75, 1, 118.25, 24, 1, 149, -178.25, 1, 101.75, -178.75, 1, 101, -179.75, 1, 101.75, -175.75, 1, 100.75, -176.75, 1, 101.75, -152, 1, 149, -181.25, 1, 101.75, -81.25, 1.25, 116, -79.25, 1.75, 116, -79.25, 1.75, 113, -81.25, 1.25, 113, -80, 1, 149, -81.25, 1, 118.25, -82, 1, 117.5, -148.75, 1, 149, -82, 1.25, 116.75, -79.75, 1, 118.25, 12.75, 5, 116, 12.75, 5, 113, 12.5, 5, 112.5, 7, 5, 112.5, 7, 5, 116.5, 12.5, 5, 116.5, 15.4722, 4.5, 116, 15.4722, 4.5, 113, 21.015, 2.25, 114.519, -70, 4.75, 116, -70, 4.75, 113, -72.6429, 4.25, 116, -72.6429, 4.25, 113, -75.25, 1, 113.25, -75.25, 1, 116, -70.25, 1, 116, -70.25, 1, 113.25, 14.25, 1, 113.25, 14.25, 1, 116, 19.25, 1, 116, 19.25, 1, 113.25, 11.75, 1, 115.75, 12, 1, 117.5, 14, 1, 149, 14.25, 1, 118.25, 12.75, 1, 118.25, 10.75, 1, 116.75, 31.25, 1, 3476, 49, 1, 3476, 49, 1, 1818, 31.25, 1, 151.75)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(7, 4, 9), PackedInt32Array(7, 9, 8), PackedInt32Array(0, 10, 3), PackedInt32Array(3, 10, 11), PackedInt32Array(11, 10, 12), PackedInt32Array(12, 10, 13), PackedInt32Array(17, 16, 14), PackedInt32Array(14, 16, 15), PackedInt32Array(12, 18, 11), PackedInt32Array(12, 17, 14), PackedInt32Array(17, 12, 6), PackedInt32Array(6, 12, 13), PackedInt32Array(6, 13, 5), PackedInt32Array(21, 20, 19), PackedInt32Array(19, 18, 21), PackedInt32Array(21, 18, 12), PackedInt32Array(23, 22, 5), PackedInt32Array(5, 22, 4), PackedInt32Array(25, 24, 26), PackedInt32Array(26, 24, 27), PackedInt32Array(30, 29, 28), PackedInt32Array(33, 32, 31), PackedInt32Array(33, 31, 35), PackedInt32Array(35, 31, 34), PackedInt32Array(26, 27, 36), PackedInt32Array(39, 38, 37), PackedInt32Array(34, 26, 35), PackedInt32Array(35, 26, 28), PackedInt32Array(28, 26, 36), PackedInt32Array(39, 37, 40), PackedInt32Array(40, 37, 36), PackedInt32Array(36, 41, 28), PackedInt32Array(28, 41, 30), PackedInt32Array(30, 41, 43), PackedInt32Array(30, 43, 42), PackedInt32Array(27, 40, 36), PackedInt32Array(30, 44, 29), PackedInt32Array(44, 30, 45), PackedInt32Array(45, 30, 46), PackedInt32Array(48, 47, 49), PackedInt32Array(49, 47, 50), PackedInt32Array(53, 52, 51), PackedInt32Array(47, 54, 50), PackedInt32Array(50, 54, 55), PackedInt32Array(50, 55, 52), PackedInt32Array(57, 56, 58), PackedInt32Array(58, 56, 51), PackedInt32Array(59, 50, 52), PackedInt32Array(51, 56, 60), PackedInt32Array(63, 62, 61), PackedInt32Array(63, 61, 54), PackedInt32Array(54, 61, 55), PackedInt32Array(60, 64, 46), PackedInt32Array(67, 66, 65), PackedInt32Array(64, 45, 46), PackedInt32Array(67, 65, 59), PackedInt32Array(71, 70, 68), PackedInt32Array(68, 70, 69), PackedInt32Array(46, 72, 60), PackedInt32Array(60, 72, 73), PackedInt32Array(73, 72, 74), PackedInt32Array(68, 53, 71), PackedInt32Array(71, 53, 73), PackedInt32Array(73, 53, 51), PackedInt32Array(73, 51, 60), PackedInt32Array(67, 59, 53), PackedInt32Array(53, 59, 52), PackedInt32Array(77, 76, 75), PackedInt32Array(80, 82, 81), PackedInt32Array(81, 82, 78), PackedInt32Array(78, 82, 79), PackedInt32Array(79, 82, 80), PackedInt32Array(83, 72, 77), PackedInt32Array(77, 72, 86), PackedInt32Array(77, 86, 84), PackedInt32Array(84, 86, 85), PackedInt32Array(75, 80, 81), PackedInt32Array(81, 83, 75), PackedInt32Array(75, 83, 77), PackedInt32Array(83, 87, 72), PackedInt32Array(87, 74, 72), PackedInt32Array(89, 88, 90), PackedInt32Array(90, 88, 92), PackedInt32Array(90, 92, 91), PackedInt32Array(95, 94, 93), PackedInt32Array(98, 97, 96), PackedInt32Array(95, 93, 99), PackedInt32Array(99, 93, 91), PackedInt32Array(99, 91, 85), PackedInt32Array(99, 85, 86), PackedInt32Array(98, 96, 100), PackedInt32Array(88, 102, 92), PackedInt32Array(92, 102, 101), PackedInt32Array(103, 99, 104), PackedInt32Array(104, 99, 105), PackedInt32Array(105, 99, 86), PackedInt32Array(105, 86, 106), PackedInt32Array(109, 108, 107), PackedInt32Array(93, 90, 91), PackedInt32Array(109, 107, 110), PackedInt32Array(110, 107, 111), PackedInt32Array(104, 113, 103), PackedInt32Array(103, 113, 112), PackedInt32Array(111, 105, 110), PackedInt32Array(110, 105, 100), PackedInt32Array(100, 105, 98), PackedInt32Array(98, 105, 106), PackedInt32Array(115, 114, 116), PackedInt32Array(116, 114, 119), PackedInt32Array(116, 119, 118), PackedInt32Array(116, 118, 117), PackedInt32Array(117, 118, 57), PackedInt32Array(117, 57, 58), PackedInt32Array(123, 122, 120), PackedInt32Array(120, 122, 121), PackedInt32Array(31, 32, 62), PackedInt32Array(62, 32, 61), PackedInt32Array(131, 124, 25), PackedInt32Array(25, 124, 24), PackedInt32Array(124, 131, 125), PackedInt32Array(125, 133, 126), PackedInt32Array(126, 129, 127), PackedInt32Array(127, 132, 49), PackedInt32Array(49, 132, 48), PackedInt32Array(48, 132, 128), PackedInt32Array(128, 127, 129), PackedInt32Array(129, 133, 130), PackedInt32Array(130, 125, 131), PackedInt32Array(133, 129, 126), PackedInt32Array(125, 130, 133), PackedInt32Array(127, 128, 132), PackedInt32Array(137, 136, 134), PackedInt32Array(134, 136, 135), PackedInt32Array(141, 140, 138), PackedInt32Array(138, 140, 139), PackedInt32Array(38, 66, 37), PackedInt32Array(37, 66, 67), PackedInt32Array(145, 144, 142), PackedInt32Array(142, 144, 143), PackedInt32Array(145, 142, 41), PackedInt32Array(41, 142, 147), PackedInt32Array(41, 147, 146), PackedInt32Array(41, 146, 43), PackedInt32Array(144, 153, 143), PackedInt32Array(143, 153, 150), PackedInt32Array(150, 153, 152), PackedInt32Array(150, 152, 151), PackedInt32Array(151, 152, 149), PackedInt32Array(151, 149, 148), PackedInt32Array(156, 155, 154), PackedInt32Array(157, 148, 149), PackedInt32Array(157, 149, 154), PackedInt32Array(154, 149, 158), PackedInt32Array(154, 158, 156), PackedInt32Array(162, 161, 159), PackedInt32Array(159, 161, 160), PackedInt32Array(166, 165, 163), PackedInt32Array(163, 165, 164), PackedInt32Array(170, 169, 167), PackedInt32Array(167, 169, 168), PackedInt32Array(70, 171, 69), PackedInt32Array(69, 171, 172), PackedInt32Array(173, 76, 77), PackedInt32Array(172, 171, 174), PackedInt32Array(174, 175, 172), PackedInt32Array(172, 175, 176), PackedInt32Array(180, 179, 177), PackedInt32Array(177, 179, 178), PackedInt32Array(176, 175, 173), PackedInt32Array(177, 181, 180), PackedInt32Array(177, 182, 181), PackedInt32Array(181, 182, 176), PackedInt32Array(181, 176, 173), PackedInt32Array(181, 173, 77), PackedInt32Array(184, 183, 147), PackedInt32Array(147, 183, 146), PackedInt32Array(146, 183, 185), PackedInt32Array(187, 186, 16), PackedInt32Array(16, 186, 15), PackedInt32Array(187, 185, 186), PackedInt32Array(186, 185, 183), PackedInt32Array(184, 188, 183), PackedInt32Array(183, 188, 190), PackedInt32Array(183, 190, 189), PackedInt32Array(190, 191, 189), PackedInt32Array(195, 194, 192), PackedInt32Array(192, 194, 193), PackedInt32Array(199, 198, 196), PackedInt32Array(196, 198, 197), PackedInt32Array(202, 201, 200), PackedInt32Array(196, 203, 199), PackedInt32Array(199, 203, 204), PackedInt32Array(202, 200, 205), PackedInt32Array(209, 208, 206), PackedInt32Array(206, 208, 207), PackedInt32Array(205, 210, 202), PackedInt32Array(202, 210, 211), PackedInt32Array(211, 210, 84), PackedInt32Array(84, 210, 77), PackedInt32Array(203, 212, 204), PackedInt32Array(204, 212, 210), PackedInt32Array(206, 213, 209), PackedInt32Array(209, 213, 214), PackedInt32Array(214, 213, 202), PackedInt32Array(211, 214, 202), PackedInt32Array(217, 216, 215), PackedInt32Array(217, 215, 201), PackedInt32Array(201, 215, 200), PackedInt32Array(213, 218, 202), PackedInt32Array(77, 210, 181), PackedInt32Array(205, 204, 210), PackedInt32Array(219, 222, 220), PackedInt32Array(220, 222, 223), PackedInt32Array(223, 222, 221), PackedInt32Array(223, 221, 224), PackedInt32Array(224, 221, 155), PackedInt32Array(224, 155, 156), PackedInt32Array(189, 226, 225), PackedInt32Array(229, 228, 227), PackedInt32Array(225, 229, 227), PackedInt32Array(225, 227, 189), PackedInt32Array(189, 227, 230), PackedInt32Array(230, 186, 189), PackedInt32Array(189, 186, 183), PackedInt32Array(234, 233, 231), PackedInt32Array(231, 233, 232), PackedInt32Array(226, 189, 235), PackedInt32Array(235, 189, 191), PackedInt32Array(237, 219, 236), PackedInt32Array(236, 219, 220), PackedInt32Array(238, 235, 239), PackedInt32Array(239, 235, 240), PackedInt32Array(240, 235, 241), PackedInt32Array(241, 235, 191), PackedInt32Array(191, 237, 236), PackedInt32Array(236, 242, 191), PackedInt32Array(191, 242, 244), PackedInt32Array(191, 244, 243), PackedInt32Array(191, 243, 241), PackedInt32Array(244, 245, 243), PackedInt32Array(240, 246, 239), PackedInt32Array(247, 235, 248), PackedInt32Array(248, 235, 238), PackedInt32Array(244, 242, 182), PackedInt32Array(182, 242, 176), PackedInt32Array(113, 253, 112), PackedInt32Array(112, 253, 251), PackedInt32Array(251, 253, 249), PackedInt32Array(249, 253, 250), PackedInt32Array(250, 253, 252), PackedInt32Array(252, 253, 113), PackedInt32Array(257, 256, 254), PackedInt32Array(254, 256, 255), PackedInt32Array(258, 249, 259), PackedInt32Array(259, 249, 260), PackedInt32Array(260, 249, 261), PackedInt32Array(261, 249, 250), PackedInt32Array(263, 262, 264), PackedInt32Array(264, 262, 265), PackedInt32Array(266, 258, 259), PackedInt32Array(266, 259, 267), PackedInt32Array(267, 259, 269), PackedInt32Array(267, 269, 268), PackedInt32Array(267, 268, 265), PackedInt32Array(268, 270, 265), PackedInt32Array(270, 264, 265), PackedInt32Array(274, 273, 271), PackedInt32Array(271, 273, 272), PackedInt32Array(277, 276, 275), PackedInt32Array(277, 275, 248), PackedInt32Array(248, 275, 278), PackedInt32Array(248, 278, 279), PackedInt32Array(248, 279, 247), PackedInt32Array(278, 285, 279), PackedInt32Array(279, 285, 282), PackedInt32Array(282, 284, 280), PackedInt32Array(280, 286, 281), PackedInt32Array(281, 288, 283), PackedInt32Array(283, 287, 278), PackedInt32Array(278, 287, 285), PackedInt32Array(285, 284, 282), PackedInt32Array(284, 286, 280), PackedInt32Array(286, 288, 281), PackedInt32Array(288, 287, 283), PackedInt32Array(287, 286, 285), PackedInt32Array(285, 286, 284), PackedInt32Array(286, 287, 288), PackedInt32Array(290, 289, 228), PackedInt32Array(228, 289, 227), PackedInt32Array(293, 301, 294), PackedInt32Array(294, 305, 295), PackedInt32Array(295, 306, 296), PackedInt32Array(296, 303, 297), PackedInt32Array(297, 302, 291), PackedInt32Array(291, 302, 292), PackedInt32Array(292, 309, 298), PackedInt32Array(298, 309, 299), PackedInt32Array(299, 310, 300), PackedInt32Array(300, 307, 293), PackedInt32Array(301, 305, 294), PackedInt32Array(293, 311, 301), PackedInt32Array(305, 306, 295), PackedInt32Array(306, 303, 296), PackedInt32Array(303, 302, 297), PackedInt32Array(302, 309, 292), PackedInt32Array(309, 308, 299), PackedInt32Array(310, 307, 300), PackedInt32Array(299, 308, 310), PackedInt32Array(307, 311, 293), PackedInt32Array(301, 306, 305), PackedInt32Array(311, 308, 301), PackedInt32Array(306, 301, 303), PackedInt32Array(303, 304, 302), PackedInt32Array(302, 308, 309), PackedInt32Array(310, 311, 307), PackedInt32Array(308, 311, 310), PackedInt32Array(308, 304, 301), PackedInt32Array(301, 304, 303), PackedInt32Array(304, 308, 302), PackedInt32Array(208, 312, 207), PackedInt32Array(207, 312, 313), PackedInt32Array(317, 316, 314), PackedInt32Array(314, 316, 315), PackedInt32Array(319, 318, 316), PackedInt32Array(312, 317, 313), PackedInt32Array(319, 316, 320), PackedInt32Array(320, 316, 317), PackedInt32Array(320, 317, 321), PackedInt32Array(321, 317, 312), PackedInt32Array(101, 102, 321), PackedInt32Array(321, 102, 320), PackedInt32Array(323, 322, 324), PackedInt32Array(324, 322, 107), PackedInt32Array(328, 327, 325), PackedInt32Array(325, 327, 326), PackedInt32Array(107, 108, 329), PackedInt32Array(328, 325, 330), PackedInt32Array(328, 330, 329), PackedInt32Array(329, 330, 331), PackedInt32Array(329, 331, 324), PackedInt32Array(329, 324, 107), PackedInt32Array(330, 332, 331), PackedInt32Array(327, 333, 326), PackedInt32Array(326, 333, 334), PackedInt32Array(337, 336, 335), PackedInt32Array(334, 333, 335), PackedInt32Array(335, 333, 338), PackedInt32Array(335, 338, 98), PackedInt32Array(335, 98, 337), PackedInt32Array(338, 97, 98), PackedInt32Array(341, 340, 339), PackedInt32Array(341, 339, 342), PackedInt32Array(342, 339, 343), PackedInt32Array(342, 343, 269), PackedInt32Array(342, 269, 259), PackedInt32Array(339, 344, 343), PackedInt32Array(259, 260, 342), PackedInt32Array(346, 345, 347), PackedInt32Array(347, 345, 349), PackedInt32Array(347, 349, 348), PackedInt32Array(351, 350, 352), PackedInt32Array(352, 350, 355), PackedInt32Array(352, 355, 354), PackedInt32Array(352, 354, 353), PackedInt32Array(178, 179, 356), PackedInt32Array(356, 179, 357), PackedInt32Array(263, 358, 262), PackedInt32Array(262, 358, 359), PackedInt32Array(360, 359, 344), PackedInt32Array(344, 359, 361), PackedInt32Array(361, 359, 362), PackedInt32Array(361, 343, 344), PackedInt32Array(359, 358, 362), PackedInt32Array(365, 364, 363), PackedInt32Array(365, 363, 366), PackedInt32Array(366, 363, 369), PackedInt32Array(366, 369, 368), PackedInt32Array(366, 368, 367), PackedInt32Array(367, 370, 366), PackedInt32Array(372, 371, 373), PackedInt32Array(373, 371, 374), PackedInt32Array(377, 376, 375), PackedInt32Array(374, 371, 378), PackedInt32Array(374, 378, 379), PackedInt32Array(379, 378, 382), PackedInt32Array(379, 382, 381), PackedInt32Array(379, 381, 380), PackedInt32Array(385, 384, 383), PackedInt32Array(388, 390, 389), PackedInt32Array(389, 390, 386), PackedInt32Array(386, 390, 387), PackedInt32Array(387, 390, 388), PackedInt32Array(392, 391, 393), PackedInt32Array(393, 391, 394), PackedInt32Array(394, 391, 377), PackedInt32Array(394, 377, 375), PackedInt32Array(389, 386, 395), PackedInt32Array(395, 386, 397), PackedInt32Array(395, 397, 396), PackedInt32Array(398, 377, 399), PackedInt32Array(399, 377, 396), PackedInt32Array(396, 377, 395), PackedInt32Array(395, 377, 391), PackedInt32Array(400, 399, 401), PackedInt32Array(401, 399, 402), PackedInt32Array(402, 399, 403), PackedInt32Array(407, 406, 404), PackedInt32Array(404, 406, 405), PackedInt32Array(396, 403, 399), PackedInt32Array(404, 380, 407), PackedInt32Array(410, 409, 408), PackedInt32Array(404, 411, 380), PackedInt32Array(380, 411, 379), PackedInt32Array(379, 411, 394), PackedInt32Array(413, 412, 414), PackedInt32Array(414, 412, 415), PackedInt32Array(417, 416, 377), PackedInt32Array(377, 416, 376), PackedInt32Array(408, 418, 410), PackedInt32Array(410, 418, 419), PackedInt32Array(412, 398, 415), PackedInt32Array(415, 398, 399), PackedInt32Array(394, 411, 393), PackedInt32Array(375, 420, 394), PackedInt32Array(419, 418, 392), PackedInt32Array(392, 418, 391), PackedInt32Array(401, 402, 315), PackedInt32Array(315, 402, 314), PackedInt32Array(385, 383, 393), PackedInt32Array(393, 383, 392), PackedInt32Array(421, 416, 422), PackedInt32Array(422, 416, 417), PackedInt32Array(332, 423, 331), PackedInt32Array(331, 423, 424), PackedInt32Array(425, 336, 337), PackedInt32Array(424, 423, 426), PackedInt32Array(426, 425, 424), PackedInt32Array(424, 425, 337), PackedInt32Array(424, 337, 427), PackedInt32Array(427, 337, 428), PackedInt32Array(202, 218, 397), PackedInt32Array(397, 218, 396), PackedInt32Array(430, 429, 431), PackedInt32Array(431, 429, 433), PackedInt32Array(431, 433, 432), PackedInt32Array(435, 356, 434), PackedInt32Array(434, 356, 357), PackedInt32Array(438, 437, 436), PackedInt32Array(434, 438, 435), PackedInt32Array(435, 438, 439), PackedInt32Array(439, 438, 436), PackedInt32Array(439, 436, 440), PackedInt32Array(440, 441, 439), PackedInt32Array(444, 443, 442), PackedInt32Array(444, 442, 445), PackedInt32Array(445, 442, 447), PackedInt32Array(445, 447, 446), PackedInt32Array(368, 369, 446), PackedInt32Array(446, 369, 445), PackedInt32Array(449, 448, 437), PackedInt32Array(437, 448, 436), PackedInt32Array(453, 452, 450), PackedInt32Array(450, 452, 451), PackedInt32Array(455, 454, 456), PackedInt32Array(456, 454, 457), PackedInt32Array(197, 198, 454), PackedInt32Array(454, 198, 457), PackedInt32Array(322, 323, 458), PackedInt32Array(458, 323, 459), PackedInt32Array(462, 461, 460), PackedInt32Array(462, 460, 463), PackedInt32Array(463, 460, 458), PackedInt32Array(464, 463, 459), PackedInt32Array(459, 463, 458), PackedInt32Array(413, 414, 461), PackedInt32Array(461, 414, 460), PackedInt32Array(466, 465, 467), PackedInt32Array(467, 465, 468), PackedInt32Array(289, 290, 469), PackedInt32Array(468, 465, 469), PackedInt32Array(469, 465, 289), PackedInt32Array(289, 465, 470), PackedInt32Array(472, 471, 473), PackedInt32Array(473, 471, 474), PackedInt32Array(478, 477, 475), PackedInt32Array(475, 477, 476), PackedInt32Array(474, 471, 479), PackedInt32Array(475, 480, 478), PackedInt32Array(478, 480, 479), PackedInt32Array(479, 480, 481), PackedInt32Array(479, 481, 474), PackedInt32Array(480, 482, 481), PackedInt32Array(486, 485, 483), PackedInt32Array(483, 485, 484), PackedInt32Array(276, 487, 275), PackedInt32Array(275, 487, 467), PackedInt32Array(488, 492, 493), PackedInt32Array(493, 492, 489), PackedInt32Array(489, 492, 491), PackedInt32Array(489, 491, 490), PackedInt32Array(466, 495, 488), PackedInt32Array(488, 495, 492), PackedInt32Array(492, 496, 491), PackedInt32Array(491, 494, 490), PackedInt32Array(494, 496, 487), PackedInt32Array(487, 495, 467), PackedInt32Array(467, 495, 466), PackedInt32Array(495, 496, 492), PackedInt32Array(496, 494, 491), PackedInt32Array(496, 495, 487), PackedInt32Array(240, 498, 246), PackedInt32Array(246, 498, 497), PackedInt32Array(501, 500, 499), PackedInt32Array(456, 502, 455), PackedInt32Array(501, 499, 503), PackedInt32Array(503, 499, 504), PackedInt32Array(456, 503, 502), PackedInt32Array(502, 503, 504), PackedInt32Array(506, 505, 443), PackedInt32Array(443, 505, 442), PackedInt32Array(409, 410, 216), PackedInt32Array(216, 410, 215), PackedInt32Array(507, 450, 451), PackedInt32Array(507, 451, 508), PackedInt32Array(508, 451, 509), PackedInt32Array(510, 508, 511), PackedInt32Array(511, 508, 509), PackedInt32Array(499, 500, 512), PackedInt32Array(512, 500, 513), PackedInt32Array(517, 516, 514), PackedInt32Array(514, 516, 515), PackedInt32Array(521, 520, 518), PackedInt32Array(518, 520, 519), PackedInt32Array(523, 522, 524), PackedInt32Array(524, 522, 525), PackedInt32Array(528, 527, 526), PackedInt32Array(530, 529, 531), PackedInt32Array(531, 529, 532), PackedInt32Array(525, 522, 528), PackedInt32Array(528, 522, 527), PackedInt32Array(1, 2, 533), PackedInt32Array(533, 2, 534), PackedInt32Array(537, 536, 535), PackedInt32Array(538, 531, 532), PackedInt32Array(534, 536, 533), PackedInt32Array(533, 536, 526), PackedInt32Array(526, 536, 528), PackedInt32Array(528, 536, 537), PackedInt32Array(537, 535, 21), PackedInt32Array(539, 20, 21), PackedInt32Array(542, 541, 540), PackedInt32Array(535, 539, 21), PackedInt32Array(540, 538, 542), PackedInt32Array(542, 538, 532), PackedInt32Array(542, 532, 537), PackedInt32Array(542, 537, 21), PackedInt32Array(544, 543, 23), PackedInt32Array(23, 543, 22), PackedInt32Array(529, 545, 532), PackedInt32Array(544, 526, 543), PackedInt32Array(543, 526, 527), PackedInt32Array(545, 546, 532), PackedInt32Array(548, 547, 513), PackedInt32Array(513, 547, 512), PackedInt32Array(550, 549, 551), PackedInt32Array(551, 549, 552), PackedInt32Array(548, 552, 547), PackedInt32Array(547, 552, 553), PackedInt32Array(553, 552, 549), PackedInt32Array(553, 549, 554), PackedInt32Array(558, 557, 555), PackedInt32Array(555, 557, 556), PackedInt32Array(554, 559, 553), PackedInt32Array(553, 559, 560), PackedInt32Array(555, 561, 558), PackedInt32Array(558, 561, 559), PackedInt32Array(559, 561, 560), PackedInt32Array(560, 561, 563), PackedInt32Array(563, 561, 562), PackedInt32Array(563, 562, 564), PackedInt32Array(497, 498, 565), PackedInt32Array(565, 560, 497), PackedInt32Array(497, 560, 563), PackedInt32Array(561, 566, 562), PackedInt32Array(570, 569, 567), PackedInt32Array(567, 569, 568), PackedInt32Array(383, 384, 571), PackedInt32Array(567, 572, 570), PackedInt32Array(570, 572, 571), PackedInt32Array(571, 572, 551), PackedInt32Array(571, 551, 383), PackedInt32Array(572, 550, 551), PackedInt32Array(573, 427, 428), PackedInt32Array(575, 574, 459), PackedInt32Array(459, 574, 464), PackedInt32Array(576, 421, 577), PackedInt32Array(577, 421, 579), PackedInt32Array(577, 579, 578), PackedInt32Array(575, 579, 574), PackedInt32Array(574, 579, 580), PackedInt32Array(580, 579, 421), PackedInt32Array(573, 428, 578), PackedInt32Array(578, 428, 577), PackedInt32Array(421, 422, 580), PackedInt32Array(581, 577, 582), PackedInt32Array(577, 581, 576), PackedInt32Array(465, 583, 470), PackedInt32Array(470, 583, 584), PackedInt32Array(584, 583, 586), PackedInt32Array(584, 586, 585), PackedInt32Array(583, 587, 586), PackedInt32Array(586, 587, 564), PackedInt32Array(564, 587, 563), PackedInt32Array(589, 523, 588), PackedInt32Array(588, 523, 524), PackedInt32Array(592, 591, 590), PackedInt32Array(588, 592, 589), PackedInt32Array(589, 592, 593), PackedInt32Array(593, 592, 590), PackedInt32Array(593, 590, 9), PackedInt32Array(9, 594, 593), PackedInt32Array(590, 591, 595), PackedInt32Array(9, 4, 594), PackedInt32Array(546, 597, 596), PackedInt32Array(532, 546, 595), PackedInt32Array(595, 546, 596), PackedInt32Array(595, 596, 590), PackedInt32Array(590, 596, 598), PackedInt32Array(602, 601, 599), PackedInt32Array(599, 601, 600), PackedInt32Array(604, 603, 605), PackedInt32Array(605, 603, 606), PackedInt32Array(606, 603, 607), PackedInt32Array(607, 603, 601), PackedInt32Array(603, 405, 608), PackedInt32Array(608, 405, 406), PackedInt32Array(603, 608, 601), PackedInt32Array(568, 569, 605), PackedInt32Array(605, 569, 604), PackedInt32Array(601, 602, 607), PackedInt32Array(557, 606, 556), PackedInt32Array(556, 606, 607), PackedInt32Array(612, 611, 609), PackedInt32Array(609, 611, 610), PackedInt32Array(614, 613, 600), PackedInt32Array(600, 613, 599), PackedInt32Array(616, 615, 617), PackedInt32Array(617, 615, 620), PackedInt32Array(617, 620, 618), PackedInt32Array(618, 620, 619), PackedInt32Array(614, 621, 613), PackedInt32Array(613, 621, 616), PackedInt32Array(616, 621, 622), PackedInt32Array(616, 622, 615), PackedInt32Array(618, 623, 617), PackedInt32Array(619, 625, 624), PackedInt32Array(618, 619, 624), PackedInt32Array(621, 626, 622), PackedInt32Array(628, 627, 620), PackedInt32Array(620, 615, 628), PackedInt32Array(622, 626, 382), PackedInt32Array(382, 626, 381), PackedInt32Array(562, 566, 623), PackedInt32Array(623, 566, 617), PackedInt32Array(632, 631, 629), PackedInt32Array(629, 631, 630), PackedInt32Array(633, 582, 577), PackedInt32Array(634, 633, 577), PackedInt32Array(634, 577, 635), PackedInt32Array(635, 577, 636), PackedInt32Array(636, 577, 637), PackedInt32Array(639, 638, 640), PackedInt32Array(640, 638, 641), PackedInt32Array(643, 642, 641), PackedInt32Array(641, 638, 644), PackedInt32Array(648, 647, 645), PackedInt32Array(645, 647, 646), PackedInt32Array(649, 635, 636), PackedInt32Array(645, 643, 648), PackedInt32Array(648, 643, 650), PackedInt32Array(650, 643, 641), PackedInt32Array(650, 641, 644), PackedInt32Array(420, 644, 394), PackedInt32Array(653, 652, 651), PackedInt32Array(651, 642, 653), PackedInt32Array(653, 642, 643), PackedInt32Array(649, 636, 420), PackedInt32Array(420, 636, 650), PackedInt32Array(420, 650, 644), PackedInt32Array(655, 654, 656), PackedInt32Array(656, 654, 596), PackedInt32Array(657, 541, 542), PackedInt32Array(657, 542, 658), PackedInt32Array(658, 542, 659), PackedInt32Array(658, 659, 596), PackedInt32Array(596, 597, 660), PackedInt32Array(596, 660, 656), PackedInt32Array(596, 654, 658), PackedInt32Array(664, 663, 661), PackedInt32Array(661, 663, 662), PackedInt32Array(666, 665, 667), PackedInt32Array(667, 665, 668), PackedInt32Array(667, 668, 584), PackedInt32Array(661, 669, 664), PackedInt32Array(664, 669, 585), PackedInt32Array(585, 669, 584), PackedInt32Array(584, 669, 667), PackedInt32Array(666, 670, 665), PackedInt32Array(671, 676, 672), PackedInt32Array(672, 676, 673), PackedInt32Array(673, 676, 675), PackedInt32Array(673, 675, 674), PackedInt32Array(672, 678, 671), PackedInt32Array(671, 678, 677), PackedInt32Array(677, 679, 640), PackedInt32Array(640, 679, 639), PackedInt32Array(639, 679, 678), PackedInt32Array(678, 679, 677), PackedInt32Array(680, 682, 681), PackedInt32Array(681, 682, 683), PackedInt32Array(683, 682, 662), PackedInt32Array(683, 662, 663), PackedInt32Array(687, 686, 684), PackedInt32Array(684, 686, 685), PackedInt32Array(691, 690, 688), PackedInt32Array(688, 690, 689), PackedInt32Array(372, 373, 692), PackedInt32Array(692, 373, 693), PackedInt32Array(696, 695, 694), PackedInt32Array(697, 692, 693), PackedInt32Array(697, 693, 627), PackedInt32Array(627, 693, 696), PackedInt32Array(627, 696, 620), PackedInt32Array(620, 696, 694), PackedInt32Array(670, 625, 665), PackedInt32Array(665, 625, 619), PackedInt32Array(695, 652, 694), PackedInt32Array(694, 652, 653), PackedInt32Array(699, 698, 700), PackedInt32Array(700, 698, 701)]
+agent_radius = 1.0
+
+[sub_resource type="TextMesh" id="TextMesh_brt0e"]
+material = ExtResource("3_tcfm6")
+uv2_padding = 0.0
+text = "Speed Way for Max Speed/RPM checks"
+font_size = 120
+uppercase = true
+
+[sub_resource type="TextMesh" id="TextMesh_yyk77"]
+text = "ELEVATOR"
+font_size = 127
+
+[sub_resource type="PrismMesh" id="PrismMesh_w3biv"]
+size = Vector3(2, 2, 0.1)
+
+[sub_resource type="TextMesh" id="TextMesh_wu2op"]
+text = "You've Made IT! :D"
+font_size = 100
+uppercase = true
+
+[sub_resource type="TextMesh" id="TextMesh_fqc1l"]
+text = "ROTTOR
+WORK IN PROGRESS!"
+font_size = 75
+
+[sub_resource type="Animation" id="Animation_f4ab6"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_w2p8s"]
+resource_name = "Rotate"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l06ah"]
+_data = {
+&"RESET": SubResource("Animation_f4ab6"),
+&"Rotate": SubResource("Animation_w2p8s")
+}
+
+[sub_resource type="BoxMesh" id="BoxMesh_n3c46"]
+size = Vector3(10, 0.5, 10)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8s0ym"]
+points = PackedVector3Array(-5, -0.25, -5, -5, 0.25, -5, 5, -0.25, -5, -5, -0.25, 5, -5, 0.25, 5, 5, 0.25, -5, 5, -0.25, 5, 5, 0.25, 5)
+
+[sub_resource type="Animation" id="Animation_2gg5o"]
+resource_name = "Elevator"
+length = 13.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RigidBody3D:linear_velocity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 5, 8, 10, 13),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 30, 0), Vector3(0, -8.69234e-07, 0), Vector3(0, -30, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_v76yj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RigidBody3D:linear_velocity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_apwts"]
+_data = {
+&"Elevator": SubResource("Animation_2gg5o"),
+&"RESET": SubResource("Animation_v76yj")
+}
+
+[sub_resource type="Curve3D" id="Curve3D_qtsp6"]
+closed = true
+_data = {
+"points": PackedVector3Array(8, 0, -0.1, -8, 0, 0.1, 58.0049, 0, -83.1686, 3.4, -0.3, 0, -3.4, 0.3, 0, -7.11486, 0, -83.7088, 4.3, 0, 0, -4.3, 0, 0, -43.4726, 4, -83.2972, 5.8, 0.2, 0, -5.8, -0.2, 0, -104.646, 4, -83.2972, 0.8, 0, -16.1, -0.8, 0, 16.1, -135.564, 0, -66.5984, -3.3, 0, -12.7, 3.3, 0, 12.7, -129.994, 0, -2.02885, -11, 0, -6.9, 11, 0, 6.9, -97.9868, 0, 50.2498, -4.2, 0, 0, 4.2, 0, 0, -57, 0, 57, -4.4, 0, 0.7, 4.4, 0, -0.7, -27.916, 0, 54.5463, -18.6, 0, 0.6, 18.6, 0, -0.6, 6.98167, 0, 50.5407, -4.9, 0, 27.5, 4.9, 0, -27.5, 139, 0, 33, 1, 0, 6, -1, 0, -6, 139, 0, -32, 3, 0, 6, -3, 0, -6, 133, 0, -54, 6, 0, 5, -6, 0, -5, 115, 0, -75, 11, 0, 1, -11, 0, -1, 91, 0, -86),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 15
+
+[sub_resource type="SphereMesh" id="SphereMesh_warua"]
+radial_segments = 12
+rings = 12
+
+[sub_resource type="Curve3D" id="Curve3D_fafsd"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -180, 0, -70, 0, 0, 0, 0, 0, 0, -180, 0, 12.276),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fafsd"]
+
+[sub_resource type="Curve3D" id="Curve3D_51kjp"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -180, 0, 13, 26.6, 0, 0.1, -26.6, 0, -0.1, -204, 0, 35),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_07lvw"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -180, 0, 13, 0, 0, 0.1, -26.6, 0, -0.1, -180, 0, 100),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_k0sc2"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -205, 0, 35, 26.6, 0, 0.1, -26.6, 0, -0.1, -250, 0, 35),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fafsd"]
+size = Vector3(2, 2, 1)
+
+[node name="Debug_Map" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fqky0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.5, -2.18557e-08, 0, -4.37114e-08, 1, -0.5, 0.866025, 3.78552e-08, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 200.0
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_w55dn")
+metadata/_edit_lock_ = true
+
+[node name="Arena" type="Node3D" parent="NavigationRegion3D"]
+metadata/_edit_lock_ = true
+
+[node name="Floor" type="CSGBox3D" parent="NavigationRegion3D/Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 0, 0)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(500, 1, 300)
+material = ExtResource("1_mhgok")
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="NavigationRegion3D/Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150.5, 9.5, 0)
+use_collision = true
+size = Vector3(1, 20, 302)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="NavigationRegion3D/Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150.5, 9.5, 50)
+use_collision = true
+size = Vector3(1, 20, 200)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="NavigationRegion3D/Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -350.5, 9.5, 0)
+use_collision = true
+size = Vector3(1, 20, 302)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="NavigationRegion3D/Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150.5, 9.5, -110)
+use_collision = true
+size = Vector3(1, 20, 80)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="NavigationRegion3D/Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 9.5, -150.5)
+use_collision = true
+size = Vector3(500, 20, 1)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="NavigationRegion3D/Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 9.5, 150.5)
+use_collision = true
+size = Vector3(100, 20, 1)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="NavigationRegion3D/Arena"]
+transform = Transform3D(1, 0, 0, 0, 0.3, 0, 0, 0, 1, 40, 13.5, 149.5)
+use_collision = true
+size = Vector3(48, 20, 1)
+material = ExtResource("1_mhgok")
+
+[node name="CSGMesh3D" type="MeshInstance3D" parent="NavigationRegion3D/Arena/CSGBox3D7"]
+transform = Transform3D(-1.9, 0, -5.59506e-07, 0, 11.6667, 0, 1.66103e-07, 0, -6.4, 0, 1.66666, -0.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("TextMesh_brt0e")
+skeleton = NodePath("../../../..")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="NavigationRegion3D/Arena"]
+transform = Transform3D(1, 0, 0, 0, 0.3, 0, 0, 0, 1, -12.5, 14.4, 72.1755)
+use_collision = true
+size = Vector3(13, 14, 1)
+material = ExtResource("1_mhgok")
+
+[node name="CSGMesh3D" type="MeshInstance3D" parent="NavigationRegion3D/Arena/CSGBox3D8"]
+transform = Transform3D(-1.9, 0, -5.59506e-07, 0, 11.6667, 0, 1.66103e-07, 0, -6.4, 0, 1, -0.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("TextMesh_yyk77")
+skeleton = NodePath("../../../..")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="NavigationRegion3D/Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -160, 9.5, 150.5)
+use_collision = true
+size = Vector3(380, 20, 1)
+material = ExtResource("1_mhgok")
+
+[node name="Corridor" type="Node3D" parent="NavigationRegion3D/Arena"]
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 1813.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 1, 3327)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 798)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 791)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 784)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 778)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 771)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 764)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 758)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 751)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 744)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 738)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 731)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 724)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 718)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 711)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 704)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 698)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 691)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 684)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 678)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D30" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 671)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D31" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 664)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D32" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 658)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D33" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 651)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D34" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 644)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D35" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 637)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D36" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 630)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D37" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 623)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D38" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 617)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D39" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 610)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D40" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 603)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D41" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 597)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D42" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 590)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D43" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 583)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D44" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 577)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D45" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 570)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D46" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 563)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D47" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 556)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D48" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 549)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D49" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 542)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D50" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 536)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D51" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 529)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D52" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 522)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D53" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 516)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D54" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 509)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D55" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 502)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D56" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 496)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D57" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 489)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D58" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 482)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D59" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 476)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D60" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 470)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D61" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 463)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D62" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 456)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D63" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 450)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D64" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 443)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D65" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 436)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D66" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 430)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D67" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 423)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D68" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 416)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D69" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 410)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D70" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 403)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D71" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 396)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D72" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 389)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D73" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 382)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D74" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 375)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D75" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 369)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D76" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 362)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D77" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 355)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D78" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 349)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D79" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 342)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D80" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 335)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D81" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 329)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D82" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 322)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D83" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 315)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D84" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 308)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D85" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 301)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D86" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 294)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D87" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 288)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D88" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 281)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D89" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 274)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D90" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 268)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D91" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 261)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D92" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 254)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D93" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 248)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D94" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 241)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D95" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 234)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.5, 9.5, 1814)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 20, 3326)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.5, 9.5, 1814)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 20, 3326)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D97" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 9.5, 3477.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(22, 20, 1)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D98" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1455)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D99" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1448)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D100" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1441)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D101" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1435)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D102" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1428)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D103" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1421)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D104" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1415)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D105" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1408)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D106" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1401)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D107" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1395)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D108" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1388)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D109" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1381)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D110" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1375)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D111" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1368)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D112" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1361)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D113" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1355)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D114" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1348)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D115" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1341)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D116" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1335)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D117" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1328)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D118" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1321)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D119" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1315)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D120" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1308)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D121" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1301)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D122" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1294)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D123" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1287)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D124" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1280)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D125" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1274)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D126" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1267)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D127" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1260)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D128" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1254)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D129" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1247)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D130" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1240)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D131" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1234)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D132" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1227)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D133" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1220)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D134" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1213)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D135" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1206)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D136" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1199)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D137" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1193)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D138" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1186)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D139" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1179)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D140" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1173)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D141" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1166)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D142" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1159)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D143" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1153)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D144" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1146)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D145" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1139)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D146" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1133)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D147" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1127)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D148" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1120)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D149" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1113)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D150" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1107)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D151" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1100)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D152" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1093)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D153" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1087)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D154" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1080)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D155" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1073)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D156" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1067)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D157" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1060)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D158" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1053)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D159" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1046)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D160" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1039)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D161" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1032)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D162" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1026)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D163" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1019)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D164" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1012)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D165" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 1006)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D166" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 999)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D167" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 992)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D168" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 986)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D169" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 979)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D170" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 972)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D171" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 965)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D172" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 958)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D173" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 951)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D174" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 945)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D175" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 938)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D176" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 931)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D177" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 925)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D178" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 918)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D179" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 911)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D180" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 905)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D181" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 898)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D182" type="CSGBox3D" parent="NavigationRegion3D/Arena/Corridor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 16.5, 891)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 2)
+material = ExtResource("1_mhgok")
+
+[node name="Obstacles" type="Node3D" parent="NavigationRegion3D"]
+metadata/_edit_lock_ = true
+
+[node name="Tunel" type="CSGCombiner3D" parent="NavigationRegion3D/Obstacles"]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2.5, 7)
+size = Vector3(42, 4, 27)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 1)
+operation = 2
+size = Vector3(5, 3, 15)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2, 11.5)
+operation = 2
+size = Vector3(5, 3, 18)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2, 11.5)
+operation = 2
+size = Vector3(5, 3, 18)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2, 5.5)
+operation = 2
+size = Vector3(20, 3, 6)
+material = ExtResource("1_mhgok")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 2, 2, -6.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("PrismMesh_w3biv")
+skeleton = NodePath("../../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -6, 2, -6.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("PrismMesh_w3biv")
+skeleton = NodePath("../../../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -23, 2, 20.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("PrismMesh_w3biv")
+skeleton = NodePath("../../../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -31, 2, 20.5)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("PrismMesh_w3biv")
+skeleton = NodePath("../../../..")
+
+[node name="Platform Ramp" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8.99512, 0.500001, -6.47865)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 6.09126, 2.29308, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 20.0
+material = ExtResource("2_c6hdh")
+
+[node name="Railing" type="Node3D" parent="NavigationRegion3D/Obstacles/Tunel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 20)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel/Railing"]
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6, 0.351504, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(43, 0.5, 0.25)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Tunel/Railing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0)
+material_override = ExtResource("3_tcfm6")
+use_collision = true
+size = Vector3(0.2, 1, 0.2)
+
+[node name="Ramp" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.5, 11)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0, 3, 0.488358, 2.68822, 1.03863, 2.37046, 1.57678, 2.09083, 2.11517, 1.83002, 2.62949, 1.60488, 3.23144, 1.39032, 3.94583, 1.14298, 4.61387, 0.911114, 5.31897, 0.695835, 6.04636, 0.498671, 6.82274, 0.326103, 7.6745, 0.143182, 8.317, 0.0557576, 9, 0)
+depth = 6.0
+
+[node name="Bumps" type="Node3D" parent="NavigationRegion3D/Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0.5, -13)
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D4" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -1)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D5" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -2)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D6" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -3)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D7" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -4)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D8" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D9" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -6)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D10" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -7)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D11" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -8)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D12" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -9)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D13" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -10)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D14" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -11)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D15" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -12)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D16" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -13)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D17" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -14)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D18" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -15)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D19" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -16)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D20" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -17)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D21" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -18)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="CSGPolygon3D22" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Bumps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -19)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+
+[node name="Climb Platforms" type="Node3D" parent="NavigationRegion3D/Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2.5, -15)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(30, 4, 23)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 7, -14)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5, 10, -16.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(21, 1, 12)
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 10, -7)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(7, 1, 5)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.5, 10, -16.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(21, 1, 12)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.5, 11.5, -16.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 2, 12)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Climb Platforms/CSGBox3D16"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.501305, 0, 0)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("TextMesh_wu2op")
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31, 11.5, -22)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(20, 2, 1)
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.5, 11.5, -11)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 2, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 7, -19)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 7, -7)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 5, -22)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 5, -11)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 5, -22)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 5, -11)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.5, 5, -22)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.5, 5, -11)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 9, 1)
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -287.5, 3, 13)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -308.5, 3, 34)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -308.5, 3, 38)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -286.5, 3, 100)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -283.5, 3, 100)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -282.5, 3, 13)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2.5, 16.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(8, 4, 16)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 5.5, 11)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(11, 10, 27)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -15, 4.5, -3)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-12, 0, -11, 0.2, 0, 0.2, 1, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -13.75, 4.5, -3)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-12, 0, -11, 0.2, 0, 0.2, 1, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 6.3125, 10.5, -14.5413)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-12, 0, -11, 0.2, 1.859, 0.2, 3, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D6" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 6.9375, 10.5, -13.4587)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-12, 0, -11, 0.2, 1.727, 0.2, 3, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D7" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(0.866026, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866026, -11.0625, 10.5, -8.54127)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-13, 0, -12, 0.2, 1.859, 0.2, 3, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D8" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(0.866026, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866026, -11.6875, 10.5, -7.45873)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-13, 0, -12, 0.25, 1.727, 0.2, 3, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D4" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11, 4.5, 18.75)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-23, 6, -21.9992, 6.0557, 1, 0, 0, 0)
+depth = 0.5
+
+[node name="CSGPolygon3D5" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11, 4.5, 20)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-23, 6, -21.9992, 6.0557, 1, 0, 0, 0)
+depth = 0.5
+
+[node name="Ramp2" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 14, 10.5, -2)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0.0124398, 1.26769, 1.9125, 0.873471, 3.70618, 0.575716, 5.54524, 0.295923, 7.41842, 0.130228, 8.317, 0.0557576, 9, 0)
+depth = 6.0
+
+[node name="Platform Ramp2" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Climb Platforms"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9.005, 0.500001, -26.4787)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(12, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.20828, 3.25473, 4.17848, 2.87638, 5.04035, 2.42706, 5.78656, 2.05721, 6.46123, 1.64937, 7.2342, 1.23234, 8.02588, 0.84063, 8.65591, 0.561722, 9.22346, 0.374189, 9.89252, 0.238101, 10.6666, 0.104079, 11.2923, 0.0423995)
+depth = 20.0
+
+[node name="Loop" type="CSGCombiner3D" parent="NavigationRegion3D/Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.5678, 17.4313, 0)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="NavigationRegion3D/Obstacles/Loop"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+material_override = ExtResource("2_c6hdh")
+radius = 18.0
+height = 48.0509
+sides = 10
+
+[node name="CSGCylinder3D4" type="CSGCylinder3D" parent="NavigationRegion3D/Obstacles/Loop"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+material_override = ExtResource("2_c6hdh")
+operation = 2
+radius = 17.0
+height = 50.0
+sides = 64
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Loop"]
+transform = Transform3D(1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, 9.5, -6, -13)
+operation = 2
+size = Vector3(18, 22, 25)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Loop"]
+transform = Transform3D(1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, 1, -9.5, -6, 12)
+operation = 2
+size = Vector3(18, 22, 25)
+
+[node name="Ramps" type="Node3D" parent="NavigationRegion3D/Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0.5, -81)
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Ramps"]
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0, 0, 0, 3, 4.61403, 1.77948, 9.02554, 0.812912, 11.6816, 0.285645, 14, 0)
+depth = 5.0
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Ramps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -58, 0, -38)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(-2, 0, -2, 43, -1, 43, -0.824707, 12.4591, -0.583496, 10.8677, -0.0468292, 8.99305, 0.546738, 7.79341, 1.45055, 6.43619, 2.34456, 5.53428, 3.42307, 4.64902, 4.6529, 3.96058, 5.97348, 3.37677, 7.08243, 3.03443, 8.25853, 2.71926, 9.80353, 2.34506, 11.4719, 2.02176, 13.4506, 1.70131, 15.7065, 1.38869, 17.9474, 1.14357, 19.9516, 0.921703, 22.2867, 0.708008, 24.9959, 0.530234, 29.5797, 0.276566, 35.1234, 0.120235, 39, 0)
+depth = 10.0
+
+[node name="Platform Ramp2" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Ramps"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24, 0, 17)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="Platform Ramp3" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Ramps"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -63, 0, -5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="Platform Ramp5" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Ramps"]
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -50, 0, -20)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 3.876, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="Platform Ramp6" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Ramps"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -50, 0, -25)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 3.876, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Ramps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, 2, -2.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(44, 4, 5)
+material = ExtResource("1_mhgok")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Ramps"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -21.5, 2, 8.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(17, 4, 5)
+material = ExtResource("1_mhgok")
+
+[node name="Rottor" type="Node3D" parent="NavigationRegion3D/Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94, 0.5, 85)
+
+[node name="Rottor Base" type="CSGCylinder3D" parent="NavigationRegion3D/Obstacles/Rottor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+radius = 3.0
+height = 4.0
+sides = 12
+cone = true
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="NavigationRegion3D/Obstacles/Rottor/Rottor Base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+radius = 1.44472
+height = 14.0
+sides = 12
+
+[node name="Bilbord" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Rottor/Rottor Base/CSGCylinder3D2"]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 9, 0)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+size = Vector3(9, 4, 3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Rottor/Rottor Base/CSGCylinder3D2/Bilbord"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0339279, 0, 1.519)
+material_override = ExtResource("2_qu8ow")
+mesh = SubResource("TextMesh_fqc1l")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="NavigationRegion3D/Obstacles/Rottor"]
+libraries = {
+&"": SubResource("AnimationLibrary_l06ah")
+}
+
+[node name="Moving Platform" type="Node3D" parent="NavigationRegion3D/Obstacles"]
+
+[node name="Platform Ramp7" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Moving Platform"]
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 13, 0.5, 117)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="Platform Ramp4" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Moving Platform"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -69, 0.5, 112)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
+depth = 5.0
+material = ExtResource("2_c6hdh")
+
+[node name="Base" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Moving Platform"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 2, 114.5)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(2, 3, 2)
+
+[node name="Platform" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Moving Platform/Base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+material_override = ExtResource("1_mhgok")
+size = Vector3(7, 1, 6)
+
+[node name="Elevator" type="Node3D" parent="NavigationRegion3D/Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1, 82)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 62.5, 2)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 126, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 62.5, 2)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 126, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 62.5, -9)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 126, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="NavigationRegion3D/Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 62.5, -9)
+material_override = ExtResource("1_mhgok")
+use_collision = true
+size = Vector3(1, 126, 1)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="NavigationRegion3D/Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.489026, 0)
+mass = 1000.0
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp_mode = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Obstacles/Elevator/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, -0.710819, -3.5)
+material_override = ExtResource("2_c6hdh")
+mesh = SubResource("BoxMesh_n3c46")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Obstacles/Elevator/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, -0.710819, -3.5)
+shape = SubResource("ConvexPolygonShape3D_8s0ym")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="NavigationRegion3D/Obstacles/Elevator"]
+libraries = {
+&"": SubResource("AnimationLibrary_apwts")
+}
+autoplay = "Elevator"
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -0.5, 1.5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0.00661373, 0.0190496, 0.00705194, 0.527864, 1.90366, 0.354546, 4.58129, 0.177727, 6.59934, 0.0834407, 9, 0)
+depth = 10.0
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Elevator"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.5, -0.5, -8.5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0.00661373, 0.0190496, 0.00705194, 0.527864, 1.90366, 0.354546, 4.58129, 0.177727, 6.59934, 0.0834407, 9, 0)
+depth = 10.0
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Elevator"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7.5, -0.5, -8.5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0.00661373, 0.0190496, 0.00705194, 0.527864, 1.90366, 0.354546, 4.58129, 0.177727, 6.59934, 0.0834407, 9, 0)
+depth = 10.0
+
+[node name="CSGPolygon3D4" type="CSGPolygon3D" parent="NavigationRegion3D/Obstacles/Elevator"]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -7.5, -0.5, 1.5)
+material_override = ExtResource("2_c6hdh")
+use_collision = true
+polygon = PackedVector2Array(0.00661373, 0.0190496, 0.00705194, 0.527864, 1.90366, 0.354546, 4.58129, 0.177727, 6.59934, 0.0834407, 9, 0)
+depth = 10.0
+
+[node name="NightSky_Body" parent="." instance=ExtResource("2_n77my")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 0.74, -144)
+collision_layer = 9
+allow_color_change = false
+
+[node name="Muscle Car" parent="." instance=ExtResource("6_qf320")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.798, 0.74, -144.1)
+use_energy = false
+
+[node name="TRG" parent="." instance=ExtResource("10_qtsp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0.97425, -144)
+veh_color = Color(0.764655, 0.485504, 0.280555, 1)
+nos = 3
+
+[node name="GT30" parent="." groups=["Vehicle"] instance=ExtResource("11_0wlyr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 1, -144)
+can_puncture = false
+
+[node name="CleoV8" parent="." groups=["Vehicle"] instance=ExtResource("13_fafsd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.914, 0.932452, -144.085)
+veh_color = Color(0.37, 0.3663, 0.3663, 1)
+front_bumper_mod = 1
+rare_bumper_mod = 1
+nos = 3
+can_puncture = true
+
+[node name="AI_Muscle" parent="." node_paths=PackedStringArray("target_ray") instance=ExtResource("7_cib27")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 81, 1, -83)
+distance_from_target = null
+max_speed = 120.0
+target_ray = NodePath("../Path3D/PathFollow3D")
+max_steer_angle = null
+follow_offset = null
+use_energy = null
+max_energy = null
+drain_penalty = null
+wheel_grip = null
+wet_grip = null
+
+[node name="Camera3D" type="Camera3D" parent="AI_Muscle"]
+transform = Transform3D(-0.866025, -0.12941, 0.482963, -1.13133e-08, 0.965926, 0.258819, -0.5, 0.224144, -0.836516, 3, 2, -4)
+cull_mask = 1048063
+
+[node name="AI_Muscle2" parent="." node_paths=PackedStringArray("target_ray") instance=ExtResource("7_cib27")]
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, -179, 1, -72)
+distance_from_target = null
+max_speed = 120.0
+target_ray = NodePath("../Path3D2/MTrafficTarget")
+max_steer_angle = null
+follow_offset = null
+use_energy = null
+max_energy = null
+drain_penalty = null
+wheel_grip = null
+wet_grip = null
+
+[node name="Camera3D" type="Camera3D" parent="AI_Muscle2"]
+transform = Transform3D(-0.866025, -0.12941, 0.482963, -1.13133e-08, 0.965926, 0.258819, -0.5, 0.224144, -0.836516, 3, 2, -4)
+cull_mask = 1048063
+current = true
+
+[node name="AI_NightSky_NavigationMesh" parent="." instance=ExtResource("9_ado17")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 38, 1, -94)
+max_speed = 120.0
+
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+curve = SubResource("Curve3D_qtsp6")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D" node_paths=PackedStringArray("target_veh")]
+transform = Transform3D(-0.0124975, 0, 0.999816, 0, 1.00009, 0, -0.999802, 0, -0.0124976, 58.0049, 0, -83.1686)
+rotation_mode = 4
+script = ExtResource("7_m3kbc")
+active = true
+target_veh = NodePath("../../AI_Muscle")
+speed = 40.0
+max_distance = 30.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D"]
+material_override = ExtResource("2_c6hdh")
+mesh = SubResource("SphereMesh_warua")
+metadata/_edit_lock_ = true
+
+[node name="Spikes" parent="." instance=ExtResource("12_6xb8w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5799, 0.529141, 7.98054)
+priority = -1
+
+[node name="Path3D2" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+curve = SubResource("Curve3D_fafsd")
+
+[node name="MTrafficTarget" type="PathFollow3D" parent="Path3D2" node_paths=PackedStringArray("target_veh")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -180, 0, -70)
+rotation_mode = 4
+loop = false
+tilt_enabled = false
+script = ExtResource("7_m3kbc")
+active = true
+target_veh = NodePath("../../AI_Muscle2")
+speed = 50.0
+max_distance = 15.0
+metadata/_custom_type_script = "uid://byy3atqki4s0k"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D2/MTrafficTarget"]
+transform = Transform3D(0.999825, 0, -8.74035e-08, 0, 0.999957, 0, 8.74075e-08, 0, 0.999779, 0, 0, 0)
+material_override = ExtResource("2_c6hdh")
+mesh = SubResource("SphereMesh_warua")
+skeleton = NodePath("")
+metadata/_edit_lock_ = true
+
+[node name="Area3D" type="Area3D" parent="Path3D2/MTrafficTarget" groups=["Traffic"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Path3D2/MTrafficTarget/Area3D"]
+shape = SubResource("SphereShape3D_fafsd")
+
+[node name="Path3D3" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+curve = SubResource("Curve3D_51kjp")
+
+[node name="Path3D5" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+curve = SubResource("Curve3D_07lvw")
+
+[node name="Path3D4" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+curve = SubResource("Curve3D_k0sc2")
+
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("traffic_lanes")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -179, 1, 12)
+script = ExtResource("14_51kjp")
+traffic_lanes = [NodePath("../Path3D3"), NodePath("../Path3D5")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_fafsd")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.707107, -0.353497, 0.612405, 0, 0.866071, 0.49992, -0.707106, 0.353497, -0.612405, -169, 6, 13)
+
+[connection signal="area_entered" from="Area3D" to="Area3D" method="_on_area_entered"]

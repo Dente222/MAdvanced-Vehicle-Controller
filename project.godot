@@ -31,11 +31,11 @@ Copyright 2025 Millu30 A.K.A Gidan"
 config/version="1.0"
 run/main_scene="uid://duhhppmjo7k6f"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://AVC.png"
+config/icon="res://addons/M.A.V.S/AVC.png"
 
 [autoload]
 
-Ui="*res://Advanced Vehicle Controller/Scenes/ui.tscn"
+Ui="*res://addons/M.A.V.S/Scenes/ui.tscn"
 
 [dotnet]
 
@@ -45,6 +45,7 @@ project/assembly_name="Advanced Vehicle Controller"
 
 Vehicle=""
 Spikes=""
+Traffic=""
 
 [input]
 
@@ -149,3 +150,7 @@ Nitro={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":2,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
