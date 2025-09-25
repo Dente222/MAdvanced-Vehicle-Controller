@@ -2234,7 +2234,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 curve = SubResource("Curve3D_qtsp6")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D" node_paths=PackedStringArray("target_veh")]
-transform = Transform3D(-0.0124975, 0, 0.999816, 0, 1.00009, 0, -0.999802, 0, -0.0124977, 58.0049, 0, -83.1686)
+transform = Transform3D(-0.012497477, 0, 0.999816, 0, 1.0000957, 0, -0.999802, 0, -0.012497652, 58.0049, 0, -83.1686)
 rotation_mode = 4
 script = ExtResource("7_m3kbc")
 active = true

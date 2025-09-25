@@ -1,6 +1,5 @@
-@icon("res://Advanced Vehicle Controller/Textures/MVehicleBody3D.png")
+@icon("res://addons/M.A.V.S/Textures/MVehicleBody3D.png")
 extends VehicleBody3D
-
 ##Vehicle Body with advanced settings and lots of customisation!
 
 #////////////////////////////////////////////////////////////////////////////////////////////////#
@@ -37,22 +36,6 @@ extends VehicleBody3D
 # Copyright 2025 Millu30 A.K.A Gidan
 #////////////////////////////////////////////////////////////////////////////////////////////////#
 
-
-#////////////////////////////////////////////////////////////////////////////////////////////////#
-# List of Controlls and corresponding buttons for different controllers including Sonny, XBox and Nintendo
-# Arrow UP Or Right Trigger = Gas
-# Arrow DOWN Or Left Trigger = Brake/Reverse
-# Left/Right Arrow Or Left Joypad/Joystick = Steering
-# Space Bar Or XBox A Or Sonny X = Hand Brake
-# R Or XBox Y Or Sonny Triangle = Vehicle Reset
-# F Or Left Stick = Front Lights
-# Q Or XBox RB Or Sonny R1 = Shift UP
-# A Or XBox LB Or Sonny L1 = Shift Down
-# Z Or XBox X Or Sonny Square = Nitro
-# C Or Right Stick = Change Camera
-# NOTE: Setup for shifter and steering wheel is not provided since it is individual to ones devices!
-#////////////////////////////////////////////////////////////////////////////////////////////////#
-
 class_name MVehicle3D # Class name for easy access in other scripts and in create node window
 
 @export_group("Vehicle settings")
@@ -63,6 +46,7 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export var rare_lights : Node3D # Reference to rare car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
 @export var decal_markers : Array = [Decal] # Optional if player wants to add decals to vehicle. Keep it in that order to prevent mistakes [0 = Hood, 1 = Left side, 2 = Right side, 3 = Trunk, 4 = Roof]. NOTE: Keep decals empty or simply ignore this and reference to them only when wanting to remove or replace decals 
 @export var hood_cam : Marker3D # Marker where hood camera will be placed
+@export var debug_hud : bool = false # Displays debug hud for the vehicle such as Acceleration, speed and gears ratio
 
 @export_subgroup("Sounds settings")
 @export var engine_pitch_modifier : float = 50 # Sets the modifier to adjust engine pitch sound accordingly
@@ -78,6 +62,28 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export_color_no_alpha var veh_color : Color = "#ffffff" # We set our color for vehicle here "Default is White" We apply this then directly add it to our veh_mesh and override material albedo with our albedo colour NOTE: Car should not use any color texture, if you want to use premade texture on it then dissable Allow Colour Change!
 @export_range(0, 1) var material_tint : float = 1.0 # This determines how rough is our vehicle body 0 means its shiny and metalic while 1 is matte paint
 
+@export_group("Keybinds") # Set of default Action Mapping names for the vehicle system, Change it to whatever you like
+@export var key_accelerate : String = "Acceleration"
+@export var key_brake : String = "Brake"
+@export var key_turn_left : String = "Left"
+@export var key_turn_right : String = "Right"
+@export var key_shift_up : String = "Shift Up"
+@export var key_shift_down : String = "Shift Down"
+@export var key_handbrake : String = "Hand Brake"
+@export var key_lights : String = "Lights"
+@export var key_camera : String = "Camera Change"
+@export var key_reset : String = "Reset"
+@export var key_nitro : String = "Nitro"
+
+@export_subgroup("Custom Gears") # Additional Action mappings specific to each gear if one wants to add shifter to the game
+@export var key_gear_1 : String
+@export var key_gear_2 : String
+@export var key_gear_3 : String
+@export var key_gear_4 : String
+@export var key_gear_5 : String
+@export var key_gear_reverse : String
+
+
 @export_group("Bodymod settings")
 @export var mod_list : Script # A file that will contain the array of all available mods for the specific car, each car should have its own library file, but that does not mean one canot make a modular file containing all mods for all cars
 @export var hood_location : Marker3D # Location where our Hood mods will be placed on the car
@@ -89,7 +95,6 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export var hood_mod : int = 0
 @export var front_bumper_mod : int = 0
 @export var rare_bumper_mod : int = 0
-
 
 @export_group("Transmission settings")
 enum transmission {automatic, manual} # Enum for transmission. Allows to change between Manual and Automatic gearbox
@@ -146,7 +151,6 @@ var minimap : = preload("res://addons/M.A.V.S/Scenes/MinimapCamera.tscn").instan
 # Everything that needs to be set when our car is initiated
 func _ready() -> void:
 
-	
 	if allow_color_change and veh_mesh.get_surface_override_material(material_id): # If player is allowed to change colour of this specific vehicle
 		veh_mesh.get_surface_override_material(material_id).albedo_color = veh_color # We get our material that controlls vehicle color and change its albed to our albedo value
 		veh_mesh.get_surface_override_material(material_id).roughness = material_tint # This one changes roughness of our materiall which makes it matte or shiny metalic
@@ -194,8 +198,7 @@ func _ready() -> void:
 		self.add_child(minimap) # Adds Minimap to the vehicle we controll
 		engine_sound.playing = true
 		wheel_def_radius = rpm_wheel.wheel_radius # This one sets the default radius of our wheels based on the radius of our RPM wheel, we need this to decrease the radius when wheel is punctured since we cant simply decrease it directly cuz that way it will replace the value of the wheel radius
-		
-		
+		Ui.get_node("Debug_Hud").visible = debug_hud # This will make our Debug hud visible or not 
 		
 		for x in all_wheels: # Sets the default grip for all the wheels that are in variable
 				x.wheel_friction_slip = wheel_grip
@@ -255,8 +258,8 @@ func _physics_process(delta: float) -> void:
 	if is_current_veh:
 		var velocity_xz = Vector3(linear_velocity.x, 0, linear_velocity.z) # Gets linear velocity of our vehicle in X/Z axis to calculate speed NOTE: We are ignoring Y axis here soo no sound neither speed will be calculated when car will be falling off in Y axis only
 		speed = velocity_xz.length() # Calculates linear velocity of our vehicle to be used in Speed o meter and engine sound
-		steering = lerp(steering, Input.get_axis("Right", "Left") * 0.4, 5 * delta) # Allows our vehicle to turn. Note: This already supports gamepad!
-		acceleration = Input.get_axis("Brake", "Acceleration") # Allows our car to move forward and reverse. Controller supported!
+		steering = lerp(steering, Input.get_axis(key_turn_right, key_turn_left) * 0.4, 5 * delta) # Allows our vehicle to turn. Note: This already supports gamepad!
+		acceleration = Input.get_axis(key_brake, key_accelerate) # Allows our car to move forward and reverse. Controller supported!
 		veh_speed = speed * speed_modifier # Gets vehicle velocity and multiplies it to get semi accurate velocity display on speed o meter, adjustable
 		rpm = rpm_wheel.get_rpm() # Gets RPM from our selected wheel
 		rpm_calclated = clamp(rpm, -max_rpm * gear_ratio[gear], max_rpm * gear_ratio[gear]) # Gets our RPM and calculate it to have max negative RPM and positive RPM to limit our geabox and overall power
@@ -279,15 +282,15 @@ func _physics_process(delta: float) -> void:
 		
 		
 		# Some On Screen debug stats to track whats going on with our car
-		Ui.get_node("VBoxContainer/Acceleration").text = "Acceleration: " + str(acceleration)
+		Ui.get_node("Debug_Hud/Acceleration").text = "Acceleration: " + str(acceleration)
 		if gear == -1: # This one checks if our gear is -1 "Reverse" and if soo then change icon to R, otherwise display gears properly
-			Ui.get_node("VBoxContainer/Gear Shaft").text = "Gear: R"
+			Ui.get_node("Debug_Hud/Gear Shaft").text = "Gear: R"
 		elif gear == 0: 
-			Ui.get_node("VBoxContainer/Gear Shaft").text = "Gear: N"
-		else: Ui.get_node("VBoxContainer/Gear Shaft").text = "Gear: " + str(gear)
-		Ui.get_node("VBoxContainer/Absolute RPM").text = "Absolute RPM: " + str(roundi(veh_speed)) + " KMPH"
-		Ui.get_node("VBoxContainer/Max RPM").text = "Current Engine Force: " + str(engine_force) + " Multiplied by: " + str(gear_ratio[gear])
-		Ui.get_node("VBoxContainer/Info").text = "Current RPM: " + str(rpm_calclated)
+			Ui.get_node("Debug_Hud/Gear Shaft").text = "Gear: N"
+		else: Ui.get_node("Debug_Hud/Gear Shaft").text = "Gear: " + str(gear)
+		Ui.get_node("Debug_Hud/Absolute RPM").text = "Absolute RPM: " + str(roundi(veh_speed)) + " KMPH"
+		Ui.get_node("Debug_Hud/Max RPM").text = "Current Engine Force: " + str(engine_force) + " Multiplied by: " + str(gear_ratio[gear])
+		Ui.get_node("Debug_Hud/Info").text = "Current RPM: " + str(rpm_calclated)
 		Ui.get_node("ProgressBar").value = energy
 		Ui.get_node("NosBar").value = nos_in_tank
 		
@@ -317,7 +320,7 @@ func _physics_process(delta: float) -> void:
 		# 2) Tap NOS button to use it until it runs out, NFS ProStreet NOS system
 		if !nos_lock:
 			nos_boost = 0.0 # We constantly reset our NOS Boost rate to prevent constant boost
-			if Input.is_action_pressed("Nitro"): # This checks if we are holding NOS Button
+			if Input.is_action_pressed(key_nitro): # This checks if we are holding NOS Button
 				match nos_system: # We check which trigger type for the NOS our car uses
 					0: # Hold Button to use NOS
 						if nos_in_tank > 0.0:
@@ -340,7 +343,7 @@ func _physics_process(delta: float) -> void:
 		#//////////////////////////////////////////////////////////////////////////////////////////#
 		# Hand Brake function, applies brake and stops giving power to the engine
 		# Also supports gamepad
-		if Input.is_action_pressed("Hand Brake"):
+		if Input.is_action_pressed(key_handbrake):
 			brake = 3.0
 			engine_force = 0.0
 			
@@ -402,40 +405,40 @@ func _physics_process(delta: float) -> void:
 				match shifter:
 					
 					false: # This is here if you dont use external shifter, gear change will be button based
-						if Input.is_action_just_pressed("shift_up"): # Default Button is Q
+						if Input.is_action_just_pressed(key_shift_up): # Default Button is Q
 							if !gear == 5: # Prevents us from going above the gear limit
 								gear = gear + 1 # Increase gear by 1
 								brake = 10.0 # Applies brake for a second to simulate clutch
 								await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
 							
-						elif Input.is_action_just_pressed("shift_down"): # Default Button is A
+						elif Input.is_action_just_pressed(key_shift_down): # Default Button is A
 							if !gear == -1: # Prevents us from hitting gear lower than -1 where -1 is Reverse gear
 								gear = gear - 1 # Decrease gear by 1 when shifting donw
 								brake = 10.0 # Applies brake for a second to simulate clutch
 								await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
 								
 					true: # This is here in case you want to use external shifter instead of buttons
-						if Input.is_action_just_pressed("Gear 1"): # This will change gear to gear 1 if external gear shaft is moved to gear 1 position
+						if Input.is_action_just_pressed(key_gear_1): # This will change gear to gear 1 if external gear shaft is moved to gear 1 position
 							gear = 1 # Set Gear
 							brake = 10.0 # Applies brake for a second to simulate clutch
 							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						if Input.is_action_just_pressed("Gear 2"):
+						if Input.is_action_just_pressed(key_gear_2):
 							gear = 2 # Set Gear
 							brake = 10.0 # Applies brake for a second to simulate clutch
 							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						if Input.is_action_just_pressed("Gear 3"):
+						if Input.is_action_just_pressed(key_gear_3):
 							gear = 3 # Set Gear
 							brake = 10.0 # Applies brake for a second to simulate clutch
 							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						if Input.is_action_just_pressed("Gear 4"):
+						if Input.is_action_just_pressed(key_gear_4):
 							gear = 4 # Set Gear
 							brake = 10.0 # Applies brake for a second to simulate clutch
 							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						if Input.is_action_just_pressed("Gear 5"):
+						if Input.is_action_just_pressed(key_gear_5):
 							gear = 5 # Set Gear
 							brake = 10.0 # Applies brake for a second to simulate clutch
 							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						if Input.is_action_just_pressed("Gear Reverse"):
+						if Input.is_action_just_pressed(key_gear_reverse):
 							gear = -1 # Set Gear
 							brake = 10.0 # Applies brake for a second to simulate clutch
 							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
@@ -526,7 +529,7 @@ func _apply_torque() -> void:
 func lights_switch() -> void:
 	
 	# Checks if we pressed button then checks if lights are already ON or OFF
-	if Input.is_action_just_pressed("lights"): # Default key: F
+	if Input.is_action_just_pressed(key_lights): # Default key: F
 		if front_light.visible == true: # If lights are visible then hide them
 			front_light.hide()
 		else: front_light.show() # If Lights are not visible then show them
@@ -537,7 +540,7 @@ func lights_switch() -> void:
 func reset_vehicle() -> void:
 	
 		# Flips car if Reset button was pressed, Default Button: R
-	if Input.is_action_pressed("Reset") and can_reset and is_current_veh:
+	if Input.is_action_pressed(key_reset) and can_reset and is_current_veh:
 		can_reset = !can_reset # Switches if player can reset or not
 		if energy > 5.0 and use_energy: # If we have more than 5.0 energy then drain it else don't "Same if we actually are using energy"
 			energy -= 5.0
@@ -556,4 +559,3 @@ func play_tyre_sound() -> void:
 
 #func _unhandled_input(event: InputEvent) -> void: # Debug purpose use only to check what Imput device is in what order
 	#print(Input.get_joy_name(1))
-	#pass

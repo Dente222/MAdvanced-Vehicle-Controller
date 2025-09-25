@@ -1,4 +1,4 @@
-@icon("res://Advanced Vehicle Controller/Textures/MVehicleBody3DAI.png")
+@icon("res://addons/M.A.V.S/Textures/MVehicleBody3DAI.png")
 extends VehicleBody3D
 
 class_name MVehicle_AI_NaviRegion # Class so it is easier to find in Add Child Node window :)

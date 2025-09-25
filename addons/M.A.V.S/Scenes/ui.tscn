@@ -8,36 +8,35 @@ font_size = 24
 
 [node name="UI" type="CanvasLayer"]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Debug_Hud" type="VBoxContainer" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
-metadata/_edit_use_anchors_ = true
 
-[node name="Acceleration" type="Label" parent="VBoxContainer"]
+[node name="Acceleration" type="Label" parent="Debug_Hud"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Acceleration: "
 label_settings = SubResource("LabelSettings_reim7")
 
-[node name="Gear Shaft" type="Label" parent="VBoxContainer"]
+[node name="Gear Shaft" type="Label" parent="Debug_Hud"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "TEST"
 label_settings = SubResource("LabelSettings_reim7")
 
-[node name="Absolute RPM" type="Label" parent="VBoxContainer"]
+[node name="Absolute RPM" type="Label" parent="Debug_Hud"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "TEST"
 label_settings = SubResource("LabelSettings_reim7")
 
-[node name="Max RPM" type="Label" parent="VBoxContainer"]
+[node name="Max RPM" type="Label" parent="Debug_Hud"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "TEST"
 label_settings = SubResource("LabelSettings_reim7")
 
-[node name="Info" type="Label" parent="VBoxContainer"]
+[node name="Info" type="Label" parent="Debug_Hud"]
 layout_mode = 2
 text = "Test"
 
