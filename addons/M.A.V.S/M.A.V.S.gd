@@ -64,6 +64,18 @@ var actions: Array[Action] = [
 		build_InputEventKey(KEY_Z),
 		build_InputEventJoyPadButton(JOY_BUTTON_X)
 	]),
+	Action.new("Camera Up", 0.5, [
+		build_InputEventKey(KEY_KP_8)
+	]),
+	Action.new("Camera Down", 0.5, [
+		build_InputEventKey(KEY_KP_2)
+	]),
+	Action.new("Camera Left", 0.5, [
+		build_InputEventKey(KEY_KP_6)
+	]),
+	Action.new("Camera Right", 0.5, [
+		build_InputEventKey(KEY_KP_4)
+	])
 ]
 
 func _enter_tree() -> void:

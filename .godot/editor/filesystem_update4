@@ -1,2 +1,6 @@
+res://addons/M.A.V.S/Scenes/Traffic_Lights_Manager.tscn
+res://addons/M.A.V.S/Scripts/Traffic_Lights_Manager.gd
 res://addons/M.A.V.S/Scenes/Debug_Map.tscn
-res://addons/M.A.V.S/M.A.V.S.gd
+res://addons/M.A.V.S/Scripts/traffic_spawner.gd
+res://README.md
+res://addons/M.A.V.S/README.md

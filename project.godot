@@ -50,6 +50,8 @@ enabled=PackedStringArray("res://addons/M.A.V.S/plugin.cfg")
 Vehicle=""
 Spikes=""
 Traffic=""
+Player_car=""
+Traffic_Spawner=""
 
 [input]
 
@@ -125,7 +127,23 @@ Nitro={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":2,"pressure":0.0,"pressed":false,"script":null)
 ])
 }
-
-[rendering]
-
-rendering_device/driver.windows="d3d12"
+"Camera Up"={
+&"deadzone": 0.5,
+&"events": Array[InputEvent]([Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194446,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+])
+}
+"Camera Down"={
+&"deadzone": 0.5,
+&"events": Array[InputEvent]([Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194440,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+])
+}
+"Camera Left"={
+&"deadzone": 0.5,
+&"events": Array[InputEvent]([Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194444,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+])
+}
+"Camera Right"={
+&"deadzone": 0.5,
+&"events": Array[InputEvent]([Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194442,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+])
+}

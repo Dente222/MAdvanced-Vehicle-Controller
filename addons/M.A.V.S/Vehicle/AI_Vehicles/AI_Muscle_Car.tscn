@@ -67,8 +67,12 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_bdd1i")
 
-[node name="AI_Muscle" type="VehicleBody3D" node_paths=PackedStringArray("all_wheels") groups=["Vehicle"]]
+[node name="AI_Muscle" type="VehicleBody3D" node_paths=PackedStringArray("veh_indicator", "front_rc", "left_rc", "right_rc", "all_wheels") groups=["Vehicle"]]
 script = ExtResource("1_vk038")
+veh_indicator = NodePath("Car_Indicator")
+front_rc = NodePath("Front_Cast")
+left_rc = NodePath("Left_Cast")
+right_rc = NodePath("Right_Cast")
 energy_consumption_rate = 0.0
 all_wheels = [NodePath("LF_Wheel"), NodePath("RF_Wheel"), NodePath("LB_Wheel"), NodePath("RB_Wheel")]
 
@@ -117,9 +121,22 @@ suspension_stiffness = 50.0
 [node name="Muscle_CarWheel" parent="RB_Wheel" instance=ExtResource("4_impq5")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="Car_Indicator" type="Sprite3D" parent="." groups=["Vehicle"]]
+[node name="Car_Indicator" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, -1.67037e-22, 0, 1, 0, -1.67037e-22, 0, 1, 0, 20, 0)
+visible = false
 layers = 512
 pixel_size = 0.05
 axis = 1
 texture = ExtResource("5_l6u46")
+
+[node name="Front_Cast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6513692, 1.7302966)
+target_position = Vector3(0, 0, 1)
+
+[node name="Left_Cast" type="RayCast3D" parent="."]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0.42184126, 0.6513692, 1.6774482)
+target_position = Vector3(0, 0, 1)
+
+[node name="Right_Cast" type="RayCast3D" parent="."]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -0.422, 0.651, 1.677)
+target_position = Vector3(0, 0, 1)

@@ -234,4 +234,4 @@ collide_with_areas = true
 collide_with_bodies = false
 
 [node name="Hood_Camera" type="Marker3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.898886, 0.762187)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.898886, 0.762187)

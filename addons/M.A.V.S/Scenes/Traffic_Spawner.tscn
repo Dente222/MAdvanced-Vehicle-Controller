@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://b41ymspcqei5p"]
+
+[ext_resource type="Script" uid="uid://c0t5k1yhy2bsx" path="res://addons/M.A.V.S/Scripts/traffic_spawner.gd" id="1_w8ukl"]
+[ext_resource type="Texture2D" uid="uid://bnew4wvwyh20u" path="res://addons/M.A.V.S/Textures/MTrafficSpawner.png" id="2_apv4k"]
+[ext_resource type="Script" uid="uid://ggcfsotbyw2h" path="res://addons/M.A.V.S/Scripts/vehicle_list.gd" id="2_xqh5m"]
+[ext_resource type="PackedScene" uid="uid://c755o0n0bqls4" path="res://addons/M.A.V.S/Scenes/Traffic_Target.tscn" id="3_xqh5m"]
+
+[sub_resource type="TextMesh" id="TextMesh_qu13f"]
+text = "←"
+font_size = 127
+offset = Vector2(0, 15.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8gard"]
+size = Vector3(1, 1.2875977, 2)
+
+[node name="TrafficSpawner" type="Node3D" node_paths=PackedStringArray("check_area", "arrow_remove", "time_counter")]
+script = ExtResource("1_w8ukl")
+vehicle_pool = ExtResource("2_xqh5m")
+traffic_manager = ExtResource("3_xqh5m")
+check_area = NodePath("Check_area")
+arrow_remove = NodePath("Arrow")
+time_counter = NodePath("Timer")
+
+[node name="Arrow" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.371139e-08, -1, -4.371139e-08, 0, -4.371139e-08, 1, -1, 4.371139e-08, 1.9106855e-15, 0, 0, 0)
+mesh = SubResource("TextMesh_qu13f")
+
+[node name="Sprite3D" type="Sprite3D" parent="Arrow"]
+transform = Transform3D(0.19999999, 0, 0, 0, 0.19999999, 1.6703742e-23, 0, 1.6703742e-23, 0.19999999, 0, 0, 0)
+offset = Vector2(0, 250)
+billboard = 2
+double_sided = false
+alpha_cut = 1
+texture = ExtResource("2_apv4k")
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+ignore_time_scale = true
+
+[node name="Check_area" type="Area3D" parent="."]
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Check_area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8562012, 0.5)
+shape = SubResource("BoxShape3D_8gard")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -3,7 +3,7 @@ extends VehicleBody3D
 ##Vehicle Body with advanced settings and lots of customisation!
 
 #////////////////////////////////////////////////////////////////////////////////////////////////#
-# MAdvanced vehicle controll system for Godot 4, created by Millu30
+# MAdvanced vehicle controll system for Godot 4+, created by Millu30
 # This vehicle controller was made with an intention to provide more advance features such as
 # transmission, lights, tyre smoke, grip controll and more features while keeping it basic and
 # easy to modify according to own needs/preferences, its more simply and easy to understand
@@ -39,6 +39,7 @@ extends VehicleBody3D
 class_name MVehicle3D # Class name for easy access in other scripts and in create node window
 
 @export_group("Vehicle settings")
+@export var player_veh_ID : int = 0 # Assigns intager ID to the car, potential use for multiplayer
 @export var veh_name : String # Sets vehicle name. Treat it as ID for custom body mods and decals. It is not necessary to use but makes it easier to restrict exclusive mods or decals for specific vehicle so they don't look missplaced
 @export var is_current_veh : bool = false # Sets vehicle to be the current vehicle, sets camera and allow player to controll vehicle that has this checked on, works similar to the car swith in Need For Speed Mostwanted from 2012
 @export var veh_mesh : MeshInstance3D # We take path to our vehicle mesh for future reference
@@ -46,6 +47,7 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export var rare_lights : Node3D # Reference to rare car lights [Note: We dont reference light nodes itself here, only their parrent node since we dont need that, obviously we can if we need too but not in this case]
 @export var decal_markers : Array = [Decal] # Optional if player wants to add decals to vehicle. Keep it in that order to prevent mistakes [0 = Hood, 1 = Left side, 2 = Right side, 3 = Trunk, 4 = Roof]. NOTE: Keep decals empty or simply ignore this and reference to them only when wanting to remove or replace decals 
 @export var hood_cam : Marker3D # Marker where hood camera will be placed
+@export var remote_transformer : RemoteTransform3D # Reference to RemoteTransformer3D which is used make camera follow, its made this way due to rework of camer system which lets player to rotate camera freely along with keeping its old functionality. Its better than forcing camera position via code every tick
 @export var debug_hud : bool = false # Displays debug hud for the vehicle such as Acceleration, speed and gears ratio
 
 @export_subgroup("Sounds settings")
@@ -59,7 +61,7 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export_subgroup("Colour settings")
 @export var allow_color_change : bool = true # We check if Player is allowed to change vehicle colour or not, you can restrict some vehicle from their colour to be changed if necessary
 @export var material_id : int = 1 # This determines which overrided material we wanna change colour of, my vehicles have 2 materials "0: for windows and details, and 1: for actuall body colour of the vehicle" this way we determine which material we wanna change and prevent from changing wrong material 
-@export_color_no_alpha var veh_color : Color = "#ffffff" # We set our color for vehicle here "Default is White" We apply this then directly add it to our veh_mesh and override material albedo with our albedo colour NOTE: Car should not use any color texture, if you want to use premade texture on it then dissable Allow Colour Change!
+@export_color_no_alpha var veh_color : Color = Color(1.0, 1.0, 1.0, 1.0) # We set our color for vehicle here "Default is White" We apply this then directly add it to our veh_mesh and override material albedo with our albedo colour NOTE: Car should not use any color texture, if you want to use premade texture on it then dissable Allow Colour Change!
 @export_range(0, 1) var material_tint : float = 1.0 # This determines how rough is our vehicle body 0 means its shiny and metalic while 1 is matte paint
 
 @export_group("Keybinds") # Set of default Action Mapping names for the vehicle system, Change it to whatever you like
@@ -89,12 +91,15 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export var hood_location : Marker3D # Location where our Hood mods will be placed on the car
 @export var front_bumper_location : Marker3D # Location where our Front Bumper will be placed
 @export var rare_bumper_location : Marker3D # Location where our Rare Bumper will be placed
+@export var spoiler_location : Marker3D # Location where spoiler will be added to the car
+@export var no_default_spoiler : bool = false # This checks if car has a stock spoiler and if not then first part in spoiler array will always be skipped
 
 @export_subgroup("Bodymod ID's")
 # Here are the ID's for all the mods that are in our mod list file, 0 means stock parts for the car
 @export var hood_mod : int = 0
 @export var front_bumper_mod : int = 0
 @export var rare_bumper_mod : int = 0
+@export var spoiler_mod : int = 0
 
 @export_group("Transmission settings")
 enum transmission {automatic, manual} # Enum for transmission. Allows to change between Manual and Automatic gearbox
@@ -145,8 +150,8 @@ const speed_modifier : float = 2.8 # Modifies actuall speed to be more accurate 
 var gear : int = 0 # Displays current gear based on gear_ratio
 var can_reset : bool = true # Switch to allow player to reset vehicle and set cooldown to prevent spamming it
 var energy : float # Variable in which we store vehicle energy or fuel and exports it to progress bar in UI scene
-var camera_scene : = preload("res://addons/M.A.V.S/Scenes/cam_holder.tscn").instantiate() # We Instantiate our vehicle main camera and add it to our vehicle as a child node
-var minimap : = preload("res://addons/M.A.V.S/Scenes/MinimapCamera.tscn").instantiate() # We Instantiate our Minimap Scene and add it to our vehicle as a child node, this will create camera above our car and add necessary markers to id also adds smal display for our minimap
+var camera_scene : PackedScene = load("res://addons/M.A.V.S/Scenes/cam_holder.tscn") # We Instantiate our vehicle main camera and add it to our vehicle as a child node
+var minimap : PackedScene = load("res://addons/M.A.V.S/Scenes/MinimapCamera.tscn") # We Instantiate our Minimap Scene and add it to our vehicle as a child node, this will create camera above our car and add necessary markers to id also adds smal display for our minimap
 
 # Everything that needs to be set when our car is initiated
 func _ready() -> void:
@@ -165,25 +170,34 @@ func _ready() -> void:
 		# From here we just check if we have installed the mods and change their material. Note: Use the same material as the car uses for better consistency and keep it the same.
 		# To avoid any bugs and issues with colors, The main material of the part should always be in slot 0 of the material list IF it uses more than one materials since it is easier to keep it consistent for all the parts that way, you can change material order in Blender before exporting it
 		if "Mod_Hood" in mod_instance: # This will check if there is Mod_Hood Array in our Mod list file, this is to prevent game from crashing if specific car will not have specific mods, you can easily restrict it for cars to have only specific parts available
-			hood_location.add_child(mod_instance.Mod_Hood[hood_mod].instantiate())
+			hood_location.add_child(load(mod_instance.Mod_Hood[hood_mod]["part"]).instantiate())
 			if hood_location.get_child_count() > 0: # Here we check if our Hood location marker have any modifications added to it, mostly to prevent crashes
 				hood_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color # Here we take the color of our main material of the car and apply it to out main color material in our custom par
 				hood_location.get_child(0).get_surface_override_material(0).roughness = material_tint # Here we copy the tint of out material to make it consisten with car body, This will make our part matte or metalic at the same level as our car is
 
-
 		# For the next two checks, same rule apply, we only change to what part we apply the color and tint and for what part we are actully looking for
 		if "Mod_FBumper" in mod_instance:
-			front_bumper_location.add_child(mod_instance.Mod_FBumper[front_bumper_mod].instantiate())
+			front_bumper_location.add_child(load(mod_instance.Mod_FBumper[front_bumper_mod]["part"]).instantiate())
 			if front_bumper_location.get_child_count() > 0:
 				front_bumper_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color
 				front_bumper_location.get_child(0).get_surface_override_material(0).roughness = material_tint
 
-
 		if "Mod_RBumper" in mod_instance:
-			rare_bumper_location.add_child(mod_instance.Mod_RBumper[rare_bumper_mod].instantiate())
+			rare_bumper_location.add_child(load(mod_instance.Mod_RBumper[rare_bumper_mod]["part"]).instantiate())
 			if rare_bumper_location.get_child_count() > 0:
 				rare_bumper_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color
 				rare_bumper_location.get_child(0).get_surface_override_material(0).roughness = material_tint
+		
+		if "Mod_Spoiler" in mod_instance:
+			if !no_default_spoiler: # We check if this vehicle have stock spoiler
+				spoiler_location.add_child(load(mod_instance.Mod_RBumper[spoiler_mod]["part"]).instantiate()) # If car have stock spoiler model, simply add it to the car
+			else:
+				if spoiler_mod == 0: # If it dosen't use any spoiler by default then check if we pick first spoiler from the mod list
+					if spoiler_location.get_child_count() > 0: # If we select no spoiler in case of car not having stock spoiler then check if we already have any spoiler
+						spoiler_location.get_child(0).queue_free() # If we do have different spoiler and we want to remove it then simply remove any spoiler if stock is selected
+				else: # In case of selecting different spoiler, simply add different one
+					spoiler_location.add_child(load(mod_instance.Mod_RBumper[spoiler_mod]["part"]).instantiate())
+	
 	
 	
 	if is_current_veh: # Sets viewport to use provided camera. Read comment on is_current_veh variable to learn more
@@ -194,11 +208,14 @@ func _ready() -> void:
 		nos_in_tank = nos_tank[nos] # We set our NOS tank to its limit
 		Ui.get_node("ProgressBar").max_value = max_energy
 		Ui.get_node("NosBar").max_value = nos_in_tank
-		self.add_child(camera_scene) # Adds preloaded and instantiated camera scene to our car
-		self.add_child(minimap) # Adds Minimap to the vehicle we controll
+		self.add_child(camera_scene.instantiate()) # Adds preloaded and instantiated camera scene to our car
+		remote_transformer.remote_path = remote_transformer.get_parent().get_node("Camera_Anchor").get_path() # Since our camera is added via code and not attached to vehicle by default, we reference its first node to RemoteTransform3D node which allow us to rotate it while driving
+		self.add_child(minimap.instantiate()) # Adds Minimap to the vehicle we controll
 		engine_sound.playing = true
 		wheel_def_radius = rpm_wheel.wheel_radius # This one sets the default radius of our wheels based on the radius of our RPM wheel, we need this to decrease the radius when wheel is punctured since we cant simply decrease it directly cuz that way it will replace the value of the wheel radius
 		Ui.get_node("Debug_Hud").visible = debug_hud # This will make our Debug hud visible or not 
+		self.add_to_group("Player_car") # Adds player controller car ONLY! to the Player_car groupe
+		
 		
 		for x in all_wheels: # Sets the default grip for all the wheels that are in variable
 				x.wheel_friction_slip = wheel_grip
@@ -208,7 +225,7 @@ func _ready() -> void:
 # Everything that is triggered on Physical CPU Ticks
 func _physics_process(delta: float) -> void:
 	
-	var speed # Our Speed variable reference
+	var speed_xz # Our Speed variable reference
 	var rpm # RPM reference
 	var rpm_calclated # Calculated RPM reference
 	acceleration = 0.0 # We will be setting acceleration to 0.0 on every physical tick just in case
@@ -257,10 +274,10 @@ func _physics_process(delta: float) -> void:
 	# also player will not be able to controll it
 	if is_current_veh:
 		var velocity_xz = Vector3(linear_velocity.x, 0, linear_velocity.z) # Gets linear velocity of our vehicle in X/Z axis to calculate speed NOTE: We are ignoring Y axis here soo no sound neither speed will be calculated when car will be falling off in Y axis only
-		speed = velocity_xz.length() # Calculates linear velocity of our vehicle to be used in Speed o meter and engine sound
+		speed_xz = velocity_xz.length() # Calculates linear velocity of our vehicle to be used in Speed o meter and engine sound
 		steering = lerp(steering, Input.get_axis(key_turn_right, key_turn_left) * 0.4, 5 * delta) # Allows our vehicle to turn. Note: This already supports gamepad!
 		acceleration = Input.get_axis(key_brake, key_accelerate) # Allows our car to move forward and reverse. Controller supported!
-		veh_speed = speed * speed_modifier # Gets vehicle velocity and multiplies it to get semi accurate velocity display on speed o meter, adjustable
+		veh_speed = speed_xz * speed_modifier # Gets vehicle velocity and multiplies it to get semi accurate velocity display on speed o meter, adjustable
 		rpm = rpm_wheel.get_rpm() # Gets RPM from our selected wheel
 		rpm_calclated = clamp(rpm, -max_rpm * gear_ratio[gear], max_rpm * gear_ratio[gear]) # Gets our RPM and calculate it to have max negative RPM and positive RPM to limit our geabox and overall power
 		#print("My Steering: " + str(steering))
@@ -294,7 +311,7 @@ func _physics_process(delta: float) -> void:
 		Ui.get_node("ProgressBar").value = energy
 		Ui.get_node("NosBar").value = nos_in_tank
 		
-		engine_sound.pitch_scale = speed/engine_pitch_modifier + 0.1 # Sets the pitch of our vehicle engine sound based on its velocity
+		engine_sound.pitch_scale = speed_xz/engine_pitch_modifier + 0.1 # Sets the pitch of our vehicle engine sound based on its velocity
 		
 		#//////////////////////////////////////////////////////////////////////////////////////////#
 		# Applies break instead of reverse gear when Acceleration is negative and RPM's are high.
@@ -530,10 +547,11 @@ func lights_switch() -> void:
 	
 	# Checks if we pressed button then checks if lights are already ON or OFF
 	if Input.is_action_just_pressed(key_lights): # Default key: F
-		if front_light.visible == true: # If lights are visible then hide them
-			front_light.hide()
-		else: front_light.show() # If Lights are not visible then show them
-	pass
+		if front_light != null: # Safe check to see if we actually have front lights
+			if front_light.visible == true: # If lights are visible then hide them
+				front_light.hide()
+			else: 
+				front_light.show() # If Lights are not visible then show them
 
 
 # Resets player vehicle 
@@ -556,6 +574,3 @@ func reset_vehicle() -> void:
 func play_tyre_sound() -> void:
 	if tyre_sound.is_playing() == false:
 		tyre_sound.playing = true
-
-#func _unhandled_input(event: InputEvent) -> void: # Debug purpose use only to check what Imput device is in what order
-	#print(Input.get_joy_name(1))

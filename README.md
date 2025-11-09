@@ -1,13 +1,13 @@
 # Advanced Vehicle system for Godot
 <img src="AVC.png"></img><br>  
 
-Millu30 Advanced Vehicle Controller.<br>
-Supports Godot 4.4.x
+Millu30 Advanced Vehicle System.<br>
+Supports Godot 4.5.x
 
 # Usage
 
 <details>
-<summary>This is an Advanced Vehicle controller created by Millu30 A.K.A Gidan<br>
+<summary>This is Millu's Advanced Vehicle System or (M.A.V.S) created by Millu30 A.K.A Gidan<br>
 <br>
 Key Features:<br>
 Controller support<br>
@@ -27,6 +27,6 @@ Minimap with 2 render modes and rotation settings<br>
 In game vehicle colour changing<br>
 Vehicle visual customisations<br>
 Custom node icons for easier reference<br>
-
+Traffic system and manager<br>
 
 Copyright 2025 Millu30 A.K.A Gidan</details><br>

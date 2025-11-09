@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://dm6xnskfiemfd" path="res://addons/M.A.V.S/Debug content/texture_03_Red.png" id="1"]
 
-
 [resource]
 albedo_texture = ExtResource("1")
 uv1_triplanar = true

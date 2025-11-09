@@ -26,6 +26,7 @@ class_name MVehicle_AI_NaviRegion # Class so it is easier to find in Add Child N
 @export var nav : NavigationAgent3D # Definition for our navigation agent
 @export var target_ray : Node3D # Definition for nodes we want our AI to generate path to
 @export_range(1.0, 45.0) var steering_sensitivity: float = 40.0 # Max angle our car cant turn its wheels
+@export var veh_indicator : Sprite3D # This is the indicator that is visible on the minimap, its here so it will be togled when car is added instead of having it visible in editor
 
 @export_group("Context steering")
 @export var front_rc : RayCast3D # Checks if there is something in front of the car 
@@ -52,6 +53,10 @@ var nav_direction # Variable to store our points that are generated for the path
 
 func _ready() -> void:
 	
+	if veh_indicator != null: # Check if car have assigned indicator, if not then display message which car don't have one
+		veh_indicator.visible = true # We make our vehicle indicator visible only when this car is added into the scene
+	else: print_rich("[color=salmon][b]WARNING:[/b] This vehicle don't have assigned map indicator! [color=white]", self.name)
+	
 	for x in all_wheels: # Sets the default grip for all the wheels that are in variable
 		x.wheel_friction_slip = wheel_grip
 		
@@ -67,7 +72,8 @@ func _ready() -> void:
 
 	if use_energy: # Checks if we use energy and if so, set it to max_energy
 		energy = max_energy
-
+	
+	
 
 func _process(delta: float) -> void:
 	
@@ -102,7 +108,7 @@ func _physics_process(delta: float) -> void:
 		var angle = atan2(direction.x, direction.z)  # Limit rotation to Y-Axis only
 		current_angle = self.rotation.y  # Get current Y rotation of our vehicle
 		
-		target_angle = angle - current_angle  # Get the angle difference between our target and vehicle
+		target_angle = wrapf(angle - current_angle, -PI, PI)  # Get angle difference between our target and AI vehicle. We use wrapf to fix our car turning opposite when trying to go above 180°
 		target_angle = rad_to_deg(target_angle)  # Convert it to degrees
 		target_angle = clamp(target_angle, -steering_sensitivity, steering_sensitivity)  # Clamp vehicle wheels so it does not turn at a weird angle
 		steering = deg_to_rad(target_angle)  # Convert back to radians so car can steer on its own without issues
@@ -129,5 +135,6 @@ func _physics_process(delta: float) -> void:
 			
 	# This part makes the car go in reverse if obstacle is in front of it
 func _reverse_car(delta: float, target_angle) -> void:
-	engine_force = max_rev_speed # Apply negative engine force to make car drive in reverse
-	target_angle = target_angle * PI # Get vehicle steering and apply PI to reverse it soo that car will not get stuck
+	if target_ray !=null: # This is here to prevent odd behaviour of the AI where it can crash when car is flipped because of PI can't calculate null target and to prevent vehicle from soft locking reverse speed making it drive in reverse constantly
+		engine_force = max_rev_speed # Apply negative engine force to make car drive in reverse
+		target_angle = target_angle * PI # Get vehicle steering and apply PI to reverse it soo that car will not get stuck

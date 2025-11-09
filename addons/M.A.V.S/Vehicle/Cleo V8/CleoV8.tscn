@@ -94,13 +94,14 @@ size = Vector3(0.265, 0.135, 0.565)
 [sub_resource type="BoxShape3D" id="BoxShape3D_o2bti"]
 size = Vector3(0.265, 0.135, 0.565)
 
-[node name="CleoV8" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "engine_sound", "tyre_sound", "smoke_particles", "hood_location", "front_bumper_location", "rare_bumper_location", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
+[node name="CleoV8" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "hood_location", "front_bumper_location", "rare_bumper_location", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
 script = ExtResource("1_x26hy")
 veh_name = "Cleo V8"
 veh_mesh = NodePath("CleoV8")
 front_light = NodePath("Front_Lights")
 rare_lights = NodePath("Rare_Lights")
 hood_cam = NodePath("Hood_Camera")
+remote_transformer = NodePath("RemoteTransform3D")
 engine_sound = NodePath("Engine Sound")
 tyre_sound = NodePath("Tire Sound")
 smoke_particles = [NodePath("LWParticle"), NodePath("RWParticle")]
@@ -254,4 +255,8 @@ collide_with_areas = true
 collide_with_bodies = false
 
 [node name="Hood_Camera" type="Marker3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.954842, 0.78989)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.954842, 0.78989)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+update_rotation = false
+update_scale = false

@@ -3,20 +3,24 @@
 [ext_resource type="Script" uid="uid://1p26pa17e30j" path="res://addons/M.A.V.S/Scripts/Cam_Holder.gd" id="1_702ig"]
 
 [node name="Camera_Anchor" type="Node3D"]
+top_level = true
 
-[node name="Cam_Holder" type="Node3D" parent="." node_paths=PackedStringArray("cam_parent", "cam_holder", "camera", "cam_positions")]
+[node name="Cam_Holder" type="Node3D" parent="." node_paths=PackedStringArray("cam_parent", "cam_holder", "camera", "cam_arm", "cam_position")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("1_702ig")
 cam_parent = NodePath("..")
 cam_holder = NodePath(".")
-camera = NodePath("Cam_Pose1/P_Cam")
-cam_positions = [NodePath("Cam_Pose1"), NodePath("Cam_Pose2")]
+camera = NodePath("Cam_Pose/Springarm_Positioner/P_Cam")
+cam_arm = NodePath("Cam_Pose/Springarm_Positioner")
+cam_position = NodePath("Cam_Pose")
 
-[node name="Cam_Pose1" type="Marker3D" parent="Cam_Holder"]
-transform = Transform3D(-1, 8.3791e-09, -8.70203e-08, 0, 0.995396, 0.0958458, 8.74228e-08, 0.0958458, -0.995396, 0, 2, -4)
+[node name="Cam_Pose" type="Node3D" parent="Cam_Holder"]
+transform = Transform3D(-1, 0, -8.742276e-08, 0, 0.9999998, 0, 8.742278e-08, 0, -0.9999998, 0, 0, 0)
 
-[node name="P_Cam" type="Camera3D" parent="Cam_Holder/Cam_Pose1"]
+[node name="Springarm_Positioner" type="SpringArm3D" parent="Cam_Holder/Cam_Pose"]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 5.684342e-14, 0, 4.768372e-07)
+spring_length = 4.0
+
+[node name="P_Cam" type="Camera3D" parent="Cam_Holder/Cam_Pose/Springarm_Positioner"]
 cull_mask = 1048063
 current = true
-
-[node name="Cam_Pose2" type="Marker3D" parent="Cam_Holder"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.42813, -3.31354)

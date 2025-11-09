@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://c755o0n0bqls4"]
+
+[ext_resource type="Script" uid="uid://byy3atqki4s0k" path="res://addons/M.A.V.S/Scripts/Path_Follow_Setup.gd" id="1_p4aq8"]
+[ext_resource type="Material" uid="uid://dgucgrkhjqrj0" path="res://addons/M.A.V.S/Debug content/Red Box.tres" id="2_naprh"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_c8upj"]
+radial_segments = 12
+rings = 12
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_kh7cp"]
+
+[node name="MTrafficTarget" type="PathFollow3D" node_paths=PackedStringArray("sensors") groups=["Traffic_Spawner"]]
+rotation_mode = 4
+loop = false
+tilt_enabled = false
+script = ExtResource("1_p4aq8")
+active = true
+sensors = [NodePath("Vehicle_Checker_Front"), NodePath("Vehicle_Checker_Right"), NodePath("Vehicle_Checker_Left")]
+max_distance = 4.0
+metadata/_custom_type_script = "uid://byy3atqki4s0k"
+
+[node name="Vehicle_Checker_Front" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, -1.5)
+hit_from_inside = true
+hit_back_faces = false
+
+[node name="Vehicle_Checker_Right" type="RayCast3D" parent="."]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, 0, 0, 0)
+target_position = Vector3(0, 0, -1.5)
+hit_from_inside = true
+hit_back_faces = false
+
+[node name="Vehicle_Checker_Left" type="RayCast3D" parent="."]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, 0, 0, 0)
+target_position = Vector3(0, 0, -1.5)
+hit_from_inside = true
+hit_back_faces = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.999825, 0, -8.74035e-08, 0, 0.999957, 0, 8.74075e-08, 0, 0.999779, 0, 0, 0)
+material_override = ExtResource("2_naprh")
+mesh = SubResource("SphereMesh_c8upj")
+skeleton = NodePath("")
+metadata/_edit_lock_ = true
+
+[node name="Area3D" type="Area3D" parent="." groups=["Traffic"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_kh7cp")
