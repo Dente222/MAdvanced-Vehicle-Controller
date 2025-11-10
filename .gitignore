@@ -1,0 +1,9 @@
+# Ignore everything by default
+/*
+
+# But keep the addons folder
+!/addons/
+!/addons/**
+
+# Optional: keep this .gitignore itself
+!.gitignore

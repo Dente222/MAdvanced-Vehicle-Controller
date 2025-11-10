@@ -4,3 +4,4 @@ res://addons/M.A.V.S/Scenes/Debug_Map.tscn
 res://addons/M.A.V.S/Scripts/traffic_spawner.gd
 res://README.md
 res://addons/M.A.V.S/README.md
+res://addons/M.A.V.S/plugin.cfg
