@@ -1,10 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://dto7ll8huswjx"]
+[gd_scene load_steps=5 format=3 uid="uid://dto7ll8huswjx"]
 
 [ext_resource type="Script" uid="uid://bblcyel3rq6gj" path="res://addons/M.A.V.S/Scripts/minimap.gd" id="1_bd8ra"]
 [ext_resource type="Texture2D" uid="uid://qnc7q4bsma6n" path="res://addons/M.A.V.S/Textures/Map_indicator1.png" id="2_2w515"]
 
+[sub_resource type="SystemFont" id="SystemFont_0w7lc"]
 
-[node name="Minimap" type="PanelContainer" node_paths=PackedStringArray("minimap_cam", "map_display")]
+[sub_resource type="LabelSettings" id="LabelSettings_wyqpo"]
+font = SubResource("SystemFont_0w7lc")
+font_size = 24
+
+[node name="Players_Minimap" type="CanvasLayer" node_paths=PackedStringArray("minimap_cam", "map_display", "debug_hud", "acceleration", "gear_shaft", "absolute_rpm", "max_rpm", "rpm", "fuel_bar", "nos_bar")]
+script = ExtResource("1_bd8ra")
+minimap_cam = NodePath("Minimap/Map Background/SubViewportContainer/SubViewport/Minimap_Camera")
+map_display = NodePath("Minimap/Map Background/SubViewportContainer/SubViewport")
+debug_hud = NodePath("Debug_Hud")
+acceleration = NodePath("Debug_Hud/Acceleration")
+gear_shaft = NodePath("Debug_Hud/Gear Shaft")
+absolute_rpm = NodePath("Debug_Hud/Absolute RPM")
+max_rpm = NodePath("Debug_Hud/Max RPM")
+rpm = NodePath("Debug_Hud/RPM")
+fuel_bar = NodePath("Fuel")
+nos_bar = NodePath("NosBar")
+
+[node name="Minimap" type="PanelContainer" parent="."]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -16,17 +34,12 @@ offset_right = -45.0
 offset_bottom = -45.0
 grow_horizontal = 0
 grow_vertical = 0
-script = ExtResource("1_bd8ra")
-cam_distance = 300.0
-minimap_cam = NodePath("Map Background/SubViewportContainer/SubViewport/Camera3D")
-map_display = NodePath("Map Background/SubViewportContainer/SubViewport")
-rotate_cam = true
 
-[node name="Map Background" type="ColorRect" parent="."]
+[node name="Map Background" type="ColorRect" parent="Minimap"]
 layout_mode = 2
 color = Color(0.205117, 0.205117, 0.205117, 1)
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="Map Background"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Minimap/Map Background"]
 light_mask = 0
 layout_mode = 1
 anchors_preset = 8
@@ -41,21 +54,97 @@ offset_bottom = 99.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SubViewport" type="SubViewport" parent="Map Background/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="Minimap/Map Background/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
 canvas_cull_mask = 4293919232
 size = Vector2i(200, 200)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="Map Background/SubViewportContainer/SubViewport"]
+[node name="Minimap_Camera" type="Camera3D" parent="Minimap/Map Background/SubViewportContainer/SubViewport"]
 transform = Transform3D(-1, 0, -8.74228e-08, -8.74228e-08, -4.37114e-08, 1, -3.82137e-15, 1, 4.37114e-08, 0, 20, 0)
 cull_mask = 1048573
 projection = 1
 current = true
 
-[node name="Player_Indicator" type="Sprite3D" parent="Map Background/SubViewportContainer/SubViewport/Camera3D"]
-transform = Transform3D(1, 0, -1.67037e-22, 0, 1, 0, -1.67037e-22, 0, 1, 1.74846e-06, 8.74228e-07, -20)
+[node name="Player_Indicator" type="Sprite3D" parent="Minimap/Map Background/SubViewportContainer/SubViewport/Minimap_Camera"]
+transform = Transform3D(1, 0, -1.6703743e-22, 0, 1, 0, -1.6703743e-22, 0, 1, 1.74846e-06, 8.74228e-07, -20)
 layers = 512
 pixel_size = 0.05
 texture = ExtResource("2_2w515")
+
+[node name="Debug_Hud" type="VBoxContainer" parent="."]
+offset_right = 213.0
+offset_bottom = 213.0
+size_flags_horizontal = 0
+
+[node name="Acceleration" type="Label" parent="Debug_Hud"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Acceleration: "
+label_settings = SubResource("LabelSettings_wyqpo")
+
+[node name="Gear Shaft" type="Label" parent="Debug_Hud"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TEST"
+label_settings = SubResource("LabelSettings_wyqpo")
+
+[node name="Absolute RPM" type="Label" parent="Debug_Hud"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TEST"
+label_settings = SubResource("LabelSettings_wyqpo")
+
+[node name="Max RPM" type="Label" parent="Debug_Hud"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TEST"
+label_settings = SubResource("LabelSettings_wyqpo")
+
+[node name="RPM" type="Label" parent="Debug_Hud"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Test"
+
+[node name="Fuel" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 27.0
+offset_top = -57.0
+offset_right = 240.0
+offset_bottom = -30.0
+grow_vertical = 0
+rounded = true
+
+[node name="NosBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 44.0
+offset_top = -271.0
+offset_right = 69.0
+offset_bottom = -69.0
+grow_vertical = 0
+rounded = true
+fill_mode = 3
+show_percentage = false
+
+[node name="Nos Label" type="Label" parent="NosBar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.447
+anchor_top = 0.5
+anchor_right = 0.447
+anchor_bottom = 0.5
+offset_left = -11.281
+offset_top = 19.0
+offset_right = 28.719
+offset_bottom = 42.0
+rotation = -1.57647
+text = "NOS"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -38,17 +38,17 @@ func _on_timer_timeout() -> void:
 		var player_car = player_nodes[0]  # get the first player
 		distance = self.global_position.distance_to(player_car.global_position) # Calculates distance between player car and itself
 		
-		
-	if distance < generation_distance: # Checks if we are close enough to the spawner
-		if road_line != null: # Checks if we actually have put any lines for road
-			if check_area.has_overlapping_bodies() == false: # Checks if there are any bodies on the spawner location. "Prevents from spawning cars on other cars"
+	if distance != null:
+		if distance < generation_distance: # Checks if we are close enough to the spawner
+			if road_line != null: # Checks if we actually have put any lines for road
+				if check_area.has_overlapping_bodies() == false: # Checks if there are any bodies on the spawner location. "Prevents from spawning cars on other cars"
 
-				if spawn_limiter == -1: # If we have a -1 limiter set then there should be no limits for spawning cars
-					set_cars_for_spawn()
-				elif spawn_count < spawn_limiter: # If amount of spawned cars is lower than limiter then spawn cars
-					set_cars_for_spawn()
-					spawn_count += 1 # Add one to self counter when spawning vehicle
-		else: print("No road has been assigned, nothing will be spawned!")
+					if spawn_limiter == -1: # If we have a -1 limiter set then there should be no limits for spawning cars
+						set_cars_for_spawn()
+					elif spawn_count < spawn_limiter: # If amount of spawned cars is lower than limiter then spawn cars
+						set_cars_for_spawn()
+						spawn_count += 1 # Add one to self counter when spawning vehicle
+			else: print("No road has been assigned, nothing will be spawned!")
 
 
 # Moved this from _on_timer_timeout() to prevent memory leaking by instantiating objects that will never be spawned

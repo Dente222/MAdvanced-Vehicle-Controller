@@ -1,12 +1,13 @@
-[gd_scene load_steps=16 format=4 uid="uid://bat0h5s3lfqru"]
+[gd_scene load_steps=17 format=4 uid="uid://bat0h5s3lfqru"]
 
 [ext_resource type="Script" uid="uid://bbhuci2yxbttx" path="res://addons/M.A.V.S/Scripts/advanced_vehicle_controller.gd" id="1_y5skb"]
 [ext_resource type="Material" uid="uid://bsncupea80ovf" path="res://addons/M.A.V.S/Vehicle/GT30/GT30_Details.tres" id="2_jlfqj"]
 [ext_resource type="Material" uid="uid://c4kd2d4txis75" path="res://addons/M.A.V.S/Vehicle/GT30/GT30.tres" id="3_4njtc"]
 [ext_resource type="PackedScene" uid="uid://b7cfummcx3hkk" path="res://addons/M.A.V.S/Vehicle/GT30/GT30_Wheel.tscn" id="4_woi1i"]
-[ext_resource type="PackedScene" uid="uid://ojw67kgcwe61" path="res://addons/M.A.V.S/Vehicle/NightSky/Tire_smoke.tscn" id="5_omr6a"]
-[ext_resource type="AudioStream" uid="uid://lwrq5l0gacr4" path="res://addons/M.A.V.S/Vehicle/NightSky/Car Engine.mp3" id="6_ltawu"]
-[ext_resource type="AudioStream" uid="uid://c721hburp5xh5" path="res://addons/M.A.V.S/Vehicle/NightSky/rubber_sound.mp3" id="7_i3e32"]
+[ext_resource type="PackedScene" uid="uid://ojw67kgcwe61" path="res://addons/M.A.V.S/Vehicle/Modular Components/Tire_smoke.tscn" id="5_omr6a"]
+[ext_resource type="AudioStream" uid="uid://lwrq5l0gacr4" path="res://addons/M.A.V.S/Vehicle/Modular Components/Car Engine.mp3" id="6_ltawu"]
+[ext_resource type="AudioStream" uid="uid://c721hburp5xh5" path="res://addons/M.A.V.S/Vehicle/Modular Components/rubber_sound.mp3" id="7_i3e32"]
+[ext_resource type="PackedScene" uid="uid://bwgu2khe4kxyn" path="res://addons/M.A.V.S/Vehicle/Modular Components/skid_marks.tscn" id="8_66epa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k7h1m"]
 resource_name = "Body_Color"
@@ -87,16 +88,18 @@ size = Vector3(0.265, 0.135, 0.565)
 [sub_resource type="BoxShape3D" id="BoxShape3D_woi1i"]
 size = Vector3(0.265, 0.135, 0.565)
 
-[node name="GT30" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "engine_sound", "tyre_sound", "smoke_particles", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
+[node name="GT30" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
 script = ExtResource("1_y5skb")
 veh_name = "GT30"
 veh_mesh = NodePath("GT30")
 front_light = NodePath("Front_Lights")
 rare_lights = NodePath("Rare_Lights")
 hood_cam = NodePath("Hood_Camera")
+remote_transformer = NodePath("RemoteTransform3D")
 engine_sound = NodePath("Engine Sound")
 tyre_sound = NodePath("Tire Sound")
 smoke_particles = [NodePath("LWParticle"), NodePath("RWParticle")]
+skidmarks_particle = [NodePath("LBWSkidmarks"), NodePath("RBWSkidmarks")]
 veh_color = Color(0.580392, 0, 0, 1)
 rpm_wheel = NodePath("LBWheel")
 use_energy = false
@@ -235,3 +238,15 @@ collide_with_bodies = false
 
 [node name="Hood_Camera" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.898886, 0.762187)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+update_rotation = false
+update_scale = false
+
+[node name="LBWSkidmarks" parent="." instance=ExtResource("8_66epa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6715304, 0.08903593, -0.7905551)
+emitting = false
+
+[node name="RBWSkidmarks" parent="." instance=ExtResource("8_66epa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.672, 0.08901335, -0.7909378)
+emitting = false

@@ -1,12 +1,13 @@
-[gd_scene load_steps=17 format=4 uid="uid://bo0sxuk33kxaa"]
+[gd_scene load_steps=18 format=4 uid="uid://bo0sxuk33kxaa"]
 
 [ext_resource type="Script" uid="uid://bbhuci2yxbttx" path="res://addons/M.A.V.S/Scripts/advanced_vehicle_controller.gd" id="1_dqu01"]
 [ext_resource type="Material" uid="uid://1ngebcmdw4nk" path="res://addons/M.A.V.S/Vehicle/TGR/TRG_Glass_And_Details.tres" id="2_toh6a"]
 [ext_resource type="Material" uid="uid://c3f4kaiqpblyy" path="res://addons/M.A.V.S/Textures/Veh_Body_Material.tres" id="3_6ovs8"]
-[ext_resource type="PackedScene" uid="uid://ojw67kgcwe61" path="res://addons/M.A.V.S/Vehicle/NightSky/Tire_smoke.tscn" id="4_j0kpw"]
+[ext_resource type="PackedScene" uid="uid://ojw67kgcwe61" path="res://addons/M.A.V.S/Vehicle/Modular Components/Tire_smoke.tscn" id="4_j0kpw"]
 [ext_resource type="PackedScene" uid="uid://qrrwcmq78fh0" path="res://addons/M.A.V.S/Vehicle/TGR/TRG_Wheel.tscn" id="4_xc5h6"]
-[ext_resource type="AudioStream" uid="uid://lwrq5l0gacr4" path="res://addons/M.A.V.S/Vehicle/NightSky/Car Engine.mp3" id="5_kdq0a"]
-[ext_resource type="AudioStream" uid="uid://c721hburp5xh5" path="res://addons/M.A.V.S/Vehicle/NightSky/rubber_sound.mp3" id="6_4aql4"]
+[ext_resource type="AudioStream" uid="uid://lwrq5l0gacr4" path="res://addons/M.A.V.S/Vehicle/Modular Components/Car Engine.mp3" id="5_kdq0a"]
+[ext_resource type="AudioStream" uid="uid://c721hburp5xh5" path="res://addons/M.A.V.S/Vehicle/Modular Components/rubber_sound.mp3" id="6_4aql4"]
+[ext_resource type="PackedScene" uid="uid://bwgu2khe4kxyn" path="res://addons/M.A.V.S/Vehicle/Modular Components/skid_marks.tscn" id="8_272fs"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_vw55t"]
 points = PackedVector3Array(0.765185, 0.430237, 0.565828, 0.638903, 0.936548, 0.565828, 0.731181, 0.43065, 0.954923, 0.657628, 0.286403, 0.961296, 0.691034, 0.286403, 0.562641, 0.765185, 0.430237, -1.01286, 0.638903, 0.983563, -0.928412, 0.529848, 1.27164, -0.0179741, 0.573739, 1.03802, 0.51994, 0.549322, 0.880647, 1.08175, 0.624522, 0.810074, 0.955242, 0.694779, 0.431167, 1.3711, 0.621975, 0.35615, 1.38768, 0.236237, 0.35615, 1.61106, 0.245974, 0.286403, 1.07092, 0.691034, 0.286403, -1.01286, 0.71635, 0.437367, -1.3669, 0.638903, 0.932312, -1.05365, 0.529848, 1.27154, -0.63683, 0.476968, 1.3137, 0.0492651, 0.477717, 1.34191, -0.0543025, 0.212868, 0.920222, 1.18851, 0.212868, 0.742807, 1.61775, 0.525653, 0.750453, 1.3966, 0.580181, 0.674816, 1.37174, 0.530896, 0.66438, 1.46193, 0.637854, 0.431167, 1.46065, -0.235338, 0.35615, 1.60724, -0.245525, 0.286403, 1.06901, 0.250917, 0.431994, 1.66747, -0.255112, 0.430237, 1.68149, 0.619579, 0.286403, -1.3755, 0.587521, 0.891704, -1.3191, 0.607295, 0.436747, -1.45995, 0.519361, 0.882817, -1.40004, 0.476968, 1.34191, -0.601776, 0.477866, 1.31081, -0.704388, 0.176616, 1.31453, 0.0476718, 0.176616, 1.34191, -0.0533464, -0.176766, 1.31453, 0.0476718, -0.213018, 0.920532, 1.18723, -0.213018, 0.743427, 1.61552, -0.213018, 0.658594, 1.68149, 0.209872, 0.65725, 1.66747, -0.622125, 0.35615, 1.38768, -0.657778, 0.286403, 0.961296, -0.638004, 0.431167, 1.46065, 0.242678, 0.286403, -1.50361, 0.518912, 0.959281, -1.3054, 0.24867, 0.43623, -1.57404, 0.212868, 0.883644, -1.51317, 0.212868, 0.959177, -1.44083, 0.176616, 1.34191, -0.603369, 0.176616, 1.31122, -0.70375, -0.176766, 1.34191, -0.0533464, -0.477118, 1.3137, 0.0492651, -0.549322, 0.880751, 1.08175, -0.531346, 0.664897, 1.46161, -0.525503, 0.75066, 1.39628, -0.694929, 0.431167, 1.3711, -0.73133, 0.43065, 0.954923, -0.765186, 0.430237, 0.565828, -0.691184, 0.286403, 0.562641, -0.242828, 0.286403, -1.50361, -0.24882, 0.43623, -1.57404, -0.213018, 0.883644, -1.51317, -0.213018, 0.959177, -1.44083, -0.176766, 1.34191, -0.603369, -0.176766, 1.31122, -0.70375, -0.477118, 1.34191, -0.0549397, -0.529997, 1.27164, -0.0179741, -0.580181, 0.675643, 1.3727, -0.572391, 1.03864, 0.518983, -0.639053, 0.936548, 0.565828, -0.624672, 0.810487, 0.95556, -0.639053, 0.984079, -0.927775, -0.765186, 0.430237, -1.01286, -0.691184, 0.286403, -1.01286, -0.619728, 0.286403, -1.3755, -0.607445, 0.436747, -1.45995, -0.519511, 0.882817, -1.40004, -0.519511, 0.959281, -1.30572, -0.477118, 1.31029, -0.705025, -0.477118, 1.34191, -0.601776, -0.529997, 1.27154, -0.63683, -0.639053, 0.932105, -1.05429, -0.716201, 0.439743, -1.36658, -0.587821, 0.891704, -1.31942)
@@ -93,16 +94,18 @@ size = Vector3(0.265, 0.135, 0.67)
 [sub_resource type="BoxShape3D" id="BoxShape3D_3el7h"]
 size = Vector3(0.265, 0.135, 0.67)
 
-[node name="TRG" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "engine_sound", "tyre_sound", "smoke_particles", "rpm_wheel", "wheels", "all_wheels", "tire_points") groups=["Vehicle"]]
+[node name="TRG" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "rpm_wheel", "wheels", "all_wheels", "tire_points") groups=["Vehicle"]]
 script = ExtResource("1_dqu01")
 veh_name = "TRG"
 veh_mesh = NodePath("CollisionShape3D/TRG_Mesh")
 front_light = NodePath("Front_Lights")
 rare_lights = NodePath("Rare_Lights")
 hood_cam = NodePath("Hood_Cam")
+remote_transformer = NodePath("RemoteTransform3D")
 engine_sound = NodePath("Car_Engine_Sound")
 tyre_sound = NodePath("Tyre_Squeek_Sound")
 smoke_particles = [NodePath("Tire_smoke_Left"), NodePath("Tire_smoke_Right")]
+skidmarks_particle = [NodePath("LBWSkidmarks"), NodePath("RBWSkidmarks")]
 rpm_wheel = NodePath("LB_Wheel")
 use_energy = false
 wheels = [NodePath("LB_Wheel"), NodePath("RB_Wheel")]
@@ -254,3 +257,15 @@ collide_with_bodies = false
 
 [node name="Hood_Cam" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.04256, 0.789074)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+update_rotation = false
+update_scale = false
+
+[node name="LBWSkidmarks" parent="." instance=ExtResource("8_272fs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.57, 0.062, -0.643)
+emitting = false
+
+[node name="RBWSkidmarks" parent="." instance=ExtResource("8_272fs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57, 0.062, -0.643)
+emitting = false

@@ -1,7 +1,5 @@
-res://addons/M.A.V.S/Scenes/Traffic_Lights_Manager.tscn
-res://addons/M.A.V.S/Scripts/Traffic_Lights_Manager.gd
+res://addons/M.A.V.S/Vehicle/Cleo V8/CleoV8.tscn
+res://addons/M.A.V.S/Vehicle/Wheels/Wheels_list.gd
 res://addons/M.A.V.S/Scenes/Debug_Map.tscn
-res://addons/M.A.V.S/Scripts/traffic_spawner.gd
-res://README.md
-res://addons/M.A.V.S/README.md
-res://addons/M.A.V.S/plugin.cfg
+res://addons/M.A.V.S/Vehicle/Wheels/rim_royal.tscn
+res://addons/M.A.V.S/Scripts/advanced_vehicle_controller.gd

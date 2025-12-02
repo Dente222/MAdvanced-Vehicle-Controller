@@ -122,7 +122,7 @@ suspension_stiffness = 50.0
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Car_Indicator" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, -1.67037e-22, 0, 1, 0, -1.67037e-22, 0, 1, 0, 20, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
 visible = false
 layers = 512
 pixel_size = 0.05

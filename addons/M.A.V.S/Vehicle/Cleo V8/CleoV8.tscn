@@ -1,13 +1,15 @@
-[gd_scene load_steps=18 format=4 uid="uid://ygshfd6uxqye"]
+[gd_scene load_steps=20 format=4 uid="uid://ygshfd6uxqye"]
 
 [ext_resource type="Script" uid="uid://bbhuci2yxbttx" path="res://addons/M.A.V.S/Scripts/advanced_vehicle_controller.gd" id="1_x26hy"]
 [ext_resource type="Material" uid="uid://c3f4kaiqpblyy" path="res://addons/M.A.V.S/Textures/Veh_Body_Material.tres" id="2_4akk6"]
 [ext_resource type="Script" uid="uid://b45odkpoxnh1p" path="res://addons/M.A.V.S/Vehicle/Cleo V8/CleoV8_BodyMod_List.gd" id="2_c63qt"]
-[ext_resource type="PackedScene" uid="uid://b7cfummcx3hkk" path="res://addons/M.A.V.S/Vehicle/GT30/GT30_Wheel.tscn" id="3_c63qt"]
+[ext_resource type="Script" uid="uid://tlig68fieiqj" path="res://addons/M.A.V.S/Vehicle/Wheels/Wheels_list.gd" id="3_26aqg"]
 [ext_resource type="Material" uid="uid://c1bjp86ep2i3p" path="res://addons/M.A.V.S/Vehicle/Cleo V8/CleoV8_GlassNDeco.tres" id="3_kgjb1"]
-[ext_resource type="PackedScene" uid="uid://ojw67kgcwe61" path="res://addons/M.A.V.S/Vehicle/NightSky/Tire_smoke.tscn" id="4_kgjb1"]
-[ext_resource type="AudioStream" uid="uid://lwrq5l0gacr4" path="res://addons/M.A.V.S/Vehicle/NightSky/Car Engine.mp3" id="5_q0tkg"]
-[ext_resource type="AudioStream" uid="uid://c721hburp5xh5" path="res://addons/M.A.V.S/Vehicle/NightSky/rubber_sound.mp3" id="6_tn01k"]
+[ext_resource type="PackedScene" uid="uid://ojw67kgcwe61" path="res://addons/M.A.V.S/Vehicle/Modular Components/Tire_smoke.tscn" id="4_kgjb1"]
+[ext_resource type="AudioStream" uid="uid://lwrq5l0gacr4" path="res://addons/M.A.V.S/Vehicle/Modular Components/Car Engine.mp3" id="5_q0tkg"]
+[ext_resource type="PackedScene" uid="uid://cdgqq4lyuyefj" path="res://addons/M.A.V.S/Vehicle/Wheels/tire.tscn" id="5_wjipj"]
+[ext_resource type="AudioStream" uid="uid://c721hburp5xh5" path="res://addons/M.A.V.S/Vehicle/Modular Components/rubber_sound.mp3" id="6_tn01k"]
+[ext_resource type="PackedScene" uid="uid://bwgu2khe4kxyn" path="res://addons/M.A.V.S/Vehicle/Modular Components/skid_marks.tscn" id="9_o5qmn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tkujn"]
 resource_name = "GlassAndDeco"
@@ -94,7 +96,8 @@ size = Vector3(0.265, 0.135, 0.565)
 [sub_resource type="BoxShape3D" id="BoxShape3D_o2bti"]
 size = Vector3(0.265, 0.135, 0.565)
 
-[node name="CleoV8" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "hood_location", "front_bumper_location", "rare_bumper_location", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
+[node name="CleoV8" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "hood_location", "front_bumper_location", "rare_bumper_location", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
+max_contacts_reported = 5
 script = ExtResource("1_x26hy")
 veh_name = "Cleo V8"
 veh_mesh = NodePath("CleoV8")
@@ -105,10 +108,14 @@ remote_transformer = NodePath("RemoteTransform3D")
 engine_sound = NodePath("Engine Sound")
 tyre_sound = NodePath("Tire Sound")
 smoke_particles = [NodePath("LWParticle"), NodePath("RWParticle")]
+skidmarks_particle = [NodePath("LBWSkidmarks"), NodePath("RBWSkidmarks")]
 mod_list = ExtResource("2_c63qt")
 hood_location = NodePath("Bodymod_Locations/Hood_Location")
 front_bumper_location = NodePath("Bodymod_Locations/Front_Bumper_Location")
 rare_bumper_location = NodePath("Bodymod_Locations/Rare_Bumper_Location")
+rim_list = ExtResource("3_26aqg")
+default_rims = "res://addons/M.A.V.S/Vehicle/Wheels/rim_beta.tscn"
+front_rim_id = 1
 rpm_wheel = NodePath("LBWheel")
 use_energy = false
 wheels = [NodePath("LBWheel"), NodePath("RBWheel")]
@@ -139,36 +146,40 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.543706, -1.49983)
 [node name="LFWheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67, 0.402971, 0.996462)
 use_as_steering = true
-wheel_radius = 0.255
-suspension_stiffness = 35.0
+wheel_radius = 0.28
+wheel_rest_length = 0.1
+suspension_stiffness = 38.0
 
-[node name="GT30_Wheel" parent="LFWheel" instance=ExtResource("3_c63qt")]
+[node name="Tire" parent="LFWheel" instance=ExtResource("5_wjipj")]
 
 [node name="RFWheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67, 0.402971, 0.996462)
 use_as_steering = true
-wheel_radius = 0.255
-suspension_stiffness = 35.0
+wheel_radius = 0.28
+wheel_rest_length = 0.1
+suspension_stiffness = 38.0
 
-[node name="GT30_Wheel" parent="RFWheel" instance=ExtResource("3_c63qt")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+[node name="Tire" parent="RFWheel" instance=ExtResource("5_wjipj")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="LBWheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67, 0.402971, -0.969549)
 use_as_traction = true
-wheel_radius = 0.255
-suspension_stiffness = 35.0
+wheel_radius = 0.28
+wheel_rest_length = 0.1
+suspension_stiffness = 38.0
 
-[node name="GT30_Wheel" parent="LBWheel" instance=ExtResource("3_c63qt")]
+[node name="Tire" parent="LBWheel" instance=ExtResource("5_wjipj")]
 
 [node name="RBWheel" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67, 0.402971, -0.969549)
 use_as_traction = true
-wheel_radius = 0.255
-suspension_stiffness = 35.0
+wheel_radius = 0.28
+wheel_rest_length = 0.1
+suspension_stiffness = 38.0
 
-[node name="GT30_Wheel" parent="RBWheel" instance=ExtResource("3_c63qt")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+[node name="Tire" parent="RBWheel" instance=ExtResource("5_wjipj")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="Front_Lights" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.616128, 1.73115)
@@ -260,3 +271,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.954842, 0.78989)
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
 update_rotation = false
 update_scale = false
+
+[node name="LBWSkidmarks" parent="." instance=ExtResource("9_o5qmn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6715304, 0.14902258, -0.74715745)
+emitting = false
+
+[node name="RBWSkidmarks" parent="." instance=ExtResource("9_o5qmn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.672, 0.149, -0.7475401)
+emitting = false

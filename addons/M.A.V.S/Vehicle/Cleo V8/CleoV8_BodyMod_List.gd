@@ -6,7 +6,7 @@ extends Resource
 
 # Slight modification for holding better data for each part
 # This include part name and its price for future reference in game
-var Mod_Hood: Array = [
+var Mod_Hood : Array = [
 	{
 		"name": "Factory Part", # This refers to part name that will be displayed in game shop if one adds one
 		"part": "res://addons/M.A.V.S/Vehicle/Cleo V8/Tune Parts/Hood_Default.tscn", # Actual part model

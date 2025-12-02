@@ -1,11 +1,22 @@
-extends PanelContainer
+extends CanvasLayer
 
 @onready var parent_veh = get_parent() # We create direct path to our parent node "In this case it will be our car when minimap is added"
-@export var cam_distance : float = 500.0 # How high our minimap is from our vehicle
+@export var cam_distance : float = 300.0 # How high our minimap is from our vehicle
 @export var minimap_cam : Camera3D # Reference to our camera
 @export var map_display : SubViewport # Reference to our SubViewport in case we want to modify its values in some way
 @export var overdraw_map : bool = false # Check if we want to use Overdraw debug mode as our minimap
-@export var rotate_cam : bool = false # Check if we want our minimap to rotate with our vehicle
+@export var rotate_cam : bool = true # Check if we want our minimap to rotate with our vehicle
+
+
+@export_category("Debug Settings")
+@export var debug_hud : VBoxContainer
+@export var acceleration : Label
+@export var gear_shaft : Label
+@export var absolute_rpm : Label
+@export var max_rpm : Label
+@export var rpm : Label
+@export var fuel_bar : ProgressBar
+@export var nos_bar : ProgressBar
 
 func _process(delta: float) -> void:
 	
@@ -37,8 +48,4 @@ func _process(delta: float) -> void:
 	if rotate_cam:
 		minimap_cam.rotation.y = parent_veh.rotation.y + PI
 	else: minimap_cam.rotation.y = 0.0 + PI
-		
-		
-		
-		
 		

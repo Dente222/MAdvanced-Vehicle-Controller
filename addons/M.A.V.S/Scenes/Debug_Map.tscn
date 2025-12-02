@@ -127,9 +127,6 @@ _data = {
 vertices = PackedVector3Array(226.75, 1, 33.5, 233.5, 1, 33.5, 233.5, 1, 21.75, 234.5, 1.25, 21.75, 234.5, 1.75, 23.5, 253.75, 1.75, 23.5, 253.75, 1.25, 21.75, 323.5, 1, -149.25, 151.75, 1, -149.25, 254.75, 1, 21.75, 254.75, 1, 23.25, 323.5, 1, 23, 151.75, 1, 35, 226.5, 1, 35.25, 254.75, 1, 33.5, 258.5, 1, 33.5, 258.75, 1, 35.25, 323.5, 1, 35, 234.5, 4.75, 32.5, 253.75, 4.75, 32.5, 234.75, 1, 27.25, 234.75, 1, 33.25, 253.5, 1, 33.25, 253.5, 1, 27.25, 257.5, 5, 47.5, 257.5, 5, 34.5, 254, 5, 34.5, 234.25, 5, 34.5, 227.5, 5, 34.5, 227.5, 5, 47.5, 227.75, 1, 34.75, 227.75, 1, 47.5, 257.5, 1, 47.5, 257.5, 1, 34.75, 151.75, 1, 47.25, 226.5, 1, 47, 258.75, 1, 46.75, 323.5, 1, 47, 258.75, 1, 48.25, 258.25, 1, 48.75, 257, 1, 149.5, 323.5, 1, 149.5, 256.75, 1, 48.75, 226.5, 1, 48.5, 228.25, 1, 48.75, 151.75, 1, 149.5, 228, 1, 149.5)
 polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(6, 5, 3), PackedInt32Array(3, 5, 4), PackedInt32Array(6, 3, 7), PackedInt32Array(7, 3, 8), PackedInt32Array(10, 9, 11), PackedInt32Array(11, 9, 7), PackedInt32Array(12, 0, 13), PackedInt32Array(0, 12, 2), PackedInt32Array(2, 12, 8), PackedInt32Array(3, 2, 8), PackedInt32Array(7, 9, 6), PackedInt32Array(15, 14, 10), PackedInt32Array(17, 16, 15), PackedInt32Array(17, 15, 11), PackedInt32Array(11, 15, 10), PackedInt32Array(4, 5, 18), PackedInt32Array(18, 5, 19), PackedInt32Array(23, 22, 20), PackedInt32Array(20, 22, 21), PackedInt32Array(26, 25, 24), PackedInt32Array(29, 28, 27), PackedInt32Array(19, 26, 18), PackedInt32Array(18, 26, 27), PackedInt32Array(26, 24, 27), PackedInt32Array(27, 24, 29), PackedInt32Array(33, 32, 30), PackedInt32Array(30, 32, 31), PackedInt32Array(35, 34, 13), PackedInt32Array(13, 34, 12), PackedInt32Array(16, 17, 36), PackedInt32Array(36, 17, 37), PackedInt32Array(38, 36, 37), PackedInt32Array(38, 37, 39), PackedInt32Array(39, 37, 41), PackedInt32Array(39, 41, 40), PackedInt32Array(40, 42, 39), PackedInt32Array(34, 35, 43), PackedInt32Array(43, 44, 34), PackedInt32Array(34, 44, 46), PackedInt32Array(34, 46, 45), PackedInt32Array(44, 42, 46), PackedInt32Array(46, 42, 40)]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_fafsd"]
-size = Vector3(2, 2, 1)
-
 [sub_resource type="Curve3D" id="Curve3D_qtsp6"]
 closed = true
 _data = {
@@ -169,6 +166,9 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 17
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fafsd"]
+size = Vector3(2, 2, 1)
 
 [sub_resource type="Curve3D" id="Curve3D_trpft"]
 _data = {
@@ -2595,23 +2595,32 @@ allow_color_change = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.798, 0.74, -144.1)
 use_energy = false
 
-[node name="TRG" parent="." instance=ExtResource("10_qtsp6")]
+[node name="TRG" parent="." node_paths=PackedStringArray("tire_points") instance=ExtResource("10_qtsp6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0.97425, -144)
 veh_color = Color(0.764655, 0.485504, 0.280555, 1)
 nos = 3
+tire_points = []
 
-[node name="GT30" parent="." groups=["Vehicle"] instance=ExtResource("11_0wlyr")]
+[node name="GT30" parent="." node_paths=PackedStringArray("tire_points") groups=["Vehicle"] instance=ExtResource("11_0wlyr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 1, -144)
 can_puncture = false
+tire_points = []
 
-[node name="CleoV8" parent="." groups=["Vehicle"] instance=ExtResource("13_fafsd")]
+[node name="CleoV8" parent="." node_paths=PackedStringArray("tire_points") groups=["Vehicle"] instance=ExtResource("13_fafsd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.914, 0.932452, -144.085)
 is_current_veh = true
 debug_hud = true
-veh_color = Color(0.37, 0.3663, 0.3663, 1)
-hood_mod = 1
+steering_model = 1
+veh_color = Color(0.6154792, 0.22344163, 0, 1)
+material_tint = 0.0
+front_bumper_mod = 1
+rare_bumper_mod = 1
+separate_rim_colors = true
+both_rim_color = Color(0.61745477, 0.61745477, 0.6174547, 1)
+front_rim_color = Color(0.39308554, 0.3930855, 0.39308548, 1)
 nos = 3
 can_puncture = true
+tire_points = []
 
 [node name="AI_Muscle" parent="." node_paths=PackedStringArray("target_ray") instance=ExtResource("7_cib27")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 81, 1, -83)
@@ -2638,17 +2647,6 @@ cull_mask = 1048063
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 244, 5, 44)
 max_speed = 120.0
 
-[node name="MTrafficSwith" type="Area3D" parent="." node_paths=PackedStringArray("traffic_lanes")]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -179, 1, 11)
-script = ExtResource("14_51kjp")
-traffic_lanes = [NodePath("../Turn Right path"), NodePath("../Straight Path")]
-debug = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MTrafficSwith"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-shape = SubResource("BoxShape3D_fafsd")
-debug_color = Color(0.73333335, 0, 0.20784314, 1)
-
 [node name="Drive Around path" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 curve = SubResource("Curve3D_qtsp6")
@@ -2674,6 +2672,10 @@ curve = SubResource("Curve3D_fafsd")
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -180, 0, -70)
 target_veh = NodePath("../../AI_Muscle2")
 
+[node name="Spikes" parent="." instance=ExtResource("12_6xb8w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5799, 0.529141, 7.98054)
+priority = -1
+
 [node name="MPathManager" type="Path3D" parent="." node_paths=PackedStringArray("roads")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
 curve = SubResource("Curve3D_wlesc")
@@ -2695,9 +2697,16 @@ script = ExtResource("15_trpft")
 active = false
 metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
 
-[node name="Spikes" parent="." instance=ExtResource("12_6xb8w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5799, 0.529141, 7.98054)
-priority = -1
+[node name="MTrafficSwith" type="Area3D" parent="." node_paths=PackedStringArray("traffic_lanes")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -179, 1, 11)
+script = ExtResource("14_51kjp")
+traffic_lanes = [NodePath("../Turn Right path"), NodePath("../Straight Path")]
+debug = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MTrafficSwith"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+shape = SubResource("BoxShape3D_fafsd")
+debug_color = Color(0.73333335, 0, 0.20784314, 1)
 
 [node name="TrafficSpawner" parent="." node_paths=PackedStringArray("road_line") instance=ExtResource("16_wlesc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -189, 0.59682477, -71)

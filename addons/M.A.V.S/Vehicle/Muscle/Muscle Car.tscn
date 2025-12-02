@@ -1,13 +1,13 @@
-[gd_scene load_steps=11 format=4 uid="uid://d1d0adnny67ho"]
+[gd_scene load_steps=12 format=4 uid="uid://d1d0adnny67ho"]
 
 [ext_resource type="Script" uid="uid://bbhuci2yxbttx" path="res://addons/M.A.V.S/Scripts/advanced_vehicle_controller.gd" id="1_v3wvo"]
 [ext_resource type="Material" uid="uid://iqf08jtbxlde" path="res://addons/M.A.V.S/Vehicle/Muscle/Muscle TXT/Muscle Body.tres" id="2_0gskm"]
 [ext_resource type="Material" uid="uid://c4raulc1so1ph" path="res://addons/M.A.V.S/Vehicle/Muscle/Muscle TXT/Muscle Details.tres" id="3_xw4ej"]
 [ext_resource type="PackedScene" uid="uid://cl7ae8f6sti0r" path="res://addons/M.A.V.S/Vehicle/Muscle/New Muscle Wheel.tscn" id="4_150k6"]
-[ext_resource type="PackedScene" uid="uid://ojw67kgcwe61" path="res://addons/M.A.V.S/Vehicle/NightSky/Tire_smoke.tscn" id="5_7lkey"]
-[ext_resource type="AudioStream" uid="uid://lwrq5l0gacr4" path="res://addons/M.A.V.S/Vehicle/NightSky/Car Engine.mp3" id="6_j1nnm"]
-[ext_resource type="AudioStream" uid="uid://c721hburp5xh5" path="res://addons/M.A.V.S/Vehicle/NightSky/rubber_sound.mp3" id="7_gtwtr"]
-
+[ext_resource type="PackedScene" uid="uid://ojw67kgcwe61" path="res://addons/M.A.V.S/Vehicle/Modular Components/Tire_smoke.tscn" id="5_7lkey"]
+[ext_resource type="AudioStream" uid="uid://lwrq5l0gacr4" path="res://addons/M.A.V.S/Vehicle/Modular Components/Car Engine.mp3" id="6_j1nnm"]
+[ext_resource type="AudioStream" uid="uid://c721hburp5xh5" path="res://addons/M.A.V.S/Vehicle/Modular Components/rubber_sound.mp3" id="7_gtwtr"]
+[ext_resource type="PackedScene" uid="uid://bwgu2khe4kxyn" path="res://addons/M.A.V.S/Vehicle/Modular Components/skid_marks.tscn" id="8_swvge"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yu63s"]
 points = PackedVector3Array(-0.882814, 0.661055, 1.23131, 0.898045, 0.5364, -1.85366, 0.234358, 1.28798, -0.103913, -0.897181, 0.246794, -1.44795, -0.723383, 0.883724, -1.73754, -0.913301, 0.325041, 1.44002, 0.89204, 0.227641, -0.6484, 0.84005, 0.883724, 1.44795, -0.723383, 0.883724, 1.56371, 0.724247, 0.883724, -1.73754, -0.598966, 1.2371, -0.208371, 0.893091, 0.227004, 0.649164, 0.41733, 0.378848, 1.72399, -0.892227, 0.227004, 0.649164, 0.898045, 0.246794, -1.44795, -0.955176, 0.5364, -1.21642, 0.599658, 1.23696, -0.208311, 0.0784156, 1.28841, 0.207998, -0.806888, 0.433991, -1.78236, 0.376838, 0.883724, 1.67984, 0.95604, 0.5364, -1.21642, -0.128404, 1.23236, -0.567396, 0.84005, 0.883724, -1.27376, -0.839186, 0.883724, 1.44795, -0.839186, 0.883724, -1.27376, -0.416492, 0.378824, 1.7241, 0.434646, 0.941668, -1.73754, 0.913963, 0.325139, 1.4397, -0.191669, 0.768063, 1.75753, -0.536664, 1.22843, 0.204522, -0.433783, 0.941668, -1.73754, 0.500569, 1.18927, -0.684716)
@@ -70,15 +70,17 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_bdd1i")
 
-[node name="Muscle Car" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "engine_sound", "tyre_sound", "smoke_particles", "rpm_wheel", "wheels", "all_wheels") groups=["Vehicle"]]
+[node name="Muscle Car" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "rpm_wheel", "wheels", "all_wheels") groups=["Vehicle"]]
 script = ExtResource("1_v3wvo")
 veh_name = "Muscle"
 veh_mesh = NodePath("CollisionShape3D/Muscle_Car")
 front_light = NodePath("Front_Lights")
 rare_lights = NodePath("Rare_Lights")
+remote_transformer = NodePath("RemoteTransform3D")
 engine_sound = NodePath("Car_Engine_Sound")
 tyre_sound = NodePath("Tyre_Squeek_Sound")
 smoke_particles = [NodePath("Tire_smoke_Left"), NodePath("Tire_smoke_Right")]
+skidmarks_particle = [NodePath("LBWSkidmarks"), NodePath("RBWSkidmarks")]
 gear_ratio = [0.0, 9.0, 7.0, 5.8, 4.6, 4.0]
 differential = [0.0, 35.0, 25.0, 22.0, 20.0, 18.0]
 ratio_limiter = [450, 680, 780, 1000]
@@ -185,3 +187,15 @@ stream = ExtResource("6_j1nnm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.245587, -1.04249)
 stream = ExtResource("7_gtwtr")
 volume_db = -15.0
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+update_rotation = false
+update_scale = false
+
+[node name="LBWSkidmarks" parent="." instance=ExtResource("8_swvge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.755, -0.055, -0.752)
+emitting = false
+
+[node name="RBWSkidmarks" parent="." instance=ExtResource("8_swvge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.755, -0.055, -0.752)
+emitting = false

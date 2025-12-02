@@ -33,10 +33,6 @@ run/main_scene="uid://duhhppmjo7k6f"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://addons/M.A.V.S/AVC.png"
 
-[autoload]
-
-Ui="*res://addons/M.A.V.S/Scenes/ui.tscn"
-
 [dotnet]
 
 project/assembly_name="Advanced Vehicle Controller"
