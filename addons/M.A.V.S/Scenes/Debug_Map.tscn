@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://duhhppmjo7k6f"]
+[gd_scene load_steps=50 format=3 uid="uid://duhhppmjo7k6f"]
 
 [ext_resource type="Material" uid="uid://bqhg03u7uopp1" path="res://addons/M.A.V.S/Debug content/Black Box.tres" id="1_mhgok"]
 [ext_resource type="Material" uid="uid://dgucgrkhjqrj0" path="res://addons/M.A.V.S/Debug content/Red Box.tres" id="2_c6hdh"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://cc3qnyb5rjwxv" path="res://addons/M.A.V.S/Scripts/MPathManager.gd" id="15_trpft"]
 [ext_resource type="PackedScene" uid="uid://b41ymspcqei5p" path="res://addons/M.A.V.S/Scenes/Traffic_Spawner.tscn" id="16_wlesc"]
 [ext_resource type="PackedScene" uid="uid://bduv6it2ueaw5" path="res://addons/M.A.V.S/Scenes/Traffic_Lights_Manager.tscn" id="18_xemnc"]
+[ext_resource type="PackedScene" uid="uid://5jcrn6ncd5tt" path="res://addons/M.A.V.S/Test menu/Menu.tscn" id="19_ucdff"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3rrre"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -2598,27 +2599,25 @@ use_energy = false
 [node name="TRG" parent="." node_paths=PackedStringArray("tire_points") instance=ExtResource("10_qtsp6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0.97425, -144)
 veh_color = Color(0.764655, 0.485504, 0.280555, 1)
-nos = 3
+nos_tier = 3
 tire_points = []
 
 [node name="GT30" parent="." node_paths=PackedStringArray("tire_points") groups=["Vehicle"] instance=ExtResource("11_0wlyr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 1, -144)
+nos_tier = 3
 can_puncture = false
 tire_points = []
 
 [node name="CleoV8" parent="." node_paths=PackedStringArray("tire_points") groups=["Vehicle"] instance=ExtResource("13_fafsd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.914, 0.932452, -144.085)
-is_current_veh = true
-debug_hud = true
-steering_model = 1
 veh_color = Color(0.6154792, 0.22344163, 0, 1)
 material_tint = 0.0
 front_bumper_mod = 1
 rare_bumper_mod = 1
-separate_rim_colors = true
-both_rim_color = Color(0.61745477, 0.61745477, 0.6174547, 1)
-front_rim_color = Color(0.39308554, 0.3930855, 0.39308548, 1)
-nos = 3
+use_default_rims_front = false
+use_default_rims_back = false
+both_rim_color = Color(0.556953, 0.556953, 0.556953, 1)
+nos_tier = 3
 can_puncture = true
 tire_points = []
 
@@ -2757,6 +2756,9 @@ metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -243, 4, -69)
 traffic_lights_A = [NodePath("../Start Line")]
 traffic_lights_B = [NodePath("../Left Path"), NodePath("../Right Path")]
+
+[node name="Menu" parent="." node_paths=PackedStringArray("veh_menu_list") instance=ExtResource("19_ucdff")]
+veh_menu_list = [NodePath("../CleoV8"), NodePath("../GT30"), NodePath("../TRG")]
 
 [connection signal="area_entered" from="MTrafficSwith" to="MTrafficSwith" method="_on_area_entered"]
 [connection signal="area_exited" from="MTrafficSwith" to="MTrafficSwith" method="_on_area_exited"]

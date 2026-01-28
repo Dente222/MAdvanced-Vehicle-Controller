@@ -1,0 +1,226 @@
+[gd_scene load_steps=2 format=3 uid="uid://5jcrn6ncd5tt"]
+
+[ext_resource type="Script" uid="uid://b5qi8s6w75nol" path="res://addons/M.A.V.S/Test menu/menu.gd" id="1_ht17m"]
+
+[node name="Menu" type="Control" node_paths=PackedStringArray("veh_menu_list")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ht17m")
+veh_menu_list = [null, null, null]
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Cars" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 59.0
+offset_right = 238.0
+offset_bottom = 110.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Rare Bumper" type="OptionButton" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -421.0
+offset_top = 63.0
+offset_right = -252.0
+offset_bottom = 114.0
+grow_horizontal = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+selected = 0
+item_count = 2
+popup/item_0/text = "Factory"
+popup/item_0/id = 0
+popup/item_1/text = "Custom R Bumper"
+popup/item_1/id = 1
+
+[node name="Front Bumper" type="OptionButton" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -597.0
+offset_top = 63.0
+offset_right = -428.0
+offset_bottom = 114.0
+grow_horizontal = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+selected = 0
+item_count = 2
+popup/item_0/text = "Factory"
+popup/item_0/id = 0
+popup/item_1/text = "Custom F Bumper"
+popup/item_1/id = 1
+
+[node name="Hood" type="OptionButton" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -773.0
+offset_top = 63.0
+offset_right = -604.0
+offset_bottom = 114.0
+grow_horizontal = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+selected = 0
+item_count = 2
+popup/item_0/text = "Factory"
+popup/item_0/id = 0
+popup/item_1/text = "Custom Hood"
+popup/item_1/id = 1
+
+[node name="Wheels" type="OptionButton" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -241.0
+offset_top = 63.0
+offset_right = -72.0
+offset_bottom = 114.0
+grow_horizontal = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+selected = 0
+item_count = 2
+popup/item_0/text = "Royal"
+popup/item_0/id = 0
+popup/item_1/text = "Astra"
+popup/item_1/id = 1
+
+[node name="Steering" type="OptionButton" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -241.0
+offset_top = 254.0
+offset_right = -72.0
+offset_bottom = 305.0
+grow_horizontal = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+selected = 0
+item_count = 2
+popup/item_0/text = "Default"
+popup/item_0/id = 0
+popup/item_1/text = "Osh Qrd Steering"
+popup/item_1/id = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 51.0
+offset_top = -76.0
+offset_right = 178.0
+offset_bottom = -45.0
+grow_vertical = 0
+text = "Enter the game"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -552.0
+offset_right = -296.0
+offset_bottom = 60.0
+grow_horizontal = 0
+text = "Mod Parts for Cleo V8 Only!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+offset_left = 24.0
+offset_right = 280.0
+offset_bottom = 60.0
+text = "Vehicle"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -289.0
+offset_top = 196.0
+offset_right = -33.0
+offset_bottom = 256.0
+grow_horizontal = 0
+text = "Steering type"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -246.0
+offset_top = -243.0
+offset_right = 10.0
+offset_bottom = -183.0
+grow_horizontal = 0
+text = "Veh Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -205.0
+offset_top = -196.0
+offset_right = -33.0
+offset_bottom = -28.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(1, 1, 1, 1)
+edit_alpha = false
+
+[node name="CheckButton" type="CheckButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 52.0
+offset_top = -110.0
+offset_right = 96.0
+offset_bottom = -86.0
+button_pressed = true
+text = "Debug Info"
+
+[connection signal="item_selected" from="Cars" to="." method="_select_veh_box"]
+[connection signal="item_selected" from="Rare Bumper" to="." method="_on_rare_bumper_item_selected"]
+[connection signal="item_selected" from="Front Bumper" to="." method="_on_front_bumper_item_selected"]
+[connection signal="item_selected" from="Hood" to="." method="_on_hood_item_selected"]
+[connection signal="item_selected" from="Wheels" to="." method="_on_wheels_item_selected"]
+[connection signal="item_selected" from="Steering" to="." method="_on_steering_item_selected"]
+[connection signal="pressed" from="Button" to="." method="_run_game"]
+[connection signal="color_changed" from="ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]

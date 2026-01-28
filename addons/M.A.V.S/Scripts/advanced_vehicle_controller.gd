@@ -145,18 +145,12 @@ enum steering_type {DEFAULT, OSH_QRD_STEERING} # Types of steering system that c
 @export var use_default_rims_front : bool = true # Uses the default rims by default at the beginning for the front
 @export var use_default_rims_back : bool = true # Uses the default rims by default at the beginning for the back
 @export_color_no_alpha var both_rim_color : Color = Color(1.0, 1.0, 1.0, 1.0) # Applies color for front and back rims
-## Material tint is still WIP, this will be added in next update :)
-@export_range(0, 1) var both_rim_material_tint : float = 1.0 # Applies material for front and back rims
 @export_subgroup("Rims Settings/Front Rims")
 @export var front_rim_id : int = 0 # Picks Rim ID for front wheels
 @export_color_no_alpha var front_rim_color : Color = Color(1.0, 1.0, 1.0, 1.0) # Sets Rim color for front rims
-## Material tint is still WIP, this will be added in next update :)
-@export_range(0, 1) var front_rim_material_tint : float = 1.0 # Sets Rim material for front rims
 @export_subgroup("Rims Settings/Back Rims")
 @export var back_rim_id : int = 0 # Picks Rim ID for back wheels
 @export_color_no_alpha var back_rim_color : Color = Color(1.0, 1.0, 1.0, 1.0) # Sets Rim color for back rims
-## Material tint is still WIP, this will be added in next update :)
-@export_range(0, 1) var back_rim_material_tint : float = 1.0 # Sets Rim material for back rims
 
 
 @export_group("Transmission settings")
@@ -175,7 +169,7 @@ enum transmission {automatic, manual} # Enum for transmission. Allows to change 
 enum nitro_trigger_type {hold, triggered} # Enum defining 2 ways to trigger NOS. Hold: Will use NOS when button is held. Trigger: Will start depleating NOS untill it runs out "Similar way like is in Need For Speed ProStreet"
 @export var nos_system : nitro_trigger_type # This will pick what NOS trigger is used
 enum nos_level {Empty, Tier1, Tier2, Tier3} # Tiers of NOS that we have available.
-@export var nos : nos_level # Selects the tier of the NOSS
+@export var nos_tier : nos_level # Selects the tier of the NOSS
 @export var nos_power : Array = [0.0, 25.0, 50.0, 75.0] # NOS power rate that we will apply to our engine power based on NOS tier
 @export var nos_consumption_rate : Array = [0.0, 0.28, 0.82, 1.0] # The rates in which NOS is consumed when in use
 @export var nos_tank : Array = [0.0, 100.0, 200.0, 300.0] # Capacity for NOS tanks based on Tiers
@@ -219,6 +213,32 @@ var minimap_node : CanvasLayer # This lets us find the node that contains minima
 func _ready() -> void:
 	
 	
+	if is_current_veh: # Sets viewport to use provided camera. Read comment on is_current_veh variable to learn more
+		assign_vehicle()
+
+
+# Separated for easier setup
+func assign_vehicle() -> void:
+	# We preload our scene containing camera and instantiate it
+	# then we add it as a child node to our car but only if this is the car we want to drive
+	# otherwise camera will not be attached
+	energy = max_energy # We set vehicle energy to its max limit soo it is full
+	nos_in_tank = nos_tank[nos_tier] # We set our NOS tank to its limit
+	if is_multiplayer_authority(): # Adds minimap and camera only on a clienside for each player, to prevent from issues in multiplayer
+		self.add_child(minimap.instantiate()) # Adds Minimap to the vehicle we controll
+		minimap_node = get_node_or_null("Players_Minimap") # We reference our Minimap node here that contains the gui for the cars
+		self.add_child(camera_scene.instantiate()) # Adds preloaded and instantiated camera scene to our car
+	minimap_node.fuel_bar.max_value = max_energy
+	minimap_node.nos_bar.max_value = nos_in_tank
+	minimap_node.debug_hud.visible = debug_hud # This will make our Debug hud visible or not
+	remote_transformer.remote_path = remote_transformer.get_parent().get_node("Camera_Anchor").get_path() # Since our camera is added via code and not attached to vehicle by default, we reference its first node to RemoteTransform3D node which allow us to rotate it while driving
+	engine_sound.playing = true
+	wheel_def_radius = rpm_wheel.wheel_radius # This one sets the default radius of our wheels based on the radius of our RPM wheel, we need this to decrease the radius when wheel is punctured since we cant simply decrease it directly cuz that way it will replace the value of the wheel radius
+	self.add_to_group("Player_car") # Adds player controller car ONLY! to the Player_car groupe
+	
+	for x in all_wheels: # Sets the default grip for all the wheels that are in variable
+			x.wheel_friction_slip = wheel_grip
+
 	if allow_color_change and veh_mesh.get_surface_override_material(material_id): # If player is allowed to change colour of this specific vehicle
 		veh_mesh.get_surface_override_material(material_id).albedo_color = veh_color # We get our material that controlls vehicle color and change its albed to our albedo value
 		veh_mesh.get_surface_override_material(material_id).roughness = material_tint # This one changes roughness of our materiall which makes it matte or shiny metalic
@@ -227,28 +247,6 @@ func _ready() -> void:
 		add_visuals() # Run function for adding visual parts for the car
 	
 	modify_rims()
-	
-	if is_current_veh: # Sets viewport to use provided camera. Read comment on is_current_veh variable to learn more
-		# We preload our scene containing camera and instantiate it
-		# then we add it as a child node to our car but only if this is the car we want to drive
-		# otherwise camera will not be attached
-		energy = max_energy # We set vehicle energy to its max limit soo it is full
-		nos_in_tank = nos_tank[nos] # We set our NOS tank to its limit
-		if is_multiplayer_authority(): # Adds minimap and camera only on a clienside for each player, to prevent from issues in multiplayer
-			self.add_child(minimap.instantiate()) # Adds Minimap to the vehicle we controll
-			minimap_node = get_node_or_null("Players_Minimap") # We reference our Minimap node here that contains the gui for the cars
-			self.add_child(camera_scene.instantiate()) # Adds preloaded and instantiated camera scene to our car
-		minimap_node.fuel_bar.max_value = max_energy
-		minimap_node.nos_bar.max_value = nos_in_tank
-		minimap_node.debug_hud.visible = debug_hud # This will make our Debug hud visible or not
-		remote_transformer.remote_path = remote_transformer.get_parent().get_node("Camera_Anchor").get_path() # Since our camera is added via code and not attached to vehicle by default, we reference its first node to RemoteTransform3D node which allow us to rotate it while driving
-		engine_sound.playing = true
-		wheel_def_radius = rpm_wheel.wheel_radius # This one sets the default radius of our wheels based on the radius of our RPM wheel, we need this to decrease the radius when wheel is punctured since we cant simply decrease it directly cuz that way it will replace the value of the wheel radius
-		self.add_to_group("Player_car") # Adds player controller car ONLY! to the Player_car groupe
-		
-		for x in all_wheels: # Sets the default grip for all the wheels that are in variable
-				x.wheel_friction_slip = wheel_grip
-
 
 
 # Everything that is triggered on Physical CPU Ticks
@@ -294,7 +292,7 @@ func _physics_process(delta: float) -> void:
 		if !use_energy: # We check if our vehicle uses energy and if not then Hide the bar
 			minimap_node.fuel_bar.visible = false
 		
-		if nos == 0: # We check if any Nos is installed in our car and if so then show Nos bar
+		if nos_tier == 0: # We check if any Nos is installed in our car and if so then show Nos bar
 			minimap_node.nos_bar.visible = false
 		else: minimap_node.nos_bar.visible = true
 		
@@ -349,18 +347,18 @@ func _physics_process(delta: float) -> void:
 				match nos_system: # We check which trigger type for the NOS our car uses
 					0: # Hold Button to use NOS
 						if nos_in_tank > 0.0:
-							nos_in_tank = nos_in_tank - nos_consumption_rate[nos]
-							nos_boost = nos_power[nos] # We apply boost from NOS based on our Tier
+							nos_in_tank = nos_in_tank - nos_consumption_rate[nos_tier]
+							nos_boost = nos_power[nos_tier] # We apply boost from NOS based on our Tier
 						
 						
 					1: # Tap Button to keep on using NOS until it runs out
-						if nos_in_tank >= nos_tank[nos]: # Checks if we have full tank and If not then do not allow on using NOS again
-							nos_in_tank = nos_tank[nos]
+						if nos_in_tank >= nos_tank[nos_tier]: # Checks if we have full tank and If not then do not allow on using NOS again
+							nos_in_tank = nos_tank[nos_tier]
 							nos_lock = true
 		else: # If our NOS Lock is on
 			if nos_in_tank > 0.0: # Check if we have enough NOS to use
-				nos_in_tank = nos_in_tank - nos_consumption_rate[nos] # Drain our NOS when in use
-				nos_boost = nos_power[nos] # We apply boost from NOS based on our Tier
+				nos_in_tank = nos_in_tank - nos_consumption_rate[nos_tier] # Drain our NOS when in use
+				nos_boost = nos_power[nos_tier] # We apply boost from NOS based on our Tier
 			elif nos_in_tank < 0.0: # If We don't have enough NOS then stop applying boost and unlock it
 				nos_boost = 0.0
 				nos_lock = false
@@ -645,6 +643,7 @@ func modify_rims() -> void:
 		var rim_instance = rim_list.new() # Generates an array of our rims based on our original list
 		if "Rim_list" in rim_instance: # Checks if we have any rims in our array
 			
+			
 			if !use_default_rims_front: # Check if we want to use default rims or not
 				all_wheels[0].get_child(0).add_child(load(rim_instance.Rim_list[front_rim_id]["part"]).instantiate()) # We place custom rims for front wheels
 				all_wheels[1].get_child(0).add_child(load(rim_instance.Rim_list[front_rim_id]["part"]).instantiate())
@@ -691,11 +690,12 @@ func modify_rims() -> void:
 			else:
 				all_wheels[2].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[back_rim_id]["color"]
 				all_wheels[3].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[back_rim_id]["color"]
+		
+	
 	else:
 		set_default_rims() # Jump to setting vehicle default rims
 	
 	
-
 func set_default_rims() -> void:
 	
 	if default_rims: # If we skipped custom rims then simply add default ones for our car that were assigned
@@ -706,7 +706,7 @@ func set_default_rims() -> void:
 			all_wheels[2].get_child(0).add_child(load(default_rims).instantiate())
 			all_wheels[3].get_child(0).add_child(load(default_rims).instantiate())
 	else: # IF car doesn't have default rims set then inform us about it
-		print("ERROR: ", veh_name, " has no default rims set!")
+		print("WARNING: ", veh_name, " has no default rims set!")
 		
 
 func puncture_wheels() -> void:
@@ -749,8 +749,8 @@ func skiding_effects() -> void:
 			
 	# This part checks if both wheels are sliding and if soo, add nitro to our tank
 	if wheels[0].get_skidinfo() and wheels[1].get_skidinfo() < 0.8:
-		if nos_in_tank < nos_tank[nos]: # Checks if our NOS is equal to our tank capacity and if not then add NOS when drifting
-			nos_in_tank = nos_in_tank + (nos_drift_bonus * nos) # Adds NOS when drifting
+		if nos_in_tank < nos_tank[nos_tier]: # Checks if our NOS is equal to our tank capacity and if not then add NOS when drifting
+			nos_in_tank = nos_in_tank + (nos_drift_bonus * nos_tier) # Adds NOS when drifting
 		
 	# This checks if any of our skidding wheels is actually sliding
 	# and if soo then apply tyre sliding sound otherwise stop playing it

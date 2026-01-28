@@ -1,9 +1,10 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1764651262
+::res://::1769560548
 AVC.png::CompressedTexture2D::5962631782973090831::1758808819::1764651263::1::::<><><>0<>0<>0ea4b671935882fcbdcb51a743693cad<>res://.godot/imported/AVC.png-08600bcd2c7878b53ca1034a710556a8.ctex::
+export_presets.cfg::TextFile::-1::1769137201::0::1::::<><><>0<>0<><>::
 README.md::TextFile::-1::1762723064::0::1::::<><><>0<>0<><>::
 ::res://addons/::1758594640
-::res://addons/M.A.V.S/::1762724612
+::res://addons/M.A.V.S/::1769486045
 AVC.png::CompressedTexture2D/CompressedTexture2D::4943202580687998810::1744294032::1757551989::1::::<><><>0<>0<>f20e6c0352f70c4b5a43e071dfa94c2f<>res://.godot/imported/AVC.png-7abef0b3990db07f47da2874dbdb34e0.ctex::
 M.A.V.S.gd::GDScript::8424787809308276838::1762632029::0::1::::<>EditorPlugin<><>0<>1<><>::
 plugin.cfg::TextFile::-1::1762724612::0::1::::<><><>0<>0<><>::
@@ -18,17 +19,16 @@ texture_02.png::CompressedTexture2D/CompressedTexture2D::1343423080394053938::17
 texture_03.png::CompressedTexture2D/CompressedTexture2D::5054282249589529505::1744294032::1757551933::1::::<><><>0<>0<>8cd75d39a88b481f1e6568890c89adda<>res://.godot/imported/texture_03.png-55eac76f48b9522237771af910b8e298.s3tc.ctex::
 texture_03_Red.png::CompressedTexture2D/CompressedTexture2D::8066944552372322973::1744294032::1757551933::1::::<><><>0<>0<>63f4e3d085ce3b10514a8c4ae9a9d18d<>res://.godot/imported/texture_03_Red.png-86a7455a3c6035e5fbe5c3bf421201d1.s3tc.ctex::
 White Box.tres::StandardMaterial3D/StandardMaterial3D::6582627536853294379::1757551930::0::1::::<><><>0<>0<><>::uid://te08na6s2juo::::res://addons/M.A.V.S/Debug content/texture_02.png
-::res://addons/M.A.V.S/Scenes/::1764650279
+::res://addons/M.A.V.S/Scenes/::1769488313
 cam_holder.tscn::PackedScene::8611761661853993003::1762915440::0::1::::<><><>0<>0<><>::uid://1p26pa17e30j::::res://addons/M.A.V.S/Scripts/Cam_Holder.gd
-Debug_Map.tscn::PackedScene::8577942180793110987::1764650279::0::1::::<><><>0<>0<><>::uid://bqhg03u7uopp1::::res://addons/M.A.V.S/Debug content/Black Box.tres<>uid://dgucgrkhjqrj0::::res://addons/M.A.V.S/Debug content/Red Box.tres<>uid://drtkaugr7kqas::::res://addons/M.A.V.S/Vehicle/NightSky/NightSky_Body.tscn<>uid://dcladqkfg3jij::::res://addons/M.A.V.S/Debug content/Emission White Box.tres<>uid://c01w6cl6ib7pf::::res://addons/M.A.V.S/Debug content/White Box.tres<>uid://d1d0adnny67ho::::res://addons/M.A.V.S/Vehicle/Muscle/Muscle Car.tscn<>uid://difi1uhwesclv::::res://addons/M.A.V.S/Vehicle/AI_Vehicles/AI_Muscle_Car.tscn<>uid://byy3atqki4s0k::::res://addons/M.A.V.S/Scripts/Path_Follow_Setup.gd<>uid://beg78x7knveom::::res://addons/M.A.V.S/Vehicle/AI_Vehicles/AI_NightSky.tscn<>uid://bo0sxuk33kxaa::::res://addons/M.A.V.S/Vehicle/TGR/TRG.tscn<>uid://bat0h5s3lfqru::::res://addons/M.A.V.S/Vehicle/GT30/GT30.tscn<>uid://dfkvhad85ka63::::res://addons/M.A.V.S/Scenes/spikes.tscn<>uid://ygshfd6uxqye::::res://addons/M.A.V.S/Vehicle/Cleo V8/CleoV8.tscn<>uid://dvafvgl3g1s0g::::res://addons/M.A.V.S/Scripts/Change_Lane_For_Traffic.gd<>uid://c755o0n0bqls4::::res://addons/M.A.V.S/Scenes/Traffic_Target.tscn<>uid://cc3qnyb5rjwxv::::res://addons/M.A.V.S/Scripts/MPathManager.gd<>uid://b41ymspcqei5p::::res://addons/M.A.V.S/Scenes/Traffic_Spawner.tscn<>uid://bduv6it2ueaw5::::res://addons/M.A.V.S/Scenes/Traffic_Lights_Manager.tscn
+Debug_Map.tscn::PackedScene::8577942180793110987::1769488313::0::1::::<><><>0<>0<><>::uid://bqhg03u7uopp1::::res://addons/M.A.V.S/Debug content/Black Box.tres<>uid://dgucgrkhjqrj0::::res://addons/M.A.V.S/Debug content/Red Box.tres<>uid://drtkaugr7kqas::::res://addons/M.A.V.S/Vehicle/NightSky/NightSky_Body.tscn<>uid://dcladqkfg3jij::::res://addons/M.A.V.S/Debug content/Emission White Box.tres<>uid://c01w6cl6ib7pf::::res://addons/M.A.V.S/Debug content/White Box.tres<>uid://d1d0adnny67ho::::res://addons/M.A.V.S/Vehicle/Muscle/Muscle Car.tscn<>uid://difi1uhwesclv::::res://addons/M.A.V.S/Vehicle/AI_Vehicles/AI_Muscle_Car.tscn<>uid://byy3atqki4s0k::::res://addons/M.A.V.S/Scripts/Path_Follow_Setup.gd<>uid://beg78x7knveom::::res://addons/M.A.V.S/Vehicle/AI_Vehicles/AI_NightSky.tscn<>uid://bo0sxuk33kxaa::::res://addons/M.A.V.S/Vehicle/TGR/TRG.tscn<>uid://bat0h5s3lfqru::::res://addons/M.A.V.S/Vehicle/GT30/GT30.tscn<>uid://dfkvhad85ka63::::res://addons/M.A.V.S/Scenes/spikes.tscn<>uid://ygshfd6uxqye::::res://addons/M.A.V.S/Vehicle/Cleo V8/CleoV8.tscn<>uid://dvafvgl3g1s0g::::res://addons/M.A.V.S/Scripts/Change_Lane_For_Traffic.gd<>uid://c755o0n0bqls4::::res://addons/M.A.V.S/Scenes/Traffic_Target.tscn<>uid://cc3qnyb5rjwxv::::res://addons/M.A.V.S/Scripts/MPathManager.gd<>uid://b41ymspcqei5p::::res://addons/M.A.V.S/Scenes/Traffic_Spawner.tscn<>uid://bduv6it2ueaw5::::res://addons/M.A.V.S/Scenes/Traffic_Lights_Manager.tscn<>uid://5jcrn6ncd5tt::::res://addons/M.A.V.S/Test menu/Menu.tscn
 MinimapCamera.tscn::PackedScene::8523714585341141265::1763094182::0::1::::<><><>0<>0<><>::uid://bblcyel3rq6gj::::res://addons/M.A.V.S/Scripts/minimap.gd<>uid://qnc7q4bsma6n::::res://addons/M.A.V.S/Textures/Map_indicator1.png
-Player_Spawner.tscn::PackedScene::7365934940023675440::1763095026::0::1::::<><><>0<>0<><>::uid://bethy3eg5owjk::::res://addons/M.A.V.S/Scripts/player_spawner.gd<>uid://o34qjbonggu6::::res://addons/M.A.V.S/Textures/CarSpawnerIcon.png
 spikes.tscn::PackedScene/PackedScene::7532137610389759306::1757551930::0::1::::<><><>0<>0<><>::uid://cfsjg2wrb74bj::::res://addons/M.A.V.S/Textures/Spikes.tres
-Traffic_Lights_Manager.tscn::PackedScene::2639605636939267466::1762720775::0::1::::<><>res://addons/M.A.V.S/Textures/MTrafficLightsManager.png<>0<>0<><>::uid://c3el0sj17p5u2::::res://addons/M.A.V.S/Scripts/Traffic_Lights_Manager.gd
-Traffic_Spawner.tscn::PackedScene::4477050576859636811::1762625927::0::1::::<><>res://addons/M.A.V.S/Textures/MTrafficSpawner.png<>0<>0<><>::uid://c0t5k1yhy2bsx::::res://addons/M.A.V.S/Scripts/traffic_spawner.gd<>uid://bnew4wvwyh20u::::res://addons/M.A.V.S/Textures/MTrafficSpawner.png<>uid://ggcfsotbyw2h::::res://addons/M.A.V.S/Scripts/vehicle_list.gd<>uid://c755o0n0bqls4::::res://addons/M.A.V.S/Scenes/Traffic_Target.tscn
-Traffic_Target.tscn::PackedScene::7082663541626769309::1762625619::0::1::::<><>res://addons/M.A.V.S/Textures/MTraffic.png<>0<>0<><>::uid://byy3atqki4s0k::::res://addons/M.A.V.S/Scripts/Path_Follow_Setup.gd<>uid://dgucgrkhjqrj0::::res://addons/M.A.V.S/Debug content/Red Box.tres
-::res://addons/M.A.V.S/Scripts/::1764650270
-advanced_vehicle_controller.gd::GDScript::2472278546070459169::1764650270::0::1::::MVehicle3D<>VehicleBody3D<>res://addons/M.A.V.S/Textures/MVehicleBody3D.png<>0<>0<><>::
+Traffic_Lights_Manager.tscn::PackedScene::2639605636939267466::1762720775::0::1::::<><><>0<>0<><>::uid://c3el0sj17p5u2::::res://addons/M.A.V.S/Scripts/Traffic_Lights_Manager.gd
+Traffic_Spawner.tscn::PackedScene::4477050576859636811::1762625927::0::1::::<><><>0<>0<><>::uid://c0t5k1yhy2bsx::::res://addons/M.A.V.S/Scripts/traffic_spawner.gd<>uid://bnew4wvwyh20u::::res://addons/M.A.V.S/Textures/MTrafficSpawner.png<>uid://ggcfsotbyw2h::::res://addons/M.A.V.S/Scripts/vehicle_list.gd<>uid://c755o0n0bqls4::::res://addons/M.A.V.S/Scenes/Traffic_Target.tscn
+Traffic_Target.tscn::PackedScene::7082663541626769309::1762625619::0::1::::<><><>0<>0<><>::uid://byy3atqki4s0k::::res://addons/M.A.V.S/Scripts/Path_Follow_Setup.gd<>uid://dgucgrkhjqrj0::::res://addons/M.A.V.S/Debug content/Red Box.tres
+::res://addons/M.A.V.S/Scripts/::1769486867
+advanced_vehicle_controller.gd::GDScript::2472278546070459169::1769486867::0::1::::MVehicle3D<>VehicleBody3D<>res://addons/M.A.V.S/Textures/MVehicleBody3D.png<>0<>0<><>::
 Cam_Holder.gd::GDScript::1857571108390011307::1762631635::0::1::::<>Node3D<><>0<>0<><>::
 Change_Lane_For_Traffic.gd::GDScript::8633569187528021264::1761625968::0::1::::MTrafficSwitch_Depracted<>Area3D<>res://addons/M.A.V.S/Textures/MTrafficLights.png<>0<>0<><>::
 minimap.gd::GDScript::2479482204046865057::1763093679::0::1::::<>CanvasLayer<><>0<>0<><>::
@@ -39,6 +39,9 @@ Race_NaviAgent_AI.gd::GDScript::1257366895375297610::1760583202::0::1::::MVehicl
 Traffic_Lights_Manager.gd::GDScript::6747099992583652531::1762721865::0::1::::MTrafficLightsManager<>Node<>res://addons/M.A.V.S/Textures/MTrafficLightsManager.png<>0<>0<><>::
 traffic_spawner.gd::GDScript::6568626406419783095::1764034996::0::1::::MTrafficSpawner<>Node3D<>res://addons/M.A.V.S/Textures/MTrafficSpawner.png<>0<>0<><>::
 vehicle_list.gd::GDScript::433650659220753829::1762625893::0::1::::Vehicle_List<>Resource<><>0<>0<><>::
+::res://addons/M.A.V.S/Test menu/::1769488268
+menu.gd::GDScript::4525661698392798475::1769488268::0::1::::<>Control<><>0<>0<><>::
+Menu.tscn::PackedScene::2124397232695400873::1769488194::0::1::::<><><>0<>0<><>::uid://b5qi8s6w75nol::::res://addons/M.A.V.S/Test menu/menu.gd
 ::res://addons/M.A.V.S/Textures/::1763086569
 CarSpawnerIcon.png::CompressedTexture2D::1042236228447500383::1763086540::1763086569::1::::<><><>0<>0<>874aef9b775bf4d3338d7f2684613207<>res://.godot/imported/CarSpawnerIcon.png-81c4387f98d8b853db6a89f52793ea61.s3tc.ctex::
 Map_indicator1.png::CompressedTexture2D/CompressedTexture2D::1150037873644677387::1740970913::1757551932::1::::<><><>0<>0<>25b05d6bcc7d5e2825dadd1d75f5743b<>res://.godot/imported/Map_indicator1.png-26c68283f90c507c3e4e33fec39963f8.ctex::
@@ -59,8 +62,8 @@ AI_Muscle_Car.tscn::PackedScene::7731627917823788771::1762916359::0::1::::<><><>
 AI_NightSky.tscn::PackedScene::2681565457680329392::1761578458::0::1::::<><><>0<>0<><>::uid://r6cwck1s864m::::res://addons/M.A.V.S/Scripts/Race_NaviAgent_AI.gd<>uid://bg64ka54o05w2::::res://addons/M.A.V.S/Vehicle/NightSky/NS_Comp.tres<>uid://b4o8duuaa8tnl::::res://addons/M.A.V.S/Vehicle/AI_Vehicles/AI_NS_Body.tres<>uid://i5lfu84yoc3h::::res://addons/M.A.V.S/Vehicle/NightSky/NightSky_Wheel.tscn<>uid://cw1xby0awir0u::::res://addons/M.A.V.S/Textures/Map_indicator2.png
 AI_NS_Body.tres::StandardMaterial3D/StandardMaterial3D::4452808537260295705::1757551930::0::1::::<><><>0<>0<><>::uid://ccyok3ltornu8::::res://addons/M.A.V.S/Vehicle/NightSky/Skyline_Body_Body_BaseColor.png
 AI_TRG.tscn::PackedScene::6818309077818906294::1762116044::0::1::::<><><>0<>0<><>::uid://sgl2831dr1i0::::res://addons/M.A.V.S/Scripts/Race_follow_AI.gd<>uid://1ngebcmdw4nk::::res://addons/M.A.V.S/Vehicle/TGR/TRG_Glass_And_Details.tres<>uid://c3f4kaiqpblyy::::res://addons/M.A.V.S/Textures/Veh_Body_Material.tres<>uid://qrrwcmq78fh0::::res://addons/M.A.V.S/Vehicle/TGR/TRG_Wheel.tscn<>uid://cw1xby0awir0u::::res://addons/M.A.V.S/Textures/Map_indicator2.png
-::res://addons/M.A.V.S/Vehicle/Cleo V8/::1764648902
-CleoV8.tscn::PackedScene::1698024188951578636::1764648902::0::1::::<><><>0<>0<><>::uid://bbhuci2yxbttx::::res://addons/M.A.V.S/Scripts/advanced_vehicle_controller.gd<>uid://c3f4kaiqpblyy::::res://addons/M.A.V.S/Textures/Veh_Body_Material.tres<>uid://b45odkpoxnh1p::::res://addons/M.A.V.S/Vehicle/Cleo V8/CleoV8_BodyMod_List.gd<>uid://tlig68fieiqj::::res://addons/M.A.V.S/Vehicle/Wheels/Wheels_list.gd<>uid://c1bjp86ep2i3p::::res://addons/M.A.V.S/Vehicle/Cleo V8/CleoV8_GlassNDeco.tres<>uid://ojw67kgcwe61::::res://addons/M.A.V.S/Vehicle/Modular Components/Tire_smoke.tscn<>uid://lwrq5l0gacr4::::res://addons/M.A.V.S/Vehicle/Modular Components/Car Engine.mp3<>uid://cdgqq4lyuyefj::::res://addons/M.A.V.S/Vehicle/Wheels/tire.tscn<>uid://c721hburp5xh5::::res://addons/M.A.V.S/Vehicle/Modular Components/rubber_sound.mp3<>uid://bwgu2khe4kxyn::::res://addons/M.A.V.S/Vehicle/Modular Components/skid_marks.tscn
+::res://addons/M.A.V.S/Vehicle/Cleo V8/::1769134549
+CleoV8.tscn::PackedScene::1698024188951578636::1769134549::0::1::::<><><>0<>0<><>::uid://bbhuci2yxbttx::::res://addons/M.A.V.S/Scripts/advanced_vehicle_controller.gd<>uid://c3f4kaiqpblyy::::res://addons/M.A.V.S/Textures/Veh_Body_Material.tres<>uid://b45odkpoxnh1p::::res://addons/M.A.V.S/Vehicle/Cleo V8/CleoV8_BodyMod_List.gd<>uid://tlig68fieiqj::::res://addons/M.A.V.S/Vehicle/Wheels/Wheels_list.gd<>uid://c1bjp86ep2i3p::::res://addons/M.A.V.S/Vehicle/Cleo V8/CleoV8_GlassNDeco.tres<>uid://ojw67kgcwe61::::res://addons/M.A.V.S/Vehicle/Modular Components/Tire_smoke.tscn<>uid://lwrq5l0gacr4::::res://addons/M.A.V.S/Vehicle/Modular Components/Car Engine.mp3<>uid://cdgqq4lyuyefj::::res://addons/M.A.V.S/Vehicle/Wheels/tire.tscn<>uid://c721hburp5xh5::::res://addons/M.A.V.S/Vehicle/Modular Components/rubber_sound.mp3<>uid://bwgu2khe4kxyn::::res://addons/M.A.V.S/Vehicle/Modular Components/skid_marks.tscn
 CleoV8_BodyMod_List.gd::GDScript::4484684426171197943::1764217360::0::1::::<>Resource<><>0<>0<><>::
 CleoV8_Bumper_Details.tres::StandardMaterial3D/StandardMaterial3D::8475306754441476891::1757551930::0::1::::<><><>0<>0<><>::uid://d2tu5p8hiq8lu::::res://addons/M.A.V.S/Vehicle/Cleo V8/Rare_Default_Bumper_Bumper_Details_BaseColor.png
 CleoV8_Bumper_Details_Custom.tres::StandardMaterial3D/StandardMaterial3D::2332493434108435830::1757551930::0::1::::<><><>0<>0<><>::uid://cm70ux72aiglw::::res://addons/M.A.V.S/Vehicle/Cleo V8/Rare_Custom_Bumper_Bumper_Deco_Custom_BaseColor.png
@@ -123,17 +126,17 @@ TRG_Wheel.tscn::PackedScene/PackedScene::1159187520725857827::1757551930::0::1::
 ::res://addons/M.A.V.S/Vehicle/TGR/TGR TXT/::1757551932
 TRG_GlassAndDeco_BaseColor.png::CompressedTexture2D/CompressedTexture2D::7115954002350408881::1744294032::1757551932::1::::<><><>0<>0<>0a25d6503c89b2d97e8113fd000059ea<>res://.godot/imported/TRG_GlassAndDeco_BaseColor.png-99002838828366464131d980dbc666d7.ctex::
 TRG_Wheel_Wheel_BaseColor.png::CompressedTexture2D/CompressedTexture2D::7982032754337331920::1744294032::1757551932::1::::<><><>0<>0<>4024f13c9572bad6a99354fe303087ab<>res://.godot/imported/TRG_Wheel_Wheel_BaseColor.png-0b81edc4ddbb69d2e4d98eb4efce0747.ctex::
-::res://addons/M.A.V.S/Vehicle/Wheels/::1764649085
+::res://addons/M.A.V.S/Vehicle/Wheels/::1765940458
 rim_astra.tscn::PackedScene::7660501002752592536::1764379475::0::1::::<><><>0<>0<><>::uid://cpeqtyi16a1ut::::res://addons/M.A.V.S/Vehicle/Wheels/Materials and textures/Rim_Base_Material1.tres
 rim_beta.tscn::PackedScene::8855960656423405910::1764382912::0::1::::<><><>0<>0<><>::uid://cpeqtyi16a1ut::::res://addons/M.A.V.S/Vehicle/Wheels/Materials and textures/Rim_Base_Material1.tres
 rim_royal.tscn::PackedScene::3836778944902477992::1764649085::0::1::::<><><>0<>0<><>::uid://cpeqtyi16a1ut::::res://addons/M.A.V.S/Vehicle/Wheels/Materials and textures/Rim_Base_Material1.tres
 tire.tscn::PackedScene::4996795750699527427::1764218078::0::1::::<><><>0<>0<><>::
-Wheels_list.gd::GDScript::1356794314563268937::1764648903::0::1::::<>Resource<><>0<>0<><>::
-::res://addons/M.A.V.S/Vehicle/Wheels/Materials and textures/::1764381611
-Rim_Base_Material1.tres::StandardMaterial3D::5834938209083000403::1764381611::0::1::::<><><>0<>0<><>::
+Wheels_list.gd::GDScript::1356794314563268937::1765940458::0::1::::<>Resource<><>0<>0<><>::
+::res://addons/M.A.V.S/Vehicle/Wheels/Materials and textures/::1764811265
+Rim_Base_Material1.tres::StandardMaterial3D::5834938209083000403::1764811265::0::1::::<><><>0<>0<><>::
 Rim_Base_Material2.tres::StandardMaterial3D::6412496388989127943::1764379436::0::1::::<><><>0<>0<><>::
 Tire_Material.tres::StandardMaterial3D::2161593253186092267::1764379436::0::1::::<><><>0<>0<><>::
-::res://addons/M.A.V.S/Vehicle/Wheels/Model Files/::1764649050
+::res://addons/M.A.V.S/Vehicle/Wheels/Model Files/::1764651264
 Rim_Astra.dae::PackedScene::5963861117357882866::1764215926::1764257496::1::::<><><>0<>0<>c3c9562f8d069200f830786cf268b461<>res://.godot/imported/Rim_Astra.dae-b2d965a8bbd45f6e20656f2321d6ae1c.scn::
 Rim_Beta.dae::PackedScene::7779562348650828085::1764215926::1764257496::1::::<><><>0<>0<>62e2bc369e81c3544aa79b33bc254612<>res://.godot/imported/Rim_Beta.dae-1cdc0642c4746dad377e8fa8a506e1ea.scn::
 Rim_Royal.dae::PackedScene::2878923272026771917::1764648695::1764651264::1::::<><><>0<>0<>0b7c072323fda4b97c0e8e67e4b2a3ba<>res://.godot/imported/Rim_Royal.dae-6cd9b17bab7beea834cdc6b00bd72c17.scn::
