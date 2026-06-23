@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://beg78x7knveom"]
+[gd_scene format=4 uid="uid://beg78x7knveom"]
 
 [ext_resource type="Script" uid="uid://r6cwck1s864m" path="res://addons/M.A.V.S/Scripts/Race_NaviAgent_AI.gd" id="1_gfe7f"]
 [ext_resource type="Material" uid="uid://bg64ka54o05w2" path="res://addons/M.A.V.S/Vehicle/NightSky/NS_Comp.tres" id="2_atvwo"]
@@ -67,7 +67,10 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_poonp")
 
-[node name="AI_NightSky_NavigationMesh" type="VehicleBody3D" node_paths=PackedStringArray("nav", "veh_indicator", "front_rc", "back_rc", "left_lite_rc", "right_lite_rc") groups=["Vehicle"]]
+[node name="AI_NightSky_NavigationMesh" type="VehicleBody3D" unique_id=548662698 node_paths=PackedStringArray("nav", "veh_indicator", "front_rc", "back_rc", "left_lite_rc", "right_lite_rc") groups=["Vehicle"]]
+collision_layer = 3
+collision_mask = 3
+center_of_mass_mode = 1
 script = ExtResource("1_gfe7f")
 nav = NodePath("NavigationAgent3D")
 veh_indicator = NodePath("Car_Indicator")
@@ -76,52 +79,52 @@ back_rc = NodePath("BackRC")
 left_lite_rc = NodePath("LeftLiteRC")
 right_lite_rc = NodePath("RightLiteRC")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=217509151]
 shape = SubResource("ConvexPolygonShape3D_b8f70")
 
-[node name="Sport_Body" type="MeshInstance3D" parent="CollisionShape3D"]
+[node name="Sport_Body" type="MeshInstance3D" parent="CollisionShape3D" unique_id=549541497]
 mesh = SubResource("ArrayMesh_mu1vq")
 skeleton = NodePath("")
 
-[node name="LF_Wheel" type="VehicleWheel3D" parent="."]
+[node name="LF_Wheel" type="VehicleWheel3D" parent="." unique_id=717591780]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.652, 0.5, 1.31256)
 use_as_steering = true
 wheel_radius = 0.45
 wheel_friction_slip = 3.0
 suspension_stiffness = 50.0
 
-[node name="NS_Wheel" parent="LF_Wheel" instance=ExtResource("4_cv25h")]
+[node name="NS_Wheel" parent="LF_Wheel" unique_id=1976800336 instance=ExtResource("4_cv25h")]
 
-[node name="RF_Wheel" type="VehicleWheel3D" parent="."]
+[node name="RF_Wheel" type="VehicleWheel3D" parent="." unique_id=896087555]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.652, 0.5, 1.31256)
 use_as_steering = true
 wheel_radius = 0.45
 wheel_friction_slip = 3.0
 suspension_stiffness = 50.0
 
-[node name="NS_Wheel" parent="RF_Wheel" instance=ExtResource("4_cv25h")]
+[node name="NS_Wheel" parent="RF_Wheel" unique_id=1017742075 instance=ExtResource("4_cv25h")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="LB_Wheel" type="VehicleWheel3D" parent="."]
+[node name="LB_Wheel" type="VehicleWheel3D" parent="." unique_id=866909913]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.613, 0.5, -1.19071)
 use_as_traction = true
 wheel_radius = 0.45
 wheel_friction_slip = 3.0
 suspension_stiffness = 50.0
 
-[node name="NS_Wheel" parent="LB_Wheel" instance=ExtResource("4_cv25h")]
+[node name="NS_Wheel" parent="LB_Wheel" unique_id=604773215 instance=ExtResource("4_cv25h")]
 
-[node name="RB_Wheel" type="VehicleWheel3D" parent="."]
+[node name="RB_Wheel" type="VehicleWheel3D" parent="." unique_id=2022635454]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.613, 0.5, -1.19071)
 use_as_traction = true
 wheel_radius = 0.45
 wheel_friction_slip = 3.0
 suspension_stiffness = 50.0
 
-[node name="NS_Wheel" parent="RB_Wheel" instance=ExtResource("4_cv25h")]
+[node name="NS_Wheel" parent="RB_Wheel" unique_id=901813359 instance=ExtResource("4_cv25h")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="Car_Indicator" type="Sprite3D" parent="."]
+[node name="Car_Indicator" type="Sprite3D" parent="." unique_id=931823562]
 transform = Transform3D(1, 0, -1.67037e-22, 0, 1, 0, -1.67037e-22, 0, 1, 0, 20, 0)
 visible = false
 layers = 512
@@ -129,20 +132,20 @@ pixel_size = 0.05
 axis = 1
 texture = ExtResource("5_sysh3")
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=727950595]
 
-[node name="BackRC" type="RayCast3D" parent="."]
+[node name="BackRC" type="RayCast3D" parent="." unique_id=1361198349]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 target_position = Vector3(0, 0, -2.5)
 
-[node name="FrontRC" type="RayCast3D" parent="."]
+[node name="FrontRC" type="RayCast3D" parent="." unique_id=1979519112]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 target_position = Vector3(0, 0, 4)
 
-[node name="LeftLiteRC" type="RayCast3D" parent="."]
+[node name="LeftLiteRC" type="RayCast3D" parent="." unique_id=258831450]
 transform = Transform3D(0.978148, 0, 0.207912, 0, 1, 0, -0.207912, 0, 0.978148, 0, 0.5, 0)
 target_position = Vector3(0, 0, 4)
 
-[node name="RightLiteRC" type="RayCast3D" parent="."]
+[node name="RightLiteRC" type="RayCast3D" parent="." unique_id=455422760]
 transform = Transform3D(0.978148, 0, -0.207912, 0, 1, 0, 0.207912, 0, 0.978148, 0, 0.5, 0)
 target_position = Vector3(0, 0, 4)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://drtkaugr7kqas"]
+[gd_scene format=4 uid="uid://drtkaugr7kqas"]
 
 [ext_resource type="Script" uid="uid://bbhuci2yxbttx" path="res://addons/M.A.V.S/Scripts/advanced_vehicle_controller.gd" id="1_ho4fo"]
 [ext_resource type="Material" uid="uid://bg64ka54o05w2" path="res://addons/M.A.V.S/Vehicle/NightSky/NS_Comp.tres" id="2_8gvh2"]
@@ -70,7 +70,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_poonp")
 
-[node name="NightSky_Body" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "rpm_wheel", "wheels", "all_wheels") groups=["Vehicle"]]
+[node name="NightSky_Body" type="VehicleBody3D" unique_id=1906874817 node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "rpm_wheel", "wheels", "all_wheels") groups=["Vehicle"]]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_ho4fo")
 veh_name = "Night Sky"
 veh_mesh = NodePath("CollisionShape3D/Sport_Body")
@@ -85,114 +87,114 @@ rpm_wheel = NodePath("RB_Wheel")
 wheels = [NodePath("LB_Wheel"), NodePath("RB_Wheel")]
 all_wheels = [NodePath("LF_Wheel"), NodePath("RF_Wheel"), NodePath("LB_Wheel"), NodePath("RB_Wheel")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=913938110]
 shape = SubResource("ConvexPolygonShape3D_b8f70")
 
-[node name="Sport_Body" type="MeshInstance3D" parent="CollisionShape3D"]
+[node name="Sport_Body" type="MeshInstance3D" parent="CollisionShape3D" unique_id=871376980]
 mesh = SubResource("ArrayMesh_mu1vq")
 skeleton = NodePath("")
 
-[node name="LF_Wheel" type="VehicleWheel3D" parent="."]
+[node name="LF_Wheel" type="VehicleWheel3D" parent="." unique_id=1900495692]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.652, 0.5, 1.31256)
 use_as_steering = true
 wheel_radius = 0.45
 wheel_friction_slip = 3.0
 suspension_stiffness = 50.0
 
-[node name="NS_Wheel" parent="LF_Wheel" instance=ExtResource("4_h1fbf")]
+[node name="NS_Wheel" parent="LF_Wheel" unique_id=743419251 instance=ExtResource("4_h1fbf")]
 
-[node name="RF_Wheel" type="VehicleWheel3D" parent="."]
+[node name="RF_Wheel" type="VehicleWheel3D" parent="." unique_id=1024888517]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.652, 0.5, 1.31256)
 use_as_steering = true
 wheel_radius = 0.45
 wheel_friction_slip = 3.0
 suspension_stiffness = 50.0
 
-[node name="NS_Wheel" parent="RF_Wheel" instance=ExtResource("4_h1fbf")]
+[node name="NS_Wheel" parent="RF_Wheel" unique_id=1339749193 instance=ExtResource("4_h1fbf")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="LB_Wheel" type="VehicleWheel3D" parent="."]
+[node name="LB_Wheel" type="VehicleWheel3D" parent="." unique_id=2089259527]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.613, 0.5, -1.19071)
 use_as_traction = true
 wheel_radius = 0.45
 wheel_friction_slip = 3.0
 suspension_stiffness = 50.0
 
-[node name="NS_Wheel" parent="LB_Wheel" instance=ExtResource("4_h1fbf")]
+[node name="NS_Wheel" parent="LB_Wheel" unique_id=1707872245 instance=ExtResource("4_h1fbf")]
 
-[node name="RB_Wheel" type="VehicleWheel3D" parent="."]
+[node name="RB_Wheel" type="VehicleWheel3D" parent="." unique_id=1925260684]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.613, 0.5, -1.19071)
 use_as_traction = true
 wheel_radius = 0.45
 wheel_friction_slip = 3.0
 suspension_stiffness = 50.0
 
-[node name="NS_Wheel" parent="RB_Wheel" instance=ExtResource("4_h1fbf")]
+[node name="NS_Wheel" parent="RB_Wheel" unique_id=1224374383 instance=ExtResource("4_h1fbf")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="Tire_smoke_Left" parent="." instance=ExtResource("6_lmsar")]
+[node name="Tire_smoke_Left" parent="." unique_id=491796363 instance=ExtResource("6_lmsar")]
 transform = Transform3D(-1.64713e-08, 0, -0.552685, -1.64713e-08, 0.552685, 2.22535e-09, 0.552685, -1.64713e-08, -2.03042e-08, 0.604, 0.19, -1.46)
 emitting = false
 
-[node name="Tire_smoke_Right" parent="." instance=ExtResource("6_lmsar")]
+[node name="Tire_smoke_Right" parent="." unique_id=640069645 instance=ExtResource("6_lmsar")]
 transform = Transform3D(-1.64713e-08, 0, -0.552685, -1.64713e-08, 0.552685, 2.22535e-09, 0.552685, -1.64713e-08, -2.03042e-08, -0.604, 0.19, -1.46)
 emitting = false
 
-[node name="Front_Lights" type="Node3D" parent="."]
+[node name="Front_Lights" type="Node3D" parent="." unique_id=1531019901]
 visible = false
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Front_Lights"]
+[node name="SpotLight3D" type="SpotLight3D" parent="Front_Lights" unique_id=1280649475]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.535573, 0.911788, 1.96594)
 light_color = Color(0.806062, 0.644883, 0.489558, 1)
 light_energy = 20.0
 spot_range = 198.447
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Front_Lights/SpotLight3D"]
+[node name="OmniLight3D" type="OmniLight3D" parent="Front_Lights/SpotLight3D" unique_id=939548861]
 light_color = Color(0.807843, 0.643137, 0.490196, 1)
 omni_range = 0.17
 
-[node name="SpotLight3D2" type="SpotLight3D" parent="Front_Lights"]
+[node name="SpotLight3D2" type="SpotLight3D" parent="Front_Lights" unique_id=216250597]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.536, 0.911715, 1.966)
 light_color = Color(0.806062, 0.644883, 0.489558, 1)
 light_energy = 20.0
 spot_range = 198.447
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="Front_Lights/SpotLight3D2"]
+[node name="OmniLight3D2" type="OmniLight3D" parent="Front_Lights/SpotLight3D2" unique_id=1789434259]
 light_color = Color(0.807843, 0.643137, 0.490196, 1)
 omni_range = 0.17
 
-[node name="Rare_Lights" type="Node3D" parent="."]
+[node name="Rare_Lights" type="Node3D" parent="." unique_id=1981625057]
 visible = false
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Rare_Lights"]
+[node name="OmniLight3D" type="OmniLight3D" parent="Rare_Lights" unique_id=336377785]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.58, 0.918, -1.958)
 light_color = Color(0.685651, 0, 0.169075, 1)
 omni_range = 0.16
 omni_attenuation = 0.615
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="Rare_Lights"]
+[node name="OmniLight3D2" type="OmniLight3D" parent="Rare_Lights" unique_id=11047408]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.58, 0.918, -1.958)
 light_color = Color(0.685651, 0, 0.169075, 1)
 omni_range = 0.16
 omni_attenuation = 0.615
 
-[node name="Car_Engine_Sound" type="AudioStreamPlayer3D" parent="."]
+[node name="Car_Engine_Sound" type="AudioStreamPlayer3D" parent="." unique_id=1925327274]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.872211, 1.32281)
 stream = ExtResource("6_kba6c")
 
-[node name="Tyre_Squeek_Sound" type="AudioStreamPlayer3D" parent="."]
+[node name="Tyre_Squeek_Sound" type="AudioStreamPlayer3D" parent="." unique_id=1822338168]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.245587, -1.20342)
 stream = ExtResource("7_nodx1")
 volume_db = -15.0
 
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=616273297]
 update_rotation = false
 update_scale = false
 
-[node name="LBWSkidmarks" parent="." instance=ExtResource("8_yjm4x")]
+[node name="LBWSkidmarks" parent="." unique_id=1777468874 instance=ExtResource("8_yjm4x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6088131, 0.112566024, -0.88159955)
 emitting = false
 
-[node name="RBWSkidmarks" parent="." instance=ExtResource("8_yjm4x")]
+[node name="RBWSkidmarks" parent="." unique_id=2111599204 instance=ExtResource("8_yjm4x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.609, 0.113, -0.882)
 emitting = false

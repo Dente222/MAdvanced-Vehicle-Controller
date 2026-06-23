@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cyjc01hhqcs2k"]
+
+[ext_resource type="Texture2D" uid="uid://881w8f63fdtb" path="res://addons/M.A.V.S/Vehicle/Trucks/Gharial/Truck_Front_Wheel_Front_BaseColor.png" id="1_hq8sf"]
+
+[resource]
+albedo_texture = ExtResource("1_hq8sf")

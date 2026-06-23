@@ -62,7 +62,7 @@ func _ready() -> void:
 		
 	if nav is NavigationAgent3D: # Check if we have NavigationAgent3D set and if not, print Warning
 		if target_ray: # We check if vehicle have target to reach and if not, print warning. This is here to prevent crash from not having target
-			nav.set_target_position(target_ray.global_position) # Generates path to our target when entering the scene on Navigation Mesh. May or may not be needed but keeping it just in case, this will still be updated in _process() function
+			nav.target_position = target_ray.global_position # Generates path to our target when entering the scene on Navigation Mesh. May or may not be needed but keeping it just in case, this will still be updated in _process() function
 		else: print_rich("[color=salmon][b]WARNING:[/b] Vehicle is missing target! Vehicle will not move on its own until target has been provided!")
 	else: 
 		print_rich("[color=salmon][b]WARNING:[/b] Vehicle is missing NavigationAgent3D! Vehicle will not gonna work properly!")

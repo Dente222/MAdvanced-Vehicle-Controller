@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://difi1uhwesclv"]
+[gd_scene format=4 uid="uid://difi1uhwesclv"]
 
 [ext_resource type="Script" uid="uid://sgl2831dr1i0" path="res://addons/M.A.V.S/Scripts/Race_follow_AI.gd" id="1_vk038"]
 [ext_resource type="Material" uid="uid://xuitbjlknu2y" path="res://addons/M.A.V.S/Vehicle/AI_Vehicles/AI_Muscle_Body.tres" id="2_xo8iw"]
@@ -67,7 +67,10 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_bdd1i")
 
-[node name="AI_Muscle" type="VehicleBody3D" node_paths=PackedStringArray("veh_indicator", "front_rc", "left_rc", "right_rc", "all_wheels") groups=["Vehicle"]]
+[node name="AI_Muscle" type="VehicleBody3D" unique_id=1098418355 node_paths=PackedStringArray("veh_indicator", "front_rc", "left_rc", "right_rc", "all_wheels") groups=["Vehicle"]]
+collision_layer = 3
+collision_mask = 3
+center_of_mass_mode = 1
 script = ExtResource("1_vk038")
 veh_indicator = NodePath("Car_Indicator")
 front_rc = NodePath("Front_Cast")
@@ -76,52 +79,52 @@ right_rc = NodePath("Right_Cast")
 energy_consumption_rate = 0.0
 all_wheels = [NodePath("LF_Wheel"), NodePath("RF_Wheel"), NodePath("LB_Wheel"), NodePath("RB_Wheel")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1051371277]
 shape = SubResource("ConvexPolygonShape3D_yu63s")
 
-[node name="Muscle_Car" type="MeshInstance3D" parent="CollisionShape3D"]
+[node name="Muscle_Car" type="MeshInstance3D" parent="CollisionShape3D" unique_id=52561055]
 mesh = SubResource("ArrayMesh_felco")
 skeleton = NodePath("")
 
-[node name="LF_Wheel" type="VehicleWheel3D" parent="."]
+[node name="LF_Wheel" type="VehicleWheel3D" parent="." unique_id=519698557]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.751287, 0.268905, 1.0609)
 use_as_steering = true
 wheel_radius = 0.35
 wheel_rest_length = 0.0
 suspension_stiffness = 50.0
 
-[node name="Muscle_CarWheel" parent="LF_Wheel" instance=ExtResource("4_impq5")]
+[node name="Muscle_CarWheel" parent="LF_Wheel" unique_id=479764744 instance=ExtResource("4_impq5")]
 
-[node name="RF_Wheel" type="VehicleWheel3D" parent="."]
+[node name="RF_Wheel" type="VehicleWheel3D" parent="." unique_id=1575310268]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.751, 0.268905, 1.0609)
 use_as_steering = true
 wheel_radius = 0.35
 wheel_rest_length = 0.0
 suspension_stiffness = 50.0
 
-[node name="Muscle_CarWheel" parent="RF_Wheel" instance=ExtResource("4_impq5")]
+[node name="Muscle_CarWheel" parent="RF_Wheel" unique_id=657619971 instance=ExtResource("4_impq5")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="LB_Wheel" type="VehicleWheel3D" parent="."]
+[node name="LB_Wheel" type="VehicleWheel3D" parent="." unique_id=60150480]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.751287, 0.268905, -1.01573)
 use_as_traction = true
 wheel_radius = 0.35
 wheel_rest_length = 0.0
 suspension_stiffness = 50.0
 
-[node name="Muscle_CarWheel" parent="LB_Wheel" instance=ExtResource("4_impq5")]
+[node name="Muscle_CarWheel" parent="LB_Wheel" unique_id=888106497 instance=ExtResource("4_impq5")]
 
-[node name="RB_Wheel" type="VehicleWheel3D" parent="."]
+[node name="RB_Wheel" type="VehicleWheel3D" parent="." unique_id=1204725656]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.751, 0.268905, -1.01573)
 use_as_traction = true
 wheel_radius = 0.35
 wheel_rest_length = 0.0
 suspension_stiffness = 50.0
 
-[node name="Muscle_CarWheel" parent="RB_Wheel" instance=ExtResource("4_impq5")]
+[node name="Muscle_CarWheel" parent="RB_Wheel" unique_id=1782957193 instance=ExtResource("4_impq5")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="Car_Indicator" type="Sprite3D" parent="."]
+[node name="Car_Indicator" type="Sprite3D" parent="." unique_id=1786974711]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
 visible = false
 layers = 512
@@ -129,14 +132,14 @@ pixel_size = 0.05
 axis = 1
 texture = ExtResource("5_l6u46")
 
-[node name="Front_Cast" type="RayCast3D" parent="."]
+[node name="Front_Cast" type="RayCast3D" parent="." unique_id=1937185084]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6513692, 1.7302966)
 target_position = Vector3(0, 0, 1)
 
-[node name="Left_Cast" type="RayCast3D" parent="."]
+[node name="Left_Cast" type="RayCast3D" parent="." unique_id=617247698]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0.42184126, 0.6513692, 1.6774482)
 target_position = Vector3(0, 0, 1)
 
-[node name="Right_Cast" type="RayCast3D" parent="."]
+[node name="Right_Cast" type="RayCast3D" parent="." unique_id=730496063]
 transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -0.422, 0.651, 1.677)
 target_position = Vector3(0, 0, 1)

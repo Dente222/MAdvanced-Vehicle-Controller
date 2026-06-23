@@ -23,6 +23,11 @@ var time_since_input : float = 0.0 # Delay timer before camera possitione itself
 const X_SMOOTHNESS : float = 2.0 # Smoothing for manual camera rotation
 
 
+func _ready() -> void:
+	if cam_parent.get_parent().is_truck: # Check if our Vehicle is truck type
+		self.position = Vector3(0, 3.0, 0) # Rise our camera a bit for better visiblity
+		self.get_child(0).rotation_degrees.x = -15 # Angle our camera a bit for better visiblity
+
 func _physics_process(delta: float) -> void:
 	var vehicle = cam_parent.get_parent() # Reference to our vehicle itself
 
@@ -108,10 +113,16 @@ func switch_camera():
 			camera.rotation_degrees.x = 0.0 # We reset camera angle for each axis just in case
 			camera.rotation_degrees.y = 0.0
 			camera.rotation_degrees.z = 0.0
+			if cam_parent.get_parent().is_truck: # Updates camer for trucks types to be consisten
+				self.position = Vector3(0, 3.0, 0)
+				self.get_child(0).rotation_degrees.x = -15
 			
 		1:
 			cam_position.rotation_degrees.x = 7.5 # Same here we tilt camera position to be a bit lower and closer
 			cam_arm.spring_length = 4.0 # We set the lenght of spring arm to be 4m away
+			if cam_parent.get_parent().is_truck: # Updates camer for trucks types to be consisten
+				self.position = Vector3(0, 2.0, 0)
+				self.get_child(0).rotation_degrees.x = -15
 			if hood == null: # We check if our car have hood cam and if not just skip back to first cam position
 				current_cam = -1
 			

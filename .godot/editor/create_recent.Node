@@ -1,15 +1,15 @@
+Decal
+MeshInstance3D
+SoftBody3D
+Node3D
+CollisionPolygon3D
+Generic6DOFJoint3D
+ConeTwistJoint3D
+PinJoint3D
+HingeJoint3D
+VehicleBody3D
+CharacterBody3D
 CheckButton
 ColorPickerButton
 Label
 Button
-OptionButton
-ItemList
-MenuButton      - Matches the "dropdown" keyword.
-TabBar
-SpinBox
-VBoxContainer
-MenuBar
-PanelContainer
-Panel
-Control
-MVehicle3D

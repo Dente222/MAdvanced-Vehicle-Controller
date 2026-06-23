@@ -9,6 +9,7 @@ extends EditorPlugin
 # https://github.com/selgesel/godot4-third-person-controller/commit/2ee520db2751e9d24fd1b511016a1384cd6e139b
 # ================================================================================================ #
 
+
 class Action:
 	var name: String
 	var deadzone: float

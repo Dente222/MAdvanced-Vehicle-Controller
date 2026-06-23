@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://bat0h5s3lfqru"]
+[gd_scene format=4 uid="uid://bat0h5s3lfqru"]
 
 [ext_resource type="Script" uid="uid://bbhuci2yxbttx" path="res://addons/M.A.V.S/Scripts/advanced_vehicle_controller.gd" id="1_y5skb"]
 [ext_resource type="Material" uid="uid://bsncupea80ovf" path="res://addons/M.A.V.S/Vehicle/GT30/GT30_Details.tres" id="2_jlfqj"]
@@ -88,7 +88,9 @@ size = Vector3(0.265, 0.135, 0.565)
 [sub_resource type="BoxShape3D" id="BoxShape3D_woi1i"]
 size = Vector3(0.265, 0.135, 0.565)
 
-[node name="GT30" type="VehicleBody3D" node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
+[node name="GT30" type="VehicleBody3D" unique_id=639259667 node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_y5skb")
 veh_name = "GT30"
 veh_mesh = NodePath("GT30")
@@ -102,151 +104,154 @@ smoke_particles = [NodePath("LWParticle"), NodePath("RWParticle")]
 skidmarks_particle = [NodePath("LBWSkidmarks"), NodePath("RBWSkidmarks")]
 veh_color = Color(0.580392, 0, 0, 1)
 rpm_wheel = NodePath("LBWheel")
-use_energy = false
 wheels = [NodePath("LBWheel"), NodePath("RBWheel")]
 all_wheels = [NodePath("LFWheel"), NodePath("RFWheel"), NodePath("LBWheel"), NodePath("RBWheel")]
 can_puncture = true
 tire_points = [NodePath("LFTirePuncture"), NodePath("RFTirePuncture"), NodePath("LBTirePuncture"), NodePath("RBTirePuncture")]
 metadata/_custom_type_script = "uid://bbhuci2yxbttx"
 
-[node name="GT30" type="MeshInstance3D" parent="."]
+[node name="GT30" type="MeshInstance3D" parent="." unique_id=87747117]
 mesh = SubResource("ArrayMesh_e7sgy")
 surface_material_override/1 = ExtResource("3_4njtc")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1062098629]
 visible = false
 shape = SubResource("ConvexPolygonShape3D_mx6kv")
 metadata/_edit_lock_ = true
 
-[node name="LFWheel" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67, 0.33, 0.85)
+[node name="LFWheel" type="VehicleWheel3D" parent="." unique_id=823957218]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67, 0.36170962, 0.85)
 use_as_steering = true
 wheel_radius = 0.255
-suspension_stiffness = 35.0
+wheel_rest_length = 0.05
+suspension_stiffness = 100.0
 
-[node name="GT30_Wheel" parent="LFWheel" instance=ExtResource("4_woi1i")]
+[node name="GT30_Wheel" parent="LFWheel" unique_id=507300620 instance=ExtResource("4_woi1i")]
 
-[node name="RFWheel" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67, 0.33, 0.85)
+[node name="RFWheel" type="VehicleWheel3D" parent="." unique_id=1732332163]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67, 0.36170962, 0.85)
 use_as_steering = true
 wheel_radius = 0.255
-suspension_stiffness = 35.0
+wheel_rest_length = 0.05
+suspension_stiffness = 100.0
 
-[node name="GT30_Wheel" parent="RFWheel" instance=ExtResource("4_woi1i")]
+[node name="GT30_Wheel" parent="RFWheel" unique_id=1898306130 instance=ExtResource("4_woi1i")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
-[node name="LBWheel" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67, 0.33, -1.08145)
+[node name="LBWheel" type="VehicleWheel3D" parent="." unique_id=1780099899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67, 0.36170962, -1.08145)
 use_as_traction = true
 wheel_radius = 0.255
-suspension_stiffness = 35.0
+wheel_rest_length = 0.05
+suspension_stiffness = 100.0
 
-[node name="GT30_Wheel" parent="LBWheel" instance=ExtResource("4_woi1i")]
+[node name="GT30_Wheel" parent="LBWheel" unique_id=1444908515 instance=ExtResource("4_woi1i")]
 
-[node name="RBWheel" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67, 0.33, -1.08145)
+[node name="RBWheel" type="VehicleWheel3D" parent="." unique_id=61996343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67, 0.36170962, -1.08145)
 use_as_traction = true
 wheel_radius = 0.255
-suspension_stiffness = 35.0
+wheel_rest_length = 0.05
+suspension_stiffness = 100.0
 
-[node name="GT30_Wheel" parent="RBWheel" instance=ExtResource("4_woi1i")]
+[node name="GT30_Wheel" parent="RBWheel" unique_id=12272641 instance=ExtResource("4_woi1i")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
-[node name="Front_Lights" type="Node3D" parent="."]
+[node name="Front_Lights" type="Node3D" parent="." unique_id=2096578759]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.480166, 1.55772)
 visible = false
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Front_Lights"]
+[node name="SpotLight3D" type="SpotLight3D" parent="Front_Lights" unique_id=213073360]
 transform = Transform3D(1, 0, 0, 0, -1, 8.9407e-08, 0, -8.9407e-08, -1, 0.561166, 0.0533999, -0.0838625)
 light_color = Color(0.909348, 0.684672, 0.316603, 1)
 light_energy = 20.0
 spot_range = 200.0
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Front_Lights/SpotLight3D"]
+[node name="OmniLight3D" type="OmniLight3D" parent="Front_Lights/SpotLight3D" unique_id=958816187]
 layers = 2
 light_color = Color(0.807843, 0.643137, 0.490196, 1)
 omni_range = 0.17
 
-[node name="SpotLight3D2" type="SpotLight3D" parent="Front_Lights"]
+[node name="SpotLight3D2" type="SpotLight3D" parent="Front_Lights" unique_id=1829408794]
 transform = Transform3D(1, 0, 0, 0, -1, 8.9407e-08, 0, -8.9407e-08, -1, -0.561, 0.053, -0.084)
 light_color = Color(0.909348, 0.684672, 0.316603, 1)
 light_energy = 20.0
 spot_range = 200.0
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Front_Lights/SpotLight3D2"]
+[node name="OmniLight3D" type="OmniLight3D" parent="Front_Lights/SpotLight3D2" unique_id=2012782877]
 layers = 2
 light_color = Color(0.807843, 0.643137, 0.490196, 1)
 omni_range = 0.17
 
-[node name="Rare_Lights" type="Node3D" parent="."]
+[node name="Rare_Lights" type="Node3D" parent="." unique_id=1749691506]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6441, -1.76335)
 visible = false
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Rare_Lights"]
+[node name="OmniLight3D" type="OmniLight3D" parent="Rare_Lights" unique_id=1030082825]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.386139, 0, 0.00100923)
 light_color = Color(1, 0, 0, 1)
 omni_range = 0.158848
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="Rare_Lights"]
+[node name="OmniLight3D2" type="OmniLight3D" parent="Rare_Lights" unique_id=455728345]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.386, 0, 0.001)
 light_color = Color(1, 0, 0, 1)
 omni_range = 0.158848
 
-[node name="LWParticle" parent="." instance=ExtResource("5_omr6a")]
+[node name="LWParticle" parent="." unique_id=1997224439 instance=ExtResource("5_omr6a")]
 transform = Transform3D(-2.98023e-08, 0, -1, -2.98023e-08, 1, 4.02643e-09, 1, -2.98023e-08, -3.67374e-08, 0.667358, 0.11246, -1.24863)
 emitting = false
 
-[node name="RWParticle" parent="." instance=ExtResource("5_omr6a")]
+[node name="RWParticle" parent="." unique_id=2075730895 instance=ExtResource("5_omr6a")]
 transform = Transform3D(-2.98023e-08, 0, -1, -2.98023e-08, 1, 4.02643e-09, 1, -2.98023e-08, -3.67374e-08, -0.667, 0.112, -1.249)
 emitting = false
 
-[node name="Engine Sound" type="AudioStreamPlayer3D" parent="."]
+[node name="Engine Sound" type="AudioStreamPlayer3D" parent="." unique_id=470503425]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.871111, -1.29563)
 stream = ExtResource("6_ltawu")
 
-[node name="Tire Sound" type="AudioStreamPlayer3D" parent="."]
+[node name="Tire Sound" type="AudioStreamPlayer3D" parent="." unique_id=347001446]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0825822, -0.938659)
 stream = ExtResource("7_i3e32")
 
-[node name="LFTirePuncture" type="ShapeCast3D" parent="."]
+[node name="LFTirePuncture" type="ShapeCast3D" parent="." unique_id=508853178]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67, 0.33, 0.85)
 shape = SubResource("BoxShape3D_y5skb")
 target_position = Vector3(0, -0.2, 0)
 collide_with_areas = true
 collide_with_bodies = false
 
-[node name="RFTirePuncture" type="ShapeCast3D" parent="."]
+[node name="RFTirePuncture" type="ShapeCast3D" parent="." unique_id=1440867445]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67, 0.33, 0.85)
 shape = SubResource("BoxShape3D_jlfqj")
 target_position = Vector3(0, -0.2, 0)
 collide_with_areas = true
 collide_with_bodies = false
 
-[node name="LBTirePuncture" type="ShapeCast3D" parent="."]
+[node name="LBTirePuncture" type="ShapeCast3D" parent="." unique_id=7101351]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67, 0.33, -1.081)
 shape = SubResource("BoxShape3D_4njtc")
 target_position = Vector3(0, -0.2, 0)
 collide_with_areas = true
 collide_with_bodies = false
 
-[node name="RBTirePuncture" type="ShapeCast3D" parent="."]
+[node name="RBTirePuncture" type="ShapeCast3D" parent="." unique_id=1933428548]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67, 0.33, -1.081)
 shape = SubResource("BoxShape3D_woi1i")
 target_position = Vector3(0, -0.2, 0)
 collide_with_areas = true
 collide_with_bodies = false
 
-[node name="Hood_Camera" type="Marker3D" parent="."]
+[node name="Hood_Camera" type="Marker3D" parent="." unique_id=2079469827]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.898886, 0.762187)
 
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=908050466]
 update_rotation = false
 update_scale = false
 
-[node name="LBWSkidmarks" parent="." instance=ExtResource("8_66epa")]
+[node name="LBWSkidmarks" parent="." unique_id=1079753839 instance=ExtResource("8_66epa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6715304, 0.08903593, -0.7905551)
 emitting = false
 
-[node name="RBWSkidmarks" parent="." instance=ExtResource("8_66epa")]
+[node name="RBWSkidmarks" parent="." unique_id=2091750795 instance=ExtResource("8_66epa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.672, 0.08901335, -0.7909378)
 emitting = false

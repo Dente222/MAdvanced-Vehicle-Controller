@@ -76,7 +76,7 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export var hood_cam : Marker3D # Marker where hood camera will be placed
 @export var remote_transformer : RemoteTransform3D # Reference to RemoteTransformer3D which is used make camera follow, its made this way due to rework of camer system which lets player to rotate camera freely along with keeping its old functionality. Its better than forcing camera position via code every tick
 @export var debug_hud : bool = false # Displays debug hud for the vehicle such as Acceleration, speed and gears ratio
-
+@export var is_truck : bool = false # Check if our vehicle is a truck and adjust few settings for the truck to work better
 
 @export_subgroup("Steering")
 enum steering_type {DEFAULT, OSH_QRD_STEERING} # Types of steering system that can be used by the player
@@ -93,7 +93,7 @@ enum steering_type {DEFAULT, OSH_QRD_STEERING} # Types of steering system that c
 
 @export_subgroup("Particles settings")
 @export var smoke_particles : Array [GPUParticles3D] # Array of our particle nodes for easy access
-@export var skidmarks_particle : Array [GPUParticles3D]
+@export var skidmarks_particle : Array [GPUParticles3D] # Array of our skid marks nodes for easy access
 
 @export_subgroup("Colour settings")
 @export var allow_color_change : bool = true # We check if Player is allowed to change vehicle colour or not, you can restrict some vehicle from their colour to be changed if necessary
@@ -176,7 +176,7 @@ enum nos_level {Empty, Tier1, Tier2, Tier3} # Tiers of NOS that we have availabl
 @export var nos_drift_bonus : float = 0.2 # Determines how much NOS is added back to our tank, this is multiplied by the tier of our NOS for example 0.2 * Tier3 will multiply it by 3
 
 @export_group("Vehicle Energy settings")
-@export var use_energy : bool = true # Checks if we should use energy or not
+@export var use_energy : bool = false # Checks if we should use energy or not
 @export var max_energy : float = 150.0 # Max Energy capacity we can have
 @export var energy_consumption_rate : float = 0.01 # Rate in which we gonna consume energy from our vehicle
 @export_range(1, 10) var drain_penalty : int = 6 # Penalty that will be applie to gear_ratio when we run out of energy
@@ -201,7 +201,7 @@ var punctured_tires : Array = [false, false, false, false] # Array to check what
 var wheel_def_radius : float # This is the radius of our wheels that we set when we make them, we need this to imitate the visual of a flat tire, for some reason we can't decrease its value directly and when we try that it sets the value instead
 var acceleration : float # Controlls value of acceleration, range from -1 to 1. Note: this support controllers too!
 var veh_speed : float # Displays Vehicle speed, not very accurate but can be adjusted below
-const speed_modifier : float = 2.8 # Modifies actuall speed to be more accurate on speed o metter
+const speed_modifier : float = 3.6 # Modifies actuall speed to be more accurate on speed o metter
 var gear : int = 0 # Displays current gear based on gear_ratio
 var can_reset : bool = true # Switch to allow player to reset vehicle and set cooldown to prevent spamming it
 var energy : float # Variable in which we store vehicle energy or fuel and exports it to progress bar in UI scene
@@ -211,6 +211,12 @@ var minimap_node : CanvasLayer # This lets us find the node that contains minima
 
 # Everything that needs to be set when our car is initiated
 func _ready() -> void:
+	
+	# Only to tell user that Jolt Physics is not enabled
+	var physics_engine = ProjectSettings.get_setting("physics/3d/physics_engine")
+	if physics_engine != "Jolt Physics":
+		print_rich("[color=salmon][b]WARNING:[/b] It is recommended to use Jolt Physics with M.A.V.S! [color=white]")
+	
 	
 	
 	if is_current_veh: # Sets viewport to use provided camera. Read comment on is_current_veh variable to learn more
@@ -235,7 +241,10 @@ func assign_vehicle() -> void:
 	engine_sound.playing = true
 	wheel_def_radius = rpm_wheel.wheel_radius # This one sets the default radius of our wheels based on the radius of our RPM wheel, we need this to decrease the radius when wheel is punctured since we cant simply decrease it directly cuz that way it will replace the value of the wheel radius
 	self.add_to_group("Player_car") # Adds player controller car ONLY! to the Player_car groupe
-	
+	if is_truck: # Check if this vehicle is a Trucks type
+		self.collision_layer = 0 # Sets this vehicle collision to 0 on a Layer level, this is to prevent camera from being blocked by our truck
+		self.set_collision_layer_value(2, true) # Turn second Layer for our truck soo that it can push around other objects while camera is not affected by it
+		
 	for x in all_wheels: # Sets the default grip for all the wheels that are in variable
 			x.wheel_friction_slip = wheel_grip
 
@@ -273,9 +282,9 @@ func _physics_process(delta: float) -> void:
 		
 		# Check which steering version player wants to use
 		match steering_model:
-			steering_type.DEFAULT:	# Default steering model
+			steering_type.DEFAULT: # Default steering model, no traction, no support
 				steering = lerp(steering, Input.get_axis(key_turn_right, key_turn_left) * turn_angle, default_turn_delay * delta) # Allows our vehicle to turn. Note: This already supports gamepad!
-			steering_type.OSH_QRD_STEERING:	# Uses the way of steering provided by OSH QRD
+			steering_type.OSH_QRD_STEERING: # Uses the way of steering provided by OSH QRD
 				var target_input = Input.get_axis(key_turn_right, key_turn_left) # Gets the input of our steering
 				if target_input != 0.0: # Checks if our wheels are actually turned or not
 					steering_input = move_toward(steering_input, target_input, steering_acceleration * delta) # Sets the steering with specifc speed for turning
@@ -287,7 +296,6 @@ func _physics_process(delta: float) -> void:
 		veh_speed = speed_xz * speed_modifier # Gets vehicle velocity and multiplies it to get semi accurate velocity display on speed o meter, adjustable
 		rpm = rpm_wheel.get_rpm() # Gets RPM from our selected wheel
 		rpm_calclated = clamp(rpm, -max_rpm * gear_ratio[gear], max_rpm * gear_ratio[gear]) # Gets our RPM and calculate it to have max negative RPM and positive RPM to limit our geabox and overall power
-		
 		
 		if !use_energy: # We check if our vehicle uses energy and if not then Hide the bar
 			minimap_node.fuel_bar.visible = false
@@ -326,7 +334,7 @@ func _physics_process(delta: float) -> void:
 		# Note: This needs to check for both Acceleration and RPM, otherwise it might cause
 		# some issues with gears being applied incorrectly
 		if acceleration <= -0.11 and rpm_calclated >= 0.00:
-			brake = 2.0
+			brake = 5.0
 		else: brake = 0.0
 		
 		
@@ -369,8 +377,9 @@ func _physics_process(delta: float) -> void:
 		var is_burnout = abs(acceleration) > 0.95 and veh_speed < 10.0 and gear == 1
 		# Hand Brake function, applies brake and stops giving power to the engine
 		if Input.is_action_pressed(key_handbrake):
-			brake = 3.0
+			brake = 10.0
 			engine_force = 0.0
+			rare_lights.show()
 
 			# Applies wet_grip value to make car more drifty when applying hand brake
 			for i in wheels.size(): # We run through all of our wheels that are affected by hand brake and check if any is punctured
@@ -383,7 +392,6 @@ func _physics_process(delta: float) -> void:
 			for i in wheels.size(): 
 				if punctured_tires[i] == false: # If our wheel is not punctrued then do burnout
 					wheels[i].wheel_friction_slip = burnout_slip # Apply burnout grip
-		
 		else: 
 			# Returns back to default grip if we dont do burnout or have handbrake on
 			for i in all_wheels.size(): 
@@ -496,7 +504,7 @@ func _physics_process(delta: float) -> void:
 							brake = 5
 						
 						# Prevents our car from driving forward on reverse gear
-						# Technically its still possible but it driver at 0.9 RPM which is not even 1Km
+						# Technically its still possible but it drives at 0.9 RPM which is not even 1Km
 						# Note this has to be applied for all gears!
 						if rpm_calclated >= 0.1 and acceleration >= 0.00:
 							brake = 10
@@ -543,7 +551,7 @@ func _physics_process(delta: float) -> void:
 		_apply_torque() # Kicks in the function to apply engine power
 		lights_switch() # Calls our light switch
 		reset_vehicle() # Allows player to reset vehicle if needed
-		
+
 # Here is where we give our car some force
 func _apply_torque() -> void:
 	
@@ -754,7 +762,7 @@ func skiding_effects() -> void:
 		
 	# This checks if any of our skidding wheels is actually sliding
 	# and if soo then apply tyre sliding sound otherwise stop playing it
-	# Checks if wheels are skiding or if handbrake is applied withing speed then play sound
+	# Checks if wheels are skiding or if handbrake is applied within speed then play sound
 	if (wheels[0].get_skidinfo() < 0.85 or wheels[1].get_skidinfo() < 0.85) or (Input.is_action_pressed(key_handbrake) and veh_speed > 5.0):
 		# Plays tyre sound when car is sliding and if sound does not play already
 		if tyre_sound.is_playing() == false:

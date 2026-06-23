@@ -80,6 +80,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_v5nm0")
 
 [node name="MVehicleBasicFollowAI" type="VehicleBody3D" node_paths=PackedStringArray("veh_indicator", "veh_mesh", "all_wheels") groups=["Vehicle"]]
+center_of_mass_mode = 1
 script = ExtResource("1_ns4ic")
 veh_indicator = NodePath("Car_Indicator")
 veh_mesh = NodePath("CollisionShape3D/TRG_Mesh")
