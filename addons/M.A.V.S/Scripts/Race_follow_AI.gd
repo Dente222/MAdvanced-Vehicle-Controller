@@ -122,7 +122,7 @@ func _physics_process(delta: float) -> void:
 		steering = deg_to_rad(target_angle)  # Convert back to radians after clamping cuz it is harder to clamp radiant
 		if race_AI: # Checks if our AI is a racing car or traffic
 			direction_to_yaw_deg(target_ray, speed_xz, delta) # Run this function if its a racing car to help with speed management and corners
-		elif !race_AI: # If its not a Racing AI or still desired to follow something at its own speed without restriction or thinking "Bad for tracks with corners"
+		else: # If its not a Racing AI or still desired to follow something at its own speed without restriction or thinking "Bad for tracks with corners"
 			traffic_ai_handler(target_ray, speed_xz, delta)
 
 
@@ -165,7 +165,7 @@ func traffic_ai_handler(target: Node3D, speed_xz: float, delta: float) -> void:
 	
 	# Since it is a traffic setup, we check here if assigned target is active and if soo make it drive
 	# otherwise just stop, this is here to make the car stop on traffic lights or when 
-	if target_ray.active == true:
+	if target_ray.active and target_ray.progress_ratio != 1.0:
 		engine_force = max_speed
 		brake = 0.0
 		
@@ -177,13 +177,6 @@ func traffic_ai_handler(target: Node3D, speed_xz: float, delta: float) -> void:
 				await get_tree().create_timer(0.2).timeout
 				freeze = false
 				
-		if target_ray.progress_ratio == 1.0:
-			engine_force = 0.0
-			brake = 10.0
-			if speed_xz < abs(1.0):
-				freeze = true # This freeze is here to stop the vehicle completely when reaching a stop or traffic lights, prevents that micro movement which makes the car roll slightly with brakes
-				await get_tree().create_timer(0.2).timeout
-				freeze = false
 	else:
 		engine_force = 0.0
 		brake = lerp(brake, brakes_limit, delta * 2)
@@ -191,14 +184,14 @@ func traffic_ai_handler(target: Node3D, speed_xz: float, delta: float) -> void:
 			freeze = true # This freeze is here to stop the vehicle completely when reaching a stop or traffic lights, prevents that micro movement which makes the car roll slightly with brakes
 			await get_tree().create_timer(0.2).timeout
 			freeze = false
-	
 
-	
+
+
 	if take_speed_from_target: # Takes speed from our Traffic Target
 		
 		# Adds some boost to the car to catch up with target
-		# Note: In future this might be integrated to the 
-		if boost_speed: 
+		# Note: In future this might be integrated 
+		if boost_speed and target_ray.active and !target_ray.front_obstacle: 
 			var distance = self.position.distance_to(target_ray.position) # Gets the distance to target
 			#if distance > target_ray.max_distance: # Checks if car is further than 5.0 units from target and if soo, boost its speed to catch up
 				#max_speed = target_ray.speed + 10

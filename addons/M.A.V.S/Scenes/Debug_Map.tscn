@@ -24,12 +24,12 @@
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ucdff"]
 
-[sub_resource type="Sky" id="Sky_2aahf"]
+[sub_resource type="Sky" id="Sky_hd5kw"]
 sky_material = SubResource("ProceduralSkyMaterial_ucdff")
 
 [sub_resource type="Environment" id="Environment_fqky0"]
 background_mode = 2
-sky = SubResource("Sky_2aahf")
+sky = SubResource("Sky_hd5kw")
 tonemap_mode = 2
 ssr_max_steps = 132
 fog_density = 0.0302
@@ -1756,59 +1756,69 @@ metadata/_edit_lock_ = true
 
 [node name="Tunel" type="CSGCombiner3D" parent="Arena/Obstacles" unique_id=1663545170]
 use_collision = true
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Arena/Obstacles/Tunel" unique_id=142793879]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2.5, 7)
 size = Vector3(42, 4, 27)
 material = ExtResource("1_mhgok")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Arena/Obstacles/Tunel" unique_id=1511020124]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 1)
 operation = 2
 size = Vector3(5, 3, 15)
 material = ExtResource("1_mhgok")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Arena/Obstacles/Tunel" unique_id=171901126]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2, 11.5)
 operation = 2
 size = Vector3(5, 3, 18)
 material = ExtResource("1_mhgok")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="Arena/Obstacles/Tunel" unique_id=226651925]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2, 11.5)
 operation = 2
 size = Vector3(5, 3, 18)
 material = ExtResource("1_mhgok")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Arena/Obstacles/Tunel" unique_id=1992711961]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2, 5.5)
 operation = 2
 size = Vector3(20, 3, 6)
 material = ExtResource("1_mhgok")
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Arena/Obstacles/Tunel" unique_id=889157666]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 2, 2, -6.5)
 material_override = ExtResource("2_qu8ow")
 mesh = SubResource("PrismMesh_w3biv")
 skeleton = NodePath("../../../..")
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Arena/Obstacles/Tunel" unique_id=1400862811]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -6, 2, -6.5)
 material_override = ExtResource("2_qu8ow")
 mesh = SubResource("PrismMesh_w3biv")
 skeleton = NodePath("../../../..")
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Arena/Obstacles/Tunel" unique_id=167092534]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -23, 2, 20.5)
 material_override = ExtResource("2_qu8ow")
 mesh = SubResource("PrismMesh_w3biv")
 skeleton = NodePath("../../../..")
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="Arena/Obstacles/Tunel" unique_id=1414009498]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -31, 2, 20.5)
 material_override = ExtResource("2_qu8ow")
 mesh = SubResource("PrismMesh_w3biv")
 skeleton = NodePath("../../../..")
+metadata/_edit_lock_ = true
 
 [node name="Platform Ramp" type="CSGPolygon3D" parent="Arena/Obstacles/Tunel" unique_id=1019959869]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8.99512, 0.500001, -6.47865)
@@ -1817,68 +1827,80 @@ use_collision = true
 polygon = PackedVector2Array(19, 0, 0.000815809, 0.0226523, 0, 4, 0.95288, 3.87579, 2.14488, 3.60404, 3.40584, 3.29162, 4.76138, 2.81449, 6.09126, 2.29308, 7.30663, 1.72653, 8.60348, 1.30255, 9.65416, 0.970998, 11.0807, 0.61508, 12.6546, 0.383725, 13.7818, 0.264875, 15.0837, 0.200405, 16.2061, 0.12911, 17.7509, 0.0659009)
 depth = 20.0
 material = ExtResource("2_c6hdh")
+metadata/_edit_lock_ = true
 
 [node name="Railing" type="Node3D" parent="Arena/Obstacles/Tunel" unique_id=637242458]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 20)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Arena/Obstacles/Tunel/Railing" unique_id=1051479734]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 material_override = ExtResource("3_tcfm6")
 use_collision = true
 size = Vector3(0.2, 1, 0.2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Arena/Obstacles/Tunel/Railing" unique_id=1536886116]
 material_override = ExtResource("3_tcfm6")
 use_collision = true
 size = Vector3(0.2, 1, 0.2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Arena/Obstacles/Tunel/Railing" unique_id=208729921]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
 material_override = ExtResource("3_tcfm6")
 use_collision = true
 size = Vector3(0.2, 1, 0.2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="Arena/Obstacles/Tunel/Railing" unique_id=185127487]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6, 0.351504, 0)
 material_override = ExtResource("3_tcfm6")
 use_collision = true
 size = Vector3(43, 0.5, 0.25)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Arena/Obstacles/Tunel/Railing" unique_id=509311076]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
 material_override = ExtResource("3_tcfm6")
 use_collision = true
 size = Vector3(0.2, 1, 0.2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="Arena/Obstacles/Tunel/Railing" unique_id=242461605]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
 material_override = ExtResource("3_tcfm6")
 use_collision = true
 size = Vector3(0.2, 1, 0.2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Arena/Obstacles/Tunel/Railing" unique_id=539133965]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
 material_override = ExtResource("3_tcfm6")
 use_collision = true
 size = Vector3(0.2, 1, 0.2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="Arena/Obstacles/Tunel/Railing" unique_id=1824832181]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 0)
 material_override = ExtResource("3_tcfm6")
 use_collision = true
 size = Vector3(0.2, 1, 0.2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="Arena/Obstacles/Tunel/Railing" unique_id=1802449528]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 0)
 material_override = ExtResource("3_tcfm6")
 use_collision = true
 size = Vector3(0.2, 1, 0.2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Arena/Obstacles/Tunel/Railing" unique_id=310348080]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 0, 0)
 material_override = ExtResource("3_tcfm6")
 use_collision = true
 size = Vector3(0.2, 1, 0.2)
+metadata/_edit_lock_ = true
 
 [node name="Ramp" type="CSGPolygon3D" parent="Arena/Obstacles" unique_id=231409798]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0.5, 11)
@@ -1886,57 +1908,67 @@ material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0, 3, 0.488358, 2.68822, 1.03863, 2.37046, 1.57678, 2.09083, 2.11517, 1.83002, 2.62949, 1.60488, 3.23144, 1.39032, 3.94583, 1.14298, 4.61387, 0.911114, 5.31897, 0.695835, 6.04636, 0.498671, 6.82274, 0.326103, 7.6745, 0.143182, 8.317, 0.0557576, 9, 0)
 depth = 6.0
+metadata/_edit_lock_ = true
 
 [node name="Bumps" type="Node3D" parent="Arena/Obstacles" unique_id=1862298475]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0.5, -13)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D3" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=406674684]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D4" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=79079042]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -1)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D5" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=1696590136]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -2)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D6" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=648111699]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -3)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D7" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=1939331270]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -4)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D8" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=855092737]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -5)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D9" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=723408614]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -6)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D10" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=1543727284]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -7)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D23" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=434115647]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -210, 0, -58)
@@ -1944,6 +1976,7 @@ material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(-3, 0, -2.8393784, 0.08101869, 0.9, 0.05, 4, 0)
 depth = 4.0
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D24" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=145482835]
 transform = Transform3D(-1, 0, 8.742279e-08, 0, 1, 0, -8.742279e-08, 0, -1, -249, 0, -58)
@@ -1951,78 +1984,91 @@ material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(-3, 0, -2.8393784, 0.08101869, 0.9, 0.05, 4, 0)
 depth = 4.0
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D11" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=434785643]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -8)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D12" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=432962126]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -9)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D13" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=2107668389]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -10)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D14" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=1121331432]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -11)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D15" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=1407969015]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -12)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D16" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=2090246918]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -13)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D17" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=2044487011]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -14)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D18" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=407152612]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -15)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D19" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=1615202466]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -16)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D20" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=1321963792]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -17)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D21" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=1553474208]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -18)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="CSGPolygon3D22" type="CSGPolygon3D" parent="Arena/Obstacles/Bumps" unique_id=917099329]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.5, 0, -19)
 material_override = ExtResource("2_c6hdh")
 use_collision = true
 polygon = PackedVector2Array(0, 0, 0.1, 0.05, 0.9, 0.05, 1, 0)
+metadata/_edit_lock_ = true
 
 [node name="Climb Platforms" type="Node3D" parent="Arena/Obstacles" unique_id=1255266231]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106, 0, 0)
@@ -2593,7 +2639,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.798, 0.74, -144.1)
 
 [node name="TRG" parent="." unique_id=1987910732 node_paths=PackedStringArray("tire_points") instance=ExtResource("10_qtsp6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0.97425, -144)
-center_of_mass_mode = 1
+veh_state = 0
 veh_color = Color(0.764655, 0.485504, 0.280555, 1)
 nos_tier = 3
 can_puncture = false
@@ -2602,7 +2648,7 @@ tire_points = []
 [node name="GT30" parent="." unique_id=1209298356 node_paths=PackedStringArray("tire_points") groups=["Vehicle"] instance=ExtResource("11_0wlyr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 1, -144)
 mass = 120.0
-center_of_mass_mode = 1
+veh_state = 0
 gear_ratio = [0.0, 12.5, 10.5, 8.9, 8.2, 7.6]
 differential = [0.0, 48.0, 43.0, 38.6, 34.7, 32.5]
 ratio_limiter = [700, 920, 1100, 1500]
@@ -2610,62 +2656,39 @@ nos_tier = 3
 can_puncture = false
 tire_points = []
 
-[node name="CleoV8" parent="." unique_id=1582883236 node_paths=PackedStringArray("tire_points") groups=["Vehicle"] instance=ExtResource("13_fafsd")]
+[node name="CleoV8" parent="." unique_id=1582883236 groups=["Vehicle"] instance=ExtResource("13_fafsd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.914, 0.93245196, -144.085)
-mass = 120.0
-center_of_mass_mode = 1
+veh_state = 0
 veh_color = Color(0.6154792, 0.22344163, 0, 1)
 material_tint = 0.0
-front_bumper_mod = 1
-rare_bumper_mod = 1
 use_default_rims_front = false
 use_default_rims_back = false
 both_rim_color = Color(0.556953, 0.556953, 0.556953, 1)
-gear_ratio = [0.0, 12.5, 10.5, 8.9, 8.5, 7.6]
-differential = [0.0, 48.0, 43.0, 38.6, 34.7, 32.5]
 ratio_limiter = [500, 720, 900, 1500]
 nos_tier = 3
-tire_points = []
 
 [node name="Truck" parent="." unique_id=1884298549 node_paths=PackedStringArray("tire_points") instance=ExtResource("20_2aahf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 1.2212372, -136)
-steering_model = 0
-default_turn_delay = 5.0
-turn_angle = 0.4
-steering_acceleration = 2.0
-steering_return_speed = 3.0
-engine_pitch_modifier = 50.0
-key_gear_1 = ""
-key_gear_2 = ""
-key_gear_3 = ""
-key_gear_4 = ""
-key_gear_5 = ""
-key_gear_reverse = ""
+veh_state = 0
+no_default_spoiler = false
+hood_mod = 0
+front_bumper_mod = 0
+rare_bumper_mod = 0
+spoiler_mod = 0
+separate_rim_colors = false
+use_default_rims_front = true
+use_default_rims_back = true
+both_rim_color = Color(1, 1, 1, 1)
 front_rim_id = 0
 front_rim_color = Color(1, 1, 1, 1)
 back_rim_id = 0
 back_rim_color = Color(1, 1, 1, 1)
-gearbox_transmission = 0
-shifter = false
-gear_ratio = [0.0, 7.0, 6.0, 5.8, 5.5, 4.0]
-differential = [0.0, 33.0, 25.0, 24.0, 22.0, 20.0]
-reverse_ratio = 1.5
-ratio_limiter = [400, 600, 720, 1000]
-manual_ratio_limiter = [150, 400, 550, 720]
-max_rpm = 220.0
 nos_system = 0
 nos_tier = 0
 nos_power = [0.0, 25.0, 50.0, 75.0]
 nos_consumption_rate = [0.0, 0.28, 0.82, 1.0]
 nos_tank = [0.0, 100.0, 200.0, 300.0]
 nos_drift_bonus = 0.2
-use_energy = false
-max_energy = 150.0
-energy_consumption_rate = 0.01
-drain_penalty = 6
-wheel_grip = 3.0
-wet_grip = 2.0
-burnout_slip = 0.5
 can_puncture = false
 tire_points = []
 
@@ -2704,7 +2727,7 @@ cull_mask = 1048063
 [node name="AI_NightSky_NavigationMesh" parent="." unique_id=1184588875 node_paths=PackedStringArray("target_ray") instance=ExtResource("9_ado17")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 244, 5, 44)
 max_speed = 120.0
-target_ray = NodePath("../Node3D")
+target_ray = NodePath("../NaviAgent Target")
 
 [node name="Drive Around path" type="Path3D" parent="." unique_id=452618383]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -2820,7 +2843,7 @@ traffic_lights_B = [NodePath("../Left Path"), NodePath("../Right Path")]
 [node name="Menu" parent="." unique_id=1516785827 node_paths=PackedStringArray("veh_menu_list") instance=ExtResource("19_ucdff")]
 veh_menu_list = [NodePath("../CleoV8"), NodePath("../GT30"), NodePath("../TRG"), NodePath("../Truck")]
 
-[node name="Node3D" type="Node3D" parent="." unique_id=91857228]
+[node name="NaviAgent Target" type="Node3D" parent="." unique_id=91857228]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 153, 0, -98)
 
 [node name="Trailer" parent="." unique_id=158460075 instance=ExtResource("21_hd5kw")]

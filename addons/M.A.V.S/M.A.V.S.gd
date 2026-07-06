@@ -76,6 +76,12 @@ var actions: Array[Action] = [
 	]),
 	Action.new("Camera Right", 0.5, [
 		build_InputEventKey(KEY_KP_4)
+	]),
+	Action.new("ui_accept", 0.5, [
+		build_InputEventJoyPadButton(JOY_BUTTON_A)
+	]),
+	Action.new("ui_cancel", 0.5, [
+		build_InputEventJoyPadButton(JOY_BUTTON_B)
 	])
 ]
 
@@ -89,18 +95,16 @@ func _on_sub_menu_id_pressed(id: int):
 	match id:
 		0:
 			add_actions_to_input_map()
-	
-
 
 func add_actions_to_input_map():
-	var need_to_save_settings := false
+	var need_to_save_settings : bool = false
 	for action in actions:
 		var settings_name = "input/%s" % action.name
 		var action_settings = ProjectSettings.get(settings_name)
-		var must_set_settings := false
+		var must_set_settings : bool = false
 		if action_settings:
 			for event in action.events:
-				var has_event := false
+				var has_event : bool = false
 				for ev in action_settings.events:
 					if event is InputEventKey:
 						if ev is InputEventKey:
@@ -109,6 +113,16 @@ func add_actions_to_input_map():
 								break
 					elif event is InputEventMouseButton:
 						if ev is InputEventMouseButton:
+							if event.button_index == ev.button_index:
+								has_event = true
+								break
+					elif event is InputEventJoypadButton:
+						if ev is InputEventJoypadButton:
+							if event.button_index == ev.button_index:
+								has_event = true
+								break
+					elif event is InputEventJoypadMotion:
+						if ev is InputEventJoypadMotion:
 							if event.button_index == ev.button_index:
 								has_event = true
 								break
@@ -130,7 +144,7 @@ func add_actions_to_input_map():
 	if need_to_save_settings:
 		ProjectSettings.save()
 		print("Added or updated the actions")
-		print("Pleas Reload the project to show the keybinds!")
+		print("Please Reload the project to show the keybinds!")
 	else:
 		print("All the actions are up-to-date")
 

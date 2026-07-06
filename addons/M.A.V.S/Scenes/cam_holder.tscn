@@ -5,14 +5,15 @@
 [node name="Camera_Anchor" type="Node3D" unique_id=1920914392]
 top_level = true
 
-[node name="Cam_Holder" type="Node3D" parent="." unique_id=766318865 node_paths=PackedStringArray("cam_parent", "cam_holder", "camera", "cam_arm", "cam_position")]
+[node name="Cam_Holder" type="Node3D" parent="." unique_id=766318865 node_paths=PackedStringArray("cam_parent", "cam_holder", "veh_camera", "cam_arm", "cam_position")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("1_702ig")
 cam_parent = NodePath("..")
 cam_holder = NodePath(".")
-camera = NodePath("Cam_Pose/Springarm_Positioner/P_Cam")
+veh_camera = NodePath("Cam_Pose/Springarm_Positioner/P_Cam")
 cam_arm = NodePath("Cam_Pose/Springarm_Positioner")
 cam_position = NodePath("Cam_Pose")
+cam_distance = 4.5
 
 [node name="Cam_Pose" type="Node3D" parent="Cam_Holder" unique_id=1662071943]
 transform = Transform3D(-1, 0, -8.742276e-08, 0, 0.9999998, 0, 8.742278e-08, 0, -0.9999998, 0, 0, 0)
@@ -23,4 +24,3 @@ spring_length = 4.0
 
 [node name="P_Cam" type="Camera3D" parent="Cam_Holder/Cam_Pose/Springarm_Positioner" unique_id=901098067]
 cull_mask = 1048063
-current = true

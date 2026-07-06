@@ -1,0 +1,758 @@
+[gd_scene format=3 uid="uid://c5d6cv2scunik"]
+
+[ext_resource type="Script" uid="uid://bxi2i4l6n3aqa" path="res://addons/M.A.V.S/Scripts/Test_map_Setup.gd" id="1_56b7t"]
+[ext_resource type="Material" uid="uid://bqhg03u7uopp1" path="res://addons/M.A.V.S/Debug content/Black Box.tres" id="1_taf8c"]
+[ext_resource type="PackedScene" uid="uid://ojio7lh4nic" path="res://addons/M.A.V.S/Roads/road_turn.tscn" id="4_26kq1"]
+[ext_resource type="PackedScene" uid="uid://ckbnbt3w8q6le" path="res://addons/M.A.V.S/Roads/road_straight.tscn" id="4_apt7j"]
+[ext_resource type="PackedScene" uid="uid://b6vaqkuv77qwn" path="res://addons/M.A.V.S/Roads/road_t_section.tscn" id="5_bde2k"]
+[ext_resource type="PackedScene" uid="uid://dsngqebbuu41g" path="res://addons/M.A.V.S/Roads/road_crossing.tscn" id="6_25f5k"]
+[ext_resource type="PackedScene" uid="uid://b2mbq7rch2f8t" path="res://addons/M.A.V.S/Roads/road_to_offroad.tscn" id="7_rj7yl"]
+[ext_resource type="PackedScene" uid="uid://b41ymspcqei5p" path="res://addons/M.A.V.S/Scenes/Traffic_Spawner.tscn" id="8_bde2k"]
+[ext_resource type="Script" uid="uid://cc3qnyb5rjwxv" path="res://addons/M.A.V.S/Scripts/MPathManager.gd" id="9_25f5k"]
+[ext_resource type="PackedScene" uid="uid://bduv6it2ueaw5" path="res://addons/M.A.V.S/Scenes/Traffic_Lights_Manager.tscn" id="10_rj7yl"]
+
+[sub_resource type="Animation" id="Animation_rj7yl"]
+resource_name = "Day_night_cycle"
+length = 500.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DirectionalLight3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 500),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.5235988, 0, 0), Vector3(5.7595863, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_2ycmd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DirectionalLight3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.5235988, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rcyiq"]
+_data = {
+&"Day_night_cycle": SubResource("Animation_rj7yl"),
+&"RESET": SubResource("Animation_2ycmd")
+}
+
+[sub_resource type="TextMesh" id="TextMesh_bldbs"]
+text = "A1"
+font_size = 127
+
+[sub_resource type="TextMesh" id="TextMesh_rj7yl"]
+text = "A2"
+font_size = 127
+
+[sub_resource type="TextMesh" id="TextMesh_2ycmd"]
+text = "A3"
+font_size = 127
+
+[sub_resource type="TextMesh" id="TextMesh_rcyiq"]
+text = "A4"
+font_size = 127
+
+[sub_resource type="TextMesh" id="TextMesh_qqrud"]
+text = "A5
+"
+font_size = 127
+
+[sub_resource type="Curve3D" id="Curve3D_rj7yl"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.0370007, 1, 1.7889996, 0.2, 0.1, -2.9, -0.2, -0.1, 2.9, -1.764, 1, 10.987, 0, 0, 0, 0, 0, 0, -1.705, 1, 25.783),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve3D" id="Curve3D_rcyiq"]
+_data = {
+"points": PackedVector3Array(0, 0, -3.5, 0, 0, 3.5, -1.735, 1, 26.426, -11.8, 0, 0, 11.8, 0, 0, 10.473, 1, 33.627),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_r2xvv"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -97.819, 1, 26.662, 0, 0, 0, 0, 0, 0, -58.045, 1, 26.888),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_3aqj8"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -58.005, 1, 23.623, 0, 0, 0, 0, 0, 0, -100.471, 1, 23.399),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_0p13b"]
+_data = {
+"points": PackedVector3Array(4.7000003, 0, -0.1, -4.7000003, 0, 0.1, -100.512, 1, 23.327, 0, 0, -11.8, 0, 0, 11.8, -107.707, 1, 35.742),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_pfuyv"]
+_data = {
+"points": PackedVector3Array(-8.3, 0, 0.1, 8.3, 0, -0.1, -55.492, 1, 26.994, 0, 0, 0, 0, 0, 0, -48.24, 1, 13.736),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_eswsm"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -12.144, 1, 30.249, 3.9, 0, -0.3, -3.9, 0, 0.3, -71.985, 1, 30.41, 0.1, 0, -26.2, -0.1, 0, 26.2, -101.801, 1, 60.07, -3.3, 0, 1, 3.3, 0, -1, -71.231, 1, 89.906),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_n8m0t"]
+_data = {
+"points": PackedVector3Array(0.2, 0, 2, -0.2, 0, -2, -104.205, 1, -46.978, -23.9, 0, -0.3, 23.9, 0, 0.3, -77.997, 1, -73.109, -0.2, 0, -3.5, 0.2, 0, 3.5, -51.962, 1, -47.132, 0, 0, 0, 0, 0, 0, -51.662, 1, 12.996),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve3D" id="Curve3D_ot53p"]
+_data = {
+"points": PackedVector3Array(1, 0, -20.800001, -1, 0, 20.800001, -107.762, 1, 37.052, 7.7000003, 0, 0.1, -7.7000003, 0, -0.1, -133.964, 1, 63.2, 12.400001, 0, -0.2, -12.400001, 0, 0.2, -172.099, 1, 63.267, 1.4, 0, -21.5, -1.4, 0, 21.5, -201.791, 1, 92.968, -8.5, 0, 0, 8.5, 0, 0, -172.027, 1, 122.993, -12, 0, 0.2, 12, 0, -0.2, -78.016, 1, 122.796, -0.2, 0, 20.7, 0.2, 0, -20.7, -48.134, 1, 92.978, 0, 0, 0, 0, 0, 0, -48.152, 1, 36.028),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 8
+
+[sub_resource type="Curve3D" id="Curve3D_m5i7s"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -51.703, 1, 37.004, 0.2, 0, -12.400001, -0.2, 0, 12.400001, -51.89, 1, 92.951, 16.7, 0, -0.6, -16.7, 0, 0.6, -78.014, 1, 119.395, 5.1, 0, 0, -5.1, 0, 0, -172.024, 1, 119.354, -0.4, 0, 21.2, 0.4, 0, -21.2, -198.03, 1, 92.956, -6.8, 0, 0.2, 6.8, 0, -0.2, -171.971, 1, 66.872, -28.9, 0, 0.5, 28.9, 0, -0.5, -133.929, 1, 66.667, 0, 0, 2.2, 0, 0, -2.2, -104.223, 1, 34.989),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 8
+
+[sub_resource type="Curve3D" id="Curve3D_2ycmd"]
+_data = {
+"points": PackedVector3Array(0.2, 0, 9.7, -0.2, 0, -9.7, -48.079, 1, 35.826, 8.2, 0, -0.5, -8.2, 0, 0.5, -54.326, 1, 23.666),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_q7n6y"]
+_data = {
+"points": PackedVector3Array(-0.3, 0, 11.2, 0.3, 0, -11.2, -104.262, 1, 35.211, 7.7000003, 0, 0.1, -7.7000003, 0, -0.1, -111.872, 1, 23.352),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_b30nx"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -104.147, 1, 12.914, 0, 0, 0, 0, 0, 0, -104.167, 1, -22.908),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_i1l4t"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -107.817, 1, -22.716, 0, 0, 0, 0, 0, 0, -107.949, 1, 13.574),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_6ukm6"]
+_data = {
+"points": PackedVector3Array(0.2, 0, -13, -0.2, 0, 13, -107.904, 1, 13.265, -6.1, 0, 0.1, 6.1, 0, -0.1, -101.686, 1, 26.478),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_qqrud"]
+_data = {
+"points": PackedVector3Array(-0.1, 0, 6.5, 0.1, 0, -6.5, -104.35515, 0.5999756, -30.958519, 0, 0, 0, 0, 0, 0, -110.317215, 0.5999756, -36.348873),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_h4dme"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -118.011, 1, 23.476, 14.8, 0, 0.1, -14.8, 0, -0.1, -173.957, 1, 23.508, 0.2, 0, 13.400001, -0.2, 0, -13.400001, -200.226, 1, -3.021, -0.3, 0, 4.7000003, 0.3, 0, -4.7000003, -200.167, 1, -62.966, -22.800001, 0, 0.1, 22.800001, 0, -0.1, -174.031, 1, -89.173, -0.8, 0, -4.6, 0.8, 0, 4.6, -147.644, 1, -63.048, -30.2, 0, -1, 30.2, 0, 1, -116.025, 1, -33.268),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 7
+
+[sub_resource type="Curve3D" id="Curve3D_aoeij"]
+_data = {
+"points": PackedVector3Array(23.9, 0, 1.5, -23.9, 0, -1.5, -117.984, 1, -36.822002, 0.1, 0, 4, -0.1, 0, -4, -144.303, 1, -63.029, 27.5, 0, 0.1, -27.5, 0, -0.1, -174.021, 1, -92.953, 0.2, 0, -3.2, -0.2, 0, 3.2, -203.798, 1, -63.034, 0, 0, -13.5, 0, 0, 13.5, -203.74, 1, -2.979, -18.5, 0, -0.1, 18.5, 0, 0.1, -173.97, 1, 26.838, 0, 0, 0, 0, 0, 0, -115.98, 1, 26.706),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 7
+
+[sub_resource type="Curve3D" id="Curve3D_fxl1h"]
+_data = {
+"points": PackedVector3Array(-6.7000003, 0, 0.1, 6.7000003, 0, -0.1, -112.322, 1, -33.295, 0.1, 0, 8.1, -0.1, 0, -8.1, -104.222, 1, -40.833),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_ewhne"]
+_data = {
+"points": PackedVector3Array(-10.8, 0, -0.4, 10.8, 0, 0.4, -115.996475, 0.60009766, 26.698933, 0.1, 0, 11.1, -0.1, 0, -11.1, -104.25769, 0.60009766, 15.101674),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="TestMap" type="Node3D" unique_id=904158590]
+script = ExtResource("1_56b7t")
+spawn_location = Vector3(45, 1, 0)
+spawn_direction = 270.0
+
+[node name="Platform" type="Node3D" parent="." unique_id=633072861]
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Platform" unique_id=1076861761]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -79, 0, 27.5)
+use_collision = true
+size = Vector3(258, 1, 255)
+material = ExtResource("1_taf8c")
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Platform" unique_id=565094909]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -79, 2, -100.5)
+use_collision = true
+size = Vector3(258, 5, 1)
+material = ExtResource("1_taf8c")
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Platform" unique_id=1503436652]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -79, 2, 155.5)
+use_collision = true
+size = Vector3(258, 5, 1)
+material = ExtResource("1_taf8c")
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Platform" unique_id=366397867]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.5, 2, 27.5)
+use_collision = true
+size = Vector3(1, 5, 256)
+material = ExtResource("1_taf8c")
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Platform" unique_id=944932932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -208.5, 2, 27.5)
+use_collision = true
+size = Vector3(1, 5, 256)
+material = ExtResource("1_taf8c")
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Platform" unique_id=1324100187]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -65.5, 5.5, 9.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 10, 16)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Platform" unique_id=1557863801]
+transform = Transform3D(0, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 0, -83.5, 5.5, 134.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 10, 26)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Platform" unique_id=998133123]
+transform = Transform3D(-0.9999999, 0, 4.371138e-08, 0, 1, 0, -4.371138e-08, 0, -0.9999999, -62.5, 5.5, 80.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 10, 26)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Platform" unique_id=1314564576]
+transform = Transform3D(-0.9999999, 0, 4.371138e-08, 0, 1, 0, -4.371138e-08, 0, -0.9999999, -62.5, 8, 62.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 15, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="Platform" unique_id=309288640]
+transform = Transform3D(-0.9999999, 0, 4.371138e-08, 0, 1, 0, -4.371138e-08, 0, -0.9999999, -93.5, 5.5, 60.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 10, 26)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="Platform" unique_id=984847624]
+transform = Transform3D(-0.9999999, 0, 4.371138e-08, 0, 1, 0, -4.371138e-08, 0, -0.9999999, -93.5, 8, 42.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 15, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="Platform" unique_id=224283281]
+transform = Transform3D(7.1054274e-15, 0, -0.9999999, 0, 1, 0, 0.9999999, 0, 7.1054274e-15, -161.5, 5.5, 79.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 10, 26)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="Platform" unique_id=353579412]
+transform = Transform3D(7.1054274e-15, 0, -0.9999999, 0, 1, 0, 0.9999999, 0, 7.1054274e-15, -179.5, 8, 79.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 15, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="Platform" unique_id=550057814]
+transform = Transform3D(7.1054274e-15, 0, -0.9999999, 0, 1, 0, 0.9999999, 0, 7.1054274e-15, -125.5, 5.5, 79.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 10, 26)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D30" type="CSGBox3D" parent="Platform" unique_id=2027237788]
+transform = Transform3D(7.1054274e-15, 0, -0.9999999, 0, 1, 0, 0.9999999, 0, 7.1054274e-15, -143.5, 8, 79.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 15, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Platform" unique_id=1344000755]
+transform = Transform3D(-0.9999999, 0, 4.371138e-08, 0, 1, 0, -4.371138e-08, 0, -0.9999999, -62.5, 3, 53.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 5, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Platform" unique_id=964864542]
+transform = Transform3D(-0.70710677, 0, -0.70710665, 0, 1, 0, 0.70710665, 0, -0.70710677, -122.5, 3, 48.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 5, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D31" type="CSGBox3D" parent="Platform" unique_id=1536588163]
+transform = Transform3D(-0.70710677, 0, -0.70710665, 0, 1, 0, 0.70710665, 0, -0.70710677, -108.5, 10, 65.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 19, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="Platform" unique_id=836593558]
+transform = Transform3D(-0.70710677, 0, -0.70710665, 0, 1, 0, 0.70710665, 0, -0.70710677, -118.5, 6, -48.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 11, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="Platform" unique_id=2118473181]
+transform = Transform3D(-0.70710677, 0, -0.70710665, 0, 1, 0, 0.70710665, 0, -0.70710677, -127.5, 8, -53.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 15, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="Platform" unique_id=1982181576]
+transform = Transform3D(-0.70710677, 0, -0.70710665, 0, 1, 0, 0.70710665, 0, -0.70710677, -132.5, 6, -61.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 11, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Platform" unique_id=285070868]
+transform = Transform3D(-5.9604645e-08, 0, -0.9999999, 0, 1, 0, 0.9999999, 0, -5.9604645e-08, -135.5, 3, 39.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 5, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Platform" unique_id=873535715]
+transform = Transform3D(-0.9999999, 0, 1.03316026e-07, 0, 1, 0, -1.03316026e-07, 0, -0.9999999, -146.5, 3, 36.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 5, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Platform" unique_id=1124295035]
+transform = Transform3D(-0.9999999, 0, 4.371138e-08, 0, 1, 0, -4.371138e-08, 0, -0.9999999, -62.5, 5, 45.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 9, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="Platform" unique_id=1507734740]
+transform = Transform3D(8.742276e-08, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, 8.742276e-08, -89.5, 3, 13.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 5, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="Platform" unique_id=1437916632]
+transform = Transform3D(8.742276e-08, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, 8.742276e-08, -81.5, 5, 13.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 9, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="Platform" unique_id=1928916679]
+transform = Transform3D(-0.9999999, 0, 4.371138e-08, 0, 1, 0, -4.371138e-08, 0, -0.9999999, -62.5, 11, -15.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 21, 26)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="Platform" unique_id=714162797]
+transform = Transform3D(-0.9999999, 0, 4.371138e-08, 0, 1, 0, -4.371138e-08, 0, -0.9999999, -62.5, 7.5, -33.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 14, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="Platform" unique_id=612376133]
+transform = Transform3D(-0.9999999, 0, 4.371138e-08, 0, 1, 0, -4.371138e-08, 0, -0.9999999, -62.5, 10, -42.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 19, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="Platform" unique_id=2091289109]
+transform = Transform3D(-0.9999999, 0, 4.371138e-08, 0, 1, 0, -4.371138e-08, 0, -0.9999999, -62.5, 8, -50.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(14, 15, 8)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Platform" unique_id=1875209033]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -65.5, 15.5, 9.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(10, 10, 10)
+metadata/_edit_lock_ = true
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Platform" unique_id=1170594870]
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Platform/CSGCombiner3D" unique_id=1048548581]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, -127, 3, 120.5)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+size = Vector3(49, 5, 16)
+material = ExtResource("1_taf8c")
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Platform/CSGCombiner3D" unique_id=2048686136]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, -127, 2.5, 120.5)
+material_override = ExtResource("1_taf8c")
+operation = 2
+use_collision = true
+size = Vector3(49, 4, 14)
+metadata/_edit_lock_ = true
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Platform" unique_id=1858509334]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 10, 0)
+use_collision = true
+polygon = PackedVector2Array(-149.47426, -16.696743, -118.306366, -16.863415, -112.028336, -11.696544, -112.13945, 11.915496, -124.25104, 11.859939, -124.47327, 1.359525, -129.41791, -4.862942, -149.47426, -5.1407313)
+depth = 10.0
+material = ExtResource("1_taf8c")
+metadata/_edit_lock_ = true
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Platform" unique_id=921089643]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -180, 4.75, -77)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+radius = 4.0
+height = 9.5
+sides = 12
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Platform" unique_id=2146972190]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -188, 8.375, -66)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+radius = 6.0
+height = 16.75
+sides = 12
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Platform" unique_id=1454896394]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -165, 7.375, -63)
+material_override = ExtResource("1_taf8c")
+use_collision = true
+radius = 13.0
+height = 14.75
+sides = 12
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=640756308]
+libraries/ = SubResource("AnimationLibrary_rcyiq")
+autoplay = &"Day_night_cycle"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1444092814]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, -5, 0)
+light_volumetric_fog_energy = 0.0
+shadow_enabled = true
+
+[node name="A1" type="MeshInstance3D" parent="." unique_id=1650376812]
+transform = Transform3D(5, 0, 0, 0, -2.1855695e-07, 5, 0, -5, -2.1855695e-07, -78, 2, 32)
+layers = 512
+mesh = SubResource("TextMesh_bldbs")
+skeleton = NodePath("../Trafic Lanes/A1 Right")
+metadata/_edit_lock_ = true
+
+[node name="A2" type="MeshInstance3D" parent="." unique_id=491633228]
+transform = Transform3D(5, 0, 0, 0, -2.1855695e-07, 5, 0, -5, -2.1855695e-07, -41, 2, -7)
+layers = 512
+mesh = SubResource("TextMesh_rj7yl")
+skeleton = NodePath("../Trafic Lanes/A1 Right")
+metadata/_edit_lock_ = true
+
+[node name="A3" type="MeshInstance3D" parent="." unique_id=1148358536]
+transform = Transform3D(5, 0, 0, 0, -2.1855695e-07, 5, 0, -5, -2.1855695e-07, -41, 2, 64)
+layers = 512
+mesh = SubResource("TextMesh_2ycmd")
+skeleton = NodePath("../Trafic Lanes/A1 Right")
+metadata/_edit_lock_ = true
+
+[node name="A4" type="MeshInstance3D" parent="." unique_id=790586987]
+transform = Transform3D(5, 0, 0, 0, -2.1855695e-07, 5, 0, -5, -2.1855695e-07, -97, 2, -11)
+layers = 512
+mesh = SubResource("TextMesh_rcyiq")
+skeleton = NodePath("../Trafic Lanes/A1 Right")
+metadata/_edit_lock_ = true
+
+[node name="A5" type="MeshInstance3D" parent="." unique_id=1823689796]
+transform = Transform3D(5, 0, 0, 0, -2.1855696e-07, 5, 0, -5, -2.1855696e-07, -156, 2, 18)
+layers = 512
+mesh = SubResource("TextMesh_qqrud")
+skeleton = NodePath("../Trafic Lanes/A1 Right")
+metadata/_edit_lock_ = true
+
+[node name="Roads" type="Node3D" parent="." unique_id=66277080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 0.6, -5)
+metadata/_edit_lock_ = true
+
+[node name="Road_Turn" parent="Roads" unique_id=1897743234 instance=ExtResource("4_26kq1")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -130, 0, 30)
+metadata/_edit_lock_ = true
+
+[node name="Road_Turn9" parent="Roads" unique_id=984529044 instance=ExtResource("4_26kq1")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -128, 0, 126)
+metadata/_edit_lock_ = true
+
+[node name="Road_Turn2" parent="Roads" unique_id=410317131 instance=ExtResource("4_26kq1")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -158, 0, -58)
+metadata/_edit_lock_ = true
+
+[node name="Road_Turn8" parent="Roads" unique_id=1448546713 instance=ExtResource("4_26kq1")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -156, 0, 98)
+metadata/_edit_lock_ = true
+
+[node name="Road_Turn3" parent="Roads" unique_id=1032382598 instance=ExtResource("4_26kq1")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, -130, 0, -86)
+metadata/_edit_lock_ = true
+
+[node name="Road_Turn5" parent="Roads" unique_id=856384076 instance=ExtResource("4_26kq1")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -62, 0, -42)
+metadata/_edit_lock_ = true
+
+[node name="Road_Turn6" parent="Roads" unique_id=2039110795 instance=ExtResource("4_26kq1")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, -34, 0, -70)
+metadata/_edit_lock_ = true
+
+[node name="Road_Turn7" parent="Roads" unique_id=91951200 instance=ExtResource("4_26kq1")]
+transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, -62, 0, 42)
+metadata/_edit_lock_ = true
+
+[node name="Road_Turn10" parent="Roads" unique_id=1235202064 instance=ExtResource("4_26kq1")]
+transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, -6, 0, 98)
+metadata/_edit_lock_ = true
+
+[node name="Road_Turn4" parent="Roads" unique_id=207757271 instance=ExtResource("4_26kq1")]
+transform = Transform3D(-4.371138e-08, 0, -1, 0, 1, 0, 1, 0, -4.371138e-08, -74, 0, -30)
+metadata/_edit_lock_ = true
+
+[node name="Road_Straight" parent="Roads" unique_id=1649234713 instance=ExtResource("4_apt7j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 15, -158, 0, -28)
+metadata/_edit_lock_ = true
+
+[node name="Road_Straight2" parent="Roads" unique_id=977976830 instance=ExtResource("4_apt7j")]
+transform = Transform3D(-4.371139e-08, 0, 14, 0, 1, 0, -1, 0, -6.119594e-07, -102, 0, 30)
+metadata/_edit_lock_ = true
+
+[node name="Road_Straight6" parent="Roads" unique_id=1223123112 instance=ExtResource("4_apt7j")]
+transform = Transform3D(-4.371139e-08, 0, 9.5, 0, 1, 0, -1, 0, -4.152582e-07, -109, 0, 70)
+metadata/_edit_lock_ = true
+
+[node name="Road_Straight5" parent="Roads" unique_id=1591513053 instance=ExtResource("4_apt7j")]
+transform = Transform3D(-4.371139e-08, 0, 8, 0, 1, 0, -1, 0, -3.496911e-07, -34, 0, 30)
+metadata/_edit_lock_ = true
+
+[node name="Road_Straight8" parent="Roads" unique_id=292432489 instance=ExtResource("4_apt7j")]
+transform = Transform3D(-4.371139e-08, 0, 23.5, 0, 1, 0, -1, 0, -1.0272176e-06, -81, 0, 126)
+metadata/_edit_lock_ = true
+
+[node name="Road_Straight3" parent="Roads" unique_id=103700446 instance=ExtResource("4_apt7j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 9, -62, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="Road_Straight4" parent="Roads" unique_id=2116801180 instance=ExtResource("4_apt7j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 15, -6, 0, -12)
+metadata/_edit_lock_ = true
+
+[node name="Road_Straight7" parent="Roads" unique_id=1357484054 instance=ExtResource("4_apt7j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 14, -6, 0, 70)
+metadata/_edit_lock_ = true
+
+[node name="Road_T_Section" parent="Roads" unique_id=1918814472 instance=ExtResource("5_bde2k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62, 0, -30)
+metadata/_edit_lock_ = true
+
+[node name="Road_Crossing" parent="Roads" unique_id=783243412 instance=ExtResource("6_25f5k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62, 0, 30)
+metadata/_edit_lock_ = true
+
+[node name="Road_Crossing2" parent="Roads" unique_id=159792529 instance=ExtResource("6_25f5k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 30)
+metadata/_edit_lock_ = true
+
+[node name="Road_To_OFFROAD" parent="Roads" unique_id=1814519855 instance=ExtResource("7_rj7yl")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6, 0, 30)
+metadata/_edit_lock_ = true
+
+[node name="TrafficLightsManager" parent="." unique_id=1479830750 node_paths=PackedStringArray("traffic_lights_A", "traffic_lights_B") instance=ExtResource("10_rj7yl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63, 1, 32)
+traffic_lights_A = [NodePath("../Trafic Lanes/A5_Right_Lane"), NodePath("../Trafic Lanes/A5_Left_Line"), NodePath("../Trafic Lanes/A1 Left"), NodePath("../Trafic Lanes/A1 Right"), NodePath("../Trafic Lanes/Starter Line")]
+traffic_lights_B = [NodePath("../Trafic Lanes/A4_Right_Lane"), NodePath("../Trafic Lanes/A4_Left_Lane"), NodePath("../Trafic Lanes/A2_Right_Lane"), NodePath("../Trafic Lanes/A2_Left_Lane"), NodePath("../Trafic Lanes/A3_Left_Line"), NodePath("../Trafic Lanes/A3_Right_Lane")]
+
+[node name="TrafficSpawner" parent="." unique_id=686214375 node_paths=PackedStringArray("road_line") instance=ExtResource("8_bde2k")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -14, 1, 24)
+road_line = NodePath("../Trafic Lanes/Starter Line")
+
+[node name="Trafic Lanes" type="Node3D" parent="." unique_id=264375681]
+metadata/_edit_lock_ = true
+
+[node name="Starter Line" type="Path3D" parent="Trafic Lanes" unique_id=1193917674 node_paths=PackedStringArray("roads")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -18, 0, 25)
+curve = SubResource("Curve3D_rj7yl")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../Turn_Left"), NodePath("../A2_Right_Lane"), NodePath("../A1 Left")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="Turn_Left" type="Path3D" parent="Trafic Lanes" unique_id=1949340763 node_paths=PackedStringArray("roads")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -18, 0, 25)
+curve = SubResource("Curve3D_rcyiq")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A3_Left_Line")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A1 Right" type="Path3D" parent="Trafic Lanes" unique_id=844600863 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_r2xvv")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A1 to A2 Right Lane"), NodePath("../A3_Left_Line")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A1 Left" type="Path3D" parent="Trafic Lanes" unique_id=1777779927 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_3aqj8")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A4_Right_Lane"), NodePath("../A1 to A3_left_Lane"), NodePath("../A5_Right_Lane")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A1 to A3_left_Lane" type="Path3D" parent="Trafic Lanes" unique_id=27577004 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_0p13b")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A3_Right_Lane")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A1 to A2 Right Lane" type="Path3D" parent="Trafic Lanes" unique_id=1093997634 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_pfuyv")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A2_Right_Lane")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A2_Right_Lane" type="Path3D" parent="Trafic Lanes" unique_id=1290137742 node_paths=PackedStringArray("roads")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -18, 0, 25)
+curve = SubResource("Curve3D_eswsm")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A4_Left_Lane"), NodePath("../A5_Left_Line")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A2_Left_Lane" type="Path3D" parent="Trafic Lanes" unique_id=717173449 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_n8m0t")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A3_Left_Line"), NodePath("../A1 Left")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A3_Right_Lane" type="Path3D" parent="Trafic Lanes" unique_id=892030261 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_ot53p")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A2_Right_Lane"), NodePath("../A3_Right_Lane to A1")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A3_Left_Line" type="Path3D" parent="Trafic Lanes" unique_id=346696385 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_m5i7s")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A1 Right"), NodePath("../A4_Right_Lane"), NodePath("../A3 to A5")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A3_Right_Lane to A1" type="Path3D" parent="Trafic Lanes" unique_id=670939249 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_2ycmd")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A1 Left")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A3 to A5" type="Path3D" parent="Trafic Lanes" unique_id=347123062 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_q7n6y")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A5_Right_Lane")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A4_Right_Lane" type="Path3D" parent="Trafic Lanes" unique_id=1362216292 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_b30nx")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A2_Left_Lane"), NodePath("../A4 to A5_Left_Lane")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A4_Left_Lane" type="Path3D" parent="Trafic Lanes" unique_id=11952881 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_i1l4t")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A3_Right_Lane"), NodePath("../A4 to A1"), NodePath("../A5_Right_Lane")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A4 to A1" type="Path3D" parent="Trafic Lanes" unique_id=1255435332 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_6ukm6")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A1 Right")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A4 to A5_Left_Lane" type="Path3D" parent="Trafic Lanes" unique_id=958148058 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_qqrud")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A5_Left_Line")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A5_Right_Lane" type="Path3D" parent="Trafic Lanes" unique_id=1597307550 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_h4dme")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A5 to A2"), NodePath("../A4_Left_Lane")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A5_Left_Line" type="Path3D" parent="Trafic Lanes" unique_id=163840299 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_aoeij")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A5_Left_Lane to A4_Right_Lane"), NodePath("../A3_Right_Lane"), NodePath("../A1 Right")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A5 to A2" type="Path3D" parent="Trafic Lanes" unique_id=1985619533 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_fxl1h")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A2_Left_Lane")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"
+
+[node name="A5_Left_Lane to A4_Right_Lane" type="Path3D" parent="Trafic Lanes" unique_id=94427494 node_paths=PackedStringArray("roads")]
+curve = SubResource("Curve3D_ewhne")
+script = ExtResource("9_25f5k")
+roads = [NodePath("../A4_Right_Lane")]
+metadata/_custom_type_script = "uid://cc3qnyb5rjwxv"

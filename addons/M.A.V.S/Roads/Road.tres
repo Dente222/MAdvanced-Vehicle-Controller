@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://wbp38pato3rp"]
+
+[ext_resource type="Texture2D" uid="uid://c707gtbkrywi" path="res://addons/M.A.V.S/Roads/Road_part_Txt.png" id="1_irqmj"]
+
+[resource]
+albedo_texture = ExtResource("1_irqmj")

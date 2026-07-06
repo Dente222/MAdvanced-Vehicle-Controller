@@ -25,11 +25,11 @@ var front_obstacle : bool = false # Checks if there are obstacle in front of the
 var distance : float = 0.0 # Calculates Distance between car and its target
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	
 	# Check if any of our Raycasts actually touches the object then stop the car
 	# This stops at any Raycast that touches something, if it stop at first one, it will ignore the rest
-	if sensors.any(func(caster: RayCast3D) -> bool: return caster.is_colliding()):
+	if sensors.any(func(caster: RayCast3D) -> bool: return caster.is_colliding() and caster.get_collider() != target_veh):
 		front_obstacle = true
 	else: 
 		front_obstacle = false

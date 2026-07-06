@@ -1,0 +1,318 @@
+[gd_scene format=3 uid="uid://6u6m7341a3q6"]
+
+[ext_resource type="Material" uid="uid://bqhg03u7uopp1" path="res://addons/M.A.V.S/Debug content/Black Box.tres" id="1_tmom4"]
+[ext_resource type="Script" uid="uid://dp4f7wg5lcg7r" path="res://addons/M.A.V.S/Scripts/showroom.gd" id="1_urwwa"]
+[ext_resource type="PackedScene" uid="uid://c5d6cv2scunik" path="res://addons/M.A.V.S/Scenes/Test_Map.tscn" id="2_2yovf"]
+[ext_resource type="Material" uid="uid://dgucgrkhjqrj0" path="res://addons/M.A.V.S/Debug content/Red Box.tres" id="2_urwwa"]
+
+[node name="Showroom" type="Node3D" unique_id=1820075787 node_paths=PackedStringArray("camera_arm", "menu_UI", "menu_arrows", "veh_label", "veh_name_label", "menu_list", "main_menu_screen", "main_button", "colour_menu")]
+script = ExtResource("1_urwwa")
+map = ExtResource("2_2yovf")
+camera_arm = NodePath("Cam_Arm")
+menu_UI = NodePath("PanelContainer")
+menu_arrows = NodePath("PanelContainer/VBoxContainer/Panel/Switch_Buttons")
+veh_label = NodePath("PanelContainer/VBoxContainer/Panel/Vehicle Selection/Veh_Quantity")
+veh_name_label = NodePath("PanelContainer/VBoxContainer/Panel/Vehicle Selection/Veh_Name")
+menu_list = [NodePath("PanelContainer/VBoxContainer/Panel/Vehicle Selection"), NodePath("PanelContainer/VBoxContainer/Panel/Tuning"), NodePath("PanelContainer/VBoxContainer/Panel/Color")]
+main_menu_screen = NodePath("PanelContainer/VBoxContainer/Panel/Main_Menu")
+main_button = NodePath("PanelContainer/VBoxContainer/Panel/Main_Menu/Button")
+colour_menu = NodePath("PanelContainer/VBoxContainer/Panel/Color/ColorPickerButton")
+
+[node name="Cam_Arm" type="Node3D" parent="." unique_id=1059524653]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Cam_Arm" unique_id=1898997307]
+transform = Transform3D(1, 0, 0, 0, 0.9774159, 0.2113248, 0, -0.2113248, 0.9774159, 0, 1.999999, 4.5)
+current = true
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=1832723049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6402854, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=737696488]
+transform = Transform3D(-3.7855173e-08, 0.5, -0.8660254, 2.1855694e-08, 0.8660254, 0.5, 1, 0, -4.371139e-08, -7, 4, 0)
+light_energy = 3.0
+spot_range = 11.0
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="." unique_id=1496146931]
+transform = Transform3D(-4.371139e-08, -0.5, 0.8660254, 0, 0.8660254, 0.5, -1, 2.1855694e-08, -3.7855173e-08, 7, 4, 0)
+light_energy = 3.0
+spot_range = 11.0
+
+[node name="Floor" type="CSGBox3D" parent="." unique_id=182659986]
+material_override = ExtResource("1_tmom4")
+use_collision = true
+size = Vector3(21, 1, 21)
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="." unique_id=543484255]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = ExtResource("2_urwwa")
+use_collision = true
+radius = 3.0
+height = 0.2
+sides = 20
+
+[node name="PanelContainer" type="Control" parent="." unique_id=2124229295]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1345068958]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_position = Vector2(0, 50)
+
+[node name="Panel" type="Panel" parent="PanelContainer/VBoxContainer" unique_id=1132206790]
+custom_minimum_size = Vector2(0, 103.5)
+layout_mode = 2
+
+[node name="Switch_Buttons" type="Control" parent="PanelContainer/VBoxContainer/Panel" unique_id=593608332]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Left" type="Button" parent="PanelContainer/VBoxContainer/Panel/Switch_Buttons" unique_id=1574257266]
+layout_mode = 1
+offset_left = 16.0
+offset_right = 52.0
+offset_bottom = 100.0
+text = "<=="
+
+[node name="Right" type="Button" parent="PanelContainer/VBoxContainer/Panel/Switch_Buttons" unique_id=1410545701]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -56.0
+offset_right = -20.0
+offset_bottom = 100.0
+grow_horizontal = 0
+text = "==>"
+
+[node name="Main_Menu" type="Control" parent="PanelContainer/VBoxContainer/Panel" unique_id=1199185697]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/Panel/Main_Menu" unique_id=786329238]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = 16.0
+offset_right = 64.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "menu setup"
+text_overrun_behavior = 4
+autowrap_mode = 3
+icon_alignment = 1
+
+[node name="Drive" type="Button" parent="PanelContainer/VBoxContainer/Panel/Main_Menu" unique_id=1060143830]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = 11.0
+offset_right = 64.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Drive"
+text_overrun_behavior = 4
+autowrap_mode = 3
+icon_alignment = 1
+
+[node name="Vehicle Selection" type="Control" parent="PanelContainer/VBoxContainer/Panel" unique_id=1376847776]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Veh_Quantity" type="Label" parent="PanelContainer/VBoxContainer/Panel/Vehicle Selection" unique_id=1917646833]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 296.0
+offset_top = 2.0
+offset_right = -680.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Veh number"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Veh_Name" type="Label" parent="PanelContainer/VBoxContainer/Panel/Vehicle Selection" unique_id=1609828210]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 680.0
+offset_top = 2.0
+offset_right = -296.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Veh Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Tuning" type="Control" parent="PanelContainer/VBoxContainer/Panel" unique_id=1596332540]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Hood Button" type="OptionButton" parent="PanelContainer/VBoxContainer/Panel/Tuning" unique_id=800330248]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.18300001
+anchor_bottom = 1.0
+offset_left = 68.0
+offset_top = 62.0
+offset_right = -3.032013
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "Stock"
+popup/item_0/id = 0
+popup/item_1/text = "Custom Hood"
+popup/item_1/id = 1
+
+[node name="Front Bumper" type="OptionButton" parent="PanelContainer/VBoxContainer/Panel/Tuning" unique_id=2115685265]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.264
+anchor_right = 0.407
+anchor_bottom = 0.9620001
+offset_left = -0.45599365
+offset_top = 62.0
+offset_right = -0.32800293
+offset_bottom = -0.04800415
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "Stock "
+popup/item_0/id = 0
+popup/item_1/text = "Custom Bumper"
+popup/item_1/id = 1
+
+[node name="Rare Bumper" type="OptionButton" parent="PanelContainer/VBoxContainer/Panel/Tuning" unique_id=280721158]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.57500005
+anchor_right = 0.71800005
+anchor_bottom = 1.0
+offset_left = 0.19995117
+offset_top = 62.0
+offset_right = 0.3279419
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "Stock"
+popup/item_0/id = 0
+popup/item_1/text = "Custom Bumper"
+popup/item_1/id = 1
+
+[node name="Tuning Tab" type="Label" parent="PanelContainer/VBoxContainer/Panel/Tuning" unique_id=450721944]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Tuning Tab"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Color" type="Control" parent="PanelContainer/VBoxContainer/Panel" unique_id=836617796]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="PanelContainer/VBoxContainer/Panel/Color" unique_id=997551347]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.58242756
+anchor_top = 0.067307696
+anchor_right = 0.7327899
+anchor_bottom = 0.9326923
+grow_horizontal = 2
+grow_vertical = 2
+edit_alpha = false
+edit_intensity = false
+
+[node name="Color Tab" type="Label" parent="PanelContainer/VBoxContainer/Panel/Color" unique_id=1064672683]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 488.0
+offset_top = 2.0
+offset_right = -488.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Color Tab"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Panel/Switch_Buttons/Left" to="." method="Decrease_number"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Panel/Switch_Buttons/Right" to="." method="Increase_number"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Panel/Main_Menu/Button" to="." method="select_option"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Panel/Main_Menu/Drive" to="." method="_change_map"]
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/Panel/Tuning/Hood Button" to="." method="_on_hood_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/Panel/Tuning/Front Bumper" to="." method="_on_front_bumper_item_selected"]
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/Panel/Tuning/Rare Bumper" to="." method="_on_rare_bumper_item_selected"]
+[connection signal="color_changed" from="PanelContainer/VBoxContainer/Panel/Color/ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]

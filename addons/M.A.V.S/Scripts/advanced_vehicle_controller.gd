@@ -77,6 +77,7 @@ class_name MVehicle3D # Class name for easy access in other scripts and in creat
 @export var remote_transformer : RemoteTransform3D # Reference to RemoteTransformer3D which is used make camera follow, its made this way due to rework of camer system which lets player to rotate camera freely along with keeping its old functionality. Its better than forcing camera position via code every tick
 @export var debug_hud : bool = false # Displays debug hud for the vehicle such as Acceleration, speed and gears ratio
 @export var is_truck : bool = false # Check if our vehicle is a truck and adjust few settings for the truck to work better
+@export var veh_state : = state.MENU # Determines state to prepare for situation, such as race or garage etc, this way you can dissable certain functions
 
 @export_subgroup("Steering")
 enum steering_type {DEFAULT, OSH_QRD_STEERING} # Types of steering system that can be used by the player
@@ -141,7 +142,7 @@ enum steering_type {DEFAULT, OSH_QRD_STEERING} # Types of steering system that c
 @export_subgroup("Rims Settings")
 @export var rim_list : Script # File that contains our rims, just like mod_list does
 @export var separate_rim_colors : bool = false # This allows to color front and back rims independly!
-@export var default_rims : String # Scene containing Default rims for the car
+@export var default_rims : PackedScene # Scene containing Default rims for the car
 @export var use_default_rims_front : bool = true # Uses the default rims by default at the beginning for the front
 @export var use_default_rims_back : bool = true # Uses the default rims by default at the beginning for the back
 @export_color_no_alpha var both_rim_color : Color = Color(1.0, 1.0, 1.0, 1.0) # Applies color for front and back rims
@@ -192,7 +193,7 @@ enum nos_level {Empty, Tier1, Tier2, Tier3} # Tiers of NOS that we have availabl
 @export var can_puncture : bool = false # Allows for tire puncture
 @export var tire_points : Array [ShapeCast3D] # List of Shapecasts that will check for object that will make the tires puncture
 
-
+enum state {DRIVE, RACE_INTRO, CRASH, MENU} # States for the vehicles
 var steering_input : float = 0.0 # Steerting input positon
 var nos_in_tank : float = 0.0 # Quantity of NOS we have in our tank
 var nos_boost : float = 0.0 # Boost to Engine power that NOS adds, 0.0 means NOS is not active
@@ -208,6 +209,11 @@ var energy : float # Variable in which we store vehicle energy or fuel and expor
 var camera_scene : PackedScene = load("res://addons/M.A.V.S/Scenes/cam_holder.tscn") # We Instantiate our vehicle main camera and add it to our vehicle as a child node
 var minimap : PackedScene = load("res://addons/M.A.V.S/Scenes/MinimapCamera.tscn") # We Instantiate our Minimap Scene and add it to our vehicle as a child node, this will create camera above our car and add necessary markers to id also adds smal display for our minimap
 var minimap_node : CanvasLayer # This lets us find the node that contains minimap since it is containing also our UI instead of having UI as a global scene
+var vehicle_camera : Node3D # This is a reference to the camera that is attached to the vehicle
+var mod_instance # Create an instance of the script
+var rim_instance # Generates an array of our rims based on our original list
+var force_neutral : bool = false # Forces vehicle into neutral gear, usefull for intro's and garage
+var engine_target_pitch : float = 0.0 # Scale for engine pitch sound
 
 # Everything that needs to be set when our car is initiated
 func _ready() -> void:
@@ -217,11 +223,24 @@ func _ready() -> void:
 	if physics_engine != "Jolt Physics":
 		print_rich("[color=salmon][b]WARNING:[/b] It is recommended to use Jolt Physics with M.A.V.S! [color=white]")
 	
+	if mod_list != null: # Checks if car has a file with mods and if not just do nothing
+		mod_instance = mod_list.new() # Create an instance of the script
+		update_hood() # Update Hood of the vehicle
+		update_f_bumper() # Update Front Bumper for vehicle
+		update_r_bumper() # Update Rare Bumper for vehicle
+		update_spoiler() # Update Spoiler for the car
 	
+	if rim_list != null: # Checks if we have List of rims available for the vehicle
+		rim_instance = rim_list.new() # Generates an array of our rims based on our original list
+		modify_rims()
+	elif default_rims != null: # If list provided, change it to default
+		set_default_rims()
 	
 	if is_current_veh: # Sets viewport to use provided camera. Read comment on is_current_veh variable to learn more
 		assign_vehicle()
-
+		
+	engine_sound.pitch_scale = 0.1 # Set Engine pitch to low automatically, used in menus
+	switch_color(veh_color)
 
 # Separated for easier setup
 func assign_vehicle() -> void:
@@ -230,16 +249,20 @@ func assign_vehicle() -> void:
 	# otherwise camera will not be attached
 	energy = max_energy # We set vehicle energy to its max limit soo it is full
 	nos_in_tank = nos_tank[nos_tier] # We set our NOS tank to its limit
+	var tem_pcamera
 	if is_multiplayer_authority(): # Adds minimap and camera only on a clienside for each player, to prevent from issues in multiplayer
 		self.add_child(minimap.instantiate()) # Adds Minimap to the vehicle we controll
 		minimap_node = get_node_or_null("Players_Minimap") # We reference our Minimap node here that contains the gui for the cars
-		self.add_child(camera_scene.instantiate()) # Adds preloaded and instantiated camera scene to our car
+		tem_pcamera = camera_scene.instantiate()
+		self.add_child(tem_pcamera) # Adds preloaded and instantiated camera scene to our car
 	minimap_node.fuel_bar.max_value = max_energy
 	minimap_node.nos_bar.max_value = nos_in_tank
-	minimap_node.debug_hud.visible = debug_hud # This will make our Debug hud visible or not
 	remote_transformer.remote_path = remote_transformer.get_parent().get_node("Camera_Anchor").get_path() # Since our camera is added via code and not attached to vehicle by default, we reference its first node to RemoteTransform3D node which allow us to rotate it while driving
-	engine_sound.playing = true
 	wheel_def_radius = rpm_wheel.wheel_radius # This one sets the default radius of our wheels based on the radius of our RPM wheel, we need this to decrease the radius when wheel is punctured since we cant simply decrease it directly cuz that way it will replace the value of the wheel radius
+	if veh_state == state.DRIVE:
+		activate_veh_cam(tem_pcamera)
+		engine_sound.playing = true
+		minimap_node.debug_hud.visible = debug_hud # This will make our Debug hud visible or not
 	self.add_to_group("Player_car") # Adds player controller car ONLY! to the Player_car groupe
 	if is_truck: # Check if this vehicle is a Trucks type
 		self.collision_layer = 0 # Sets this vehicle collision to 0 on a Layer level, this is to prevent camera from being blocked by our truck
@@ -248,17 +271,10 @@ func assign_vehicle() -> void:
 	for x in all_wheels: # Sets the default grip for all the wheels that are in variable
 			x.wheel_friction_slip = wheel_grip
 
-	if allow_color_change and veh_mesh.get_surface_override_material(material_id): # If player is allowed to change colour of this specific vehicle
-		veh_mesh.get_surface_override_material(material_id).albedo_color = veh_color # We get our material that controlls vehicle color and change its albed to our albedo value
-		veh_mesh.get_surface_override_material(material_id).roughness = material_tint # This one changes roughness of our materiall which makes it matte or shiny metalic
-		
-	if mod_list != null: # Checks if car has a file with mods and if not just do nothing
-		add_visuals() # Run function for adding visual parts for the car
-	
-	modify_rims()
+func activate_veh_cam(tem_pcamera : Node3D) -> void:
+	tem_pcamera.get_child(0).veh_camera.current = true
 
-
-# Everything that is triggered on Physical CPU Ticks
+# Everything that is triggered on Physical CPU Tick
 func _physics_process(delta: float) -> void:
 	
 	var speed_xz # Our Speed variable reference
@@ -270,9 +286,9 @@ func _physics_process(delta: float) -> void:
 	if can_puncture:
 		puncture_wheels()
 	
-	skiding_effects()
-	
-	
+	if veh_state == state.DRIVE: # Checks if car is in driving state then allows for burnout, prevents burnout in main menu
+		_skiding_effects()
+
 	# Applies basic controlls and displays informations of currently driveable vehicle
 	# if vehicle is not selected as main one then it will not provide any info for player
 	# also player will not be able to controll it
@@ -280,277 +296,266 @@ func _physics_process(delta: float) -> void:
 		var velocity_xz = Vector3(linear_velocity.x, 0, linear_velocity.z) # Gets linear velocity of our vehicle in X/Z axis to calculate speed NOTE: We are ignoring Y axis here soo no sound neither speed will be calculated when car will be falling off in Y axis only
 		speed_xz = velocity_xz.length() # Calculates linear velocity of our vehicle to be used in Speed o meter and engine sound
 		
-		# Check which steering version player wants to use
-		match steering_model:
-			steering_type.DEFAULT: # Default steering model, no traction, no support
-				steering = lerp(steering, Input.get_axis(key_turn_right, key_turn_left) * turn_angle, default_turn_delay * delta) # Allows our vehicle to turn. Note: This already supports gamepad!
-			steering_type.OSH_QRD_STEERING: # Uses the way of steering provided by OSH QRD
-				var target_input = Input.get_axis(key_turn_right, key_turn_left) # Gets the input of our steering
-				if target_input != 0.0: # Checks if our wheels are actually turned or not
-					steering_input = move_toward(steering_input, target_input, steering_acceleration * delta) # Sets the steering with specifc speed for turning
-				else:
-					steering_input = move_toward(steering_input, 0.0, steering_return_speed * delta) # Sets the steering back to 0 with specific speed
-				steering = steering_input * turn_angle # Adapts the wheels with turn angle
 		
 		acceleration = Input.get_axis(key_brake, key_accelerate) # Allows our car to move forward and reverse. Controller supported!
-		veh_speed = speed_xz * speed_modifier # Gets vehicle velocity and multiplies it to get semi accurate velocity display on speed o meter, adjustable
-		rpm = rpm_wheel.get_rpm() # Gets RPM from our selected wheel
-		rpm_calclated = clamp(rpm, -max_rpm * gear_ratio[gear], max_rpm * gear_ratio[gear]) # Gets our RPM and calculate it to have max negative RPM and positive RPM to limit our geabox and overall power
-		
-		if !use_energy: # We check if our vehicle uses energy and if not then Hide the bar
-			minimap_node.fuel_bar.visible = false
-		
-		if nos_tier == 0: # We check if any Nos is installed in our car and if so then show Nos bar
-			minimap_node.nos_bar.visible = false
-		else: minimap_node.nos_bar.visible = true
-		
-		# If we have more energy and our acceleration is not 0.0 then drain energy
-		# We check for acceleration to prevent car from loosing energy when in mid air
-		# We also check if we do use energy "Used for different gamemodes when needed"
-		if energy > 0.0 and use_energy:
-			if acceleration != 0.0:
-				energy -= energy_consumption_rate # We gonna decrease energy by its consumption rate every physical frame we are making our car drive
-		
-		
-		# Some On Screen debug stats to track whats going on with our car
-		minimap_node.acceleration.text = "Acceleration: " + str(acceleration)
-		if gear == -1: # This one checks if our gear is -1 "Reverse" and if soo then change icon to R, otherwise display gears properly
-			minimap_node.gear_shaft.text = "Gear: R"
-		elif gear == 0: 
-			minimap_node.gear_shaft.text = "Gear: N"
-		else: minimap_node.gear_shaft.text = "Gear: " + str(gear)
-		minimap_node.absolute_rpm.text = "Absolute RPM: " + str(roundi(veh_speed)) + " KMPH"
-		minimap_node.max_rpm.text = "Current Engine Force: " + str(engine_force) + " Multiplied by: " + str(gear_ratio[gear])
-		minimap_node.rpm.text = "Current RPM: " + str(rpm_calclated)
-		minimap_node.fuel_bar.value = energy
-		minimap_node.nos_bar.value = nos_in_tank
-		
-		engine_sound.pitch_scale = speed_xz/engine_pitch_modifier + 0.1 # Sets the pitch of our vehicle engine sound based on its velocity
-		
-		#//////////////////////////////////////////////////////////////////////////////////////////#
-		# Applies break instead of reverse gear when Acceleration is negative and RPM's are high.
-		# Also prevents cars from being sling shooted when suddenly pressing reverse button.
-		# Keep it at -0.11 to prevent instant breaking when leaving throrile
-		# Note: This needs to check for both Acceleration and RPM, otherwise it might cause
-		# some issues with gears being applied incorrectly
-		if acceleration <= -0.11 and rpm_calclated >= 0.00:
-			brake = 5.0
-		else: brake = 0.0
-		
-		
-		#//////////////////////////////////////////////////////////////////////////////////////////#
-		# Checks if our Acceleration is at -0.11 "Just like with brakes" then turns rare lights
-		# ON and if Acceleration is above this value then turns it OFF
-		if acceleration <= -0.11:
-			rare_lights.show()
-		else: rare_lights.hide()
-		
-		#//////////////////////////////////////////////////////////////////////////////////////////#
-		# Checks If we have NOS lock, this is based on the way we want our NOS to be triggered
-		# There are 2 ways of triggering NOS. 1) Traditionall while holding button
-		# 2) Tap NOS button to use it until it runs out, NFS ProStreet NOS system
-		if !nos_lock:
-			nos_boost = 0.0 # We constantly reset our NOS Boost rate to prevent constant boost
-			if Input.is_action_pressed(key_nitro): # This checks if we are holding NOS Button
-				match nos_system: # We check which trigger type for the NOS our car uses
-					0: # Hold Button to use NOS
-						if nos_in_tank > 0.0:
-							nos_in_tank = nos_in_tank - nos_consumption_rate[nos_tier]
-							nos_boost = nos_power[nos_tier] # We apply boost from NOS based on our Tier
-						
-						
-					1: # Tap Button to keep on using NOS until it runs out
-						if nos_in_tank >= nos_tank[nos_tier]: # Checks if we have full tank and If not then do not allow on using NOS again
-							nos_in_tank = nos_tank[nos_tier]
-							nos_lock = true
-		else: # If our NOS Lock is on
-			if nos_in_tank > 0.0: # Check if we have enough NOS to use
-				nos_in_tank = nos_in_tank - nos_consumption_rate[nos_tier] # Drain our NOS when in use
-				nos_boost = nos_power[nos_tier] # We apply boost from NOS based on our Tier
-			elif nos_in_tank < 0.0: # If We don't have enough NOS then stop applying boost and unlock it
-				nos_boost = 0.0
-				nos_lock = false
+		# Check which steering version player wants to use
+		if veh_state == state.DRIVE:
+			match steering_model:
+				steering_type.DEFAULT: # Default steering model, no traction, no support
+					steering = lerp(steering, Input.get_axis(key_turn_right, key_turn_left) * turn_angle, default_turn_delay * delta) # Allows our vehicle to turn. Note: This already supports gamepad!
+				steering_type.OSH_QRD_STEERING: # Uses the way of steering provided by OSH QRD
+					var target_input = Input.get_axis(key_turn_right, key_turn_left) # Gets the input of our steering
+					if target_input != 0.0: # Checks if our wheels are actually turned or not
+						steering_input = move_toward(steering_input, target_input, steering_acceleration * delta) # Sets the steering with specifc speed for turning
+					else:
+						steering_input = move_toward(steering_input, 0.0, steering_return_speed * delta) # Sets the steering back to 0 with specific speed
+					steering = steering_input * turn_angle # Adapts the wheels with turn angle
 			
-		#//////////////////////////////////////////////////////////////////////////////////////////#
-		# Hand Brake function, applies brake and stops giving power to the engine
-		# If statement to check the acceleration, current gear and speed of the car
-		var is_burnout = abs(acceleration) > 0.95 and veh_speed < 10.0 and gear == 1
-		# Hand Brake function, applies brake and stops giving power to the engine
-		if Input.is_action_pressed(key_handbrake):
-			brake = 10.0
-			engine_force = 0.0
-			rare_lights.show()
-
-			# Applies wet_grip value to make car more drifty when applying hand brake
-			for i in wheels.size(): # We run through all of our wheels that are affected by hand brake and check if any is punctured
-				if punctured_tires[i] == false: # If our wheel is not punctured then change its grip while holding Hand Brake to allow for drift
-					wheels[i].wheel_friction_slip = wheel_grip - wet_grip # If wheel is not punctured then apply normal grip minus wet grip to imitate drift
-
-		elif is_burnout:
-			# We check if we are doing burnout and if so, dont reduce engine force but
-			# change only grip of the wheels
-			for i in wheels.size(): 
-				if punctured_tires[i] == false: # If our wheel is not punctrued then do burnout
-					wheels[i].wheel_friction_slip = burnout_slip # Apply burnout grip
-		else: 
-			# Returns back to default grip if we dont do burnout or have handbrake on
-			for i in all_wheels.size(): 
-				if punctured_tires[i] == false: 
-					all_wheels[i].wheel_friction_slip = wheel_grip
-					
-					
-		# Gearbox system
-		match gearbox_transmission:
 			
-			transmission.automatic:
-				
-				#//////////////////////////////////////////////////////////////////////////////////#
-				# Limits Negative RPM when driving in revers to prevent limitless speed
-				# while driving on reverse gear, it also checks if we are cheating with gears
-				# by driving off a clif and reversing in mid air while sustaining high gear
-				if acceleration <= -0.00 and gear >= -1.0:
-					if rpm_calclated < -100.0:
-						brake = 10.0
-				
-				#//////////////////////////////////////////////////////////////////////////////////#
-				# Gets our already calculated RPM values and Clamps it to swith gears for us
-				# Here it takes our calculated RPM and clamps it
-				# If our RPM reaches its max or min value, gear will be switched and we will
-				# get different ratio for another gear
-				# Note: We dont need to add Neutral in automatic transmission
-				if rpm_calclated == clamp(rpm_calclated, 0.0, 200.0): # This should switch gears at 200 RPM or above 25km
-					gear = 1
-				elif rpm_calclated == clamp(rpm_calclated,  200.0,  ratio_limiter[0]):
-					gear = 2
-				elif rpm_calclated == clamp(rpm_calclated,  ratio_limiter[0] + 1.0, ratio_limiter[1]):
-					gear = 3
-				elif rpm_calclated == clamp(rpm_calclated, ratio_limiter[1] + 1.0, ratio_limiter[2]):
-					gear = 4
-				#//////////////////////////////////////////////////////////////////////////////#
-				# Last gear. It will go beyond ratio limiter but it doesn't matter at this point
-				# Note: Adding more gears will require adjustment in all 3 "Gear Ratio, Differential and Ratio Limiter"
-				elif rpm_calclated == clamp(rpm_calclated, ratio_limiter[2] + 1.0, ratio_limiter[3]): 
-					gear = 5
-				# Small logic change by OSH QRD to allow car to have burnout
-				# Checks if our RPM are on negative and if we dont push acceleration
-				elif rpm_calclated == clamp(rpm_calclated, -100.0, -0.11) and acceleration < 0.0: 
-					gear = -1
-				
-				# Check if we are rolling backwards and pressing acceleration, this will initiate burnout
-				elif rpm_calclated < 0.0 and acceleration > 0.0:
-					gear = 1 # Force fist gear to allow for burnout
-				
-				
-			# Switch for manual transmission
-			transmission.manual:
-				
-				# Plays engine sound when full throtel in neutral gear to make it more realistic
-				if gear == 0 and acceleration != 0: # If we have gear 0 on manual it will not play sound unless accelerated in that gear "We actually dont need to check for Acceleration but it will throw errors in our console because it can't apply 0.0 to pitch scale
-					engine_sound.pitch_scale = abs(acceleration) # We apply pitch scale to our engine sound based on our acceleration, we put it in "abs" function to give same pitch value weather we accelerate or de-accelerate "abs turns any value into positive, example abs(-50) will turn -50 into 50"
+			veh_speed = speed_xz * speed_modifier # Gets vehicle velocity and multiplies it to get semi accurate velocity display on speed o meter, adjustable
+			rpm = rpm_wheel.get_rpm() # Gets RPM from our selected wheel
+			rpm_calclated = clamp(rpm, -max_rpm * gear_ratio[gear], max_rpm * gear_ratio[gear]) # Gets our RPM and calculate it to have max negative RPM and positive RPM to limit our geabox and overall power
+			
+		 # Checks if vehicle is in driving state then updates every UI component, used for race intro, result and garage
+			if !use_energy: # We check if our vehicle uses energy and if not then Hide the bar
+				minimap_node.fuel_bar.visible = false
+			
+			if nos_tier == 0: # We check if any Nos is installed in our car and if so then show Nos bar
+				minimap_node.nos_bar.visible = false
+			else: minimap_node.nos_bar.visible = true
+			
+			# If we have more energy and our acceleration is not 0.0 then drain energy
+			# We check for acceleration to prevent car from loosing energy when in mid air
+			# We also check if we do use energy "Used for different gamemodes when needed"
+			if energy > 0.0 and use_energy:
+				if acceleration != 0.0:
+					energy -= energy_consumption_rate # We gonna decrease energy by its consumption rate every physical frame we are making our car drive
+			
+			
+			# Some On Screen debug stats to track whats going on with our car
+			minimap_node.acceleration.text = "%s %f" %["Acceleration: ", acceleration]
+			if gear == -1: # This one checks if our gear is -1 "Reverse" and if soo then change icon to R, otherwise display gears properly
+				minimap_node.gear_shaft.text = "Gear: R"
+			elif gear == 0: 
+				minimap_node.gear_shaft.text = "Gear: N"
+			else: minimap_node.gear_shaft.text = "%s %d" % ["Gear: ", gear]
+			minimap_node.absolute_rpm.text = "%s %d %s" % ["Absolute RPM: ", roundi(veh_speed), " KMPH"]
+			minimap_node.max_rpm.text = "%s %f %s %f" % ["Current Engine Force: ", engine_force, " Multiplied by: ", gear_ratio[gear]]
+			minimap_node.rpm.text = "%s %f" % ["Current RPM: ", rpm_calclated]
+			minimap_node.fuel_bar.value = energy
+			minimap_node.nos_bar.value = nos_in_tank
+			
+			# Plays engine sound when full throtel in neutral gear to make it more realistic
+			if gear == 0 and acceleration != 0: # If we have gear 0 on manual it will not play sound unless accelerated in that gear "We actually dont need to check for Acceleration but it will throw errors in our console because it can't apply 0.0 to pitch scale
+				engine_target_pitch = abs(acceleration) / engine_pitch_modifier + abs(acceleration) + (0.2 / 2.0) # This sets the Highest pitch we get for the car when increasing RPM while in Neutral gear
+				engine_sound.pitch_scale = lerp(engine_sound.pitch_scale, engine_target_pitch, 5.0 * delta) # We apply pitch scale to our engine sound based on our acceleration, we put it in "abs" function to give same pitch value weather we accelerate or de-accelerate "abs turns any value into positive, example abs(-50) will turn -50 into 50"
+			else:
+				engine_target_pitch = speed_xz / engine_pitch_modifier + 0.05 # Sets the speed of how fast it dropps the pitch sound when no throtile is pressed
+				engine_sound.pitch_scale = lerp(engine_sound.pitch_scale, engine_target_pitch, 1.0 * delta) # Lowers the pitch gradually
+			
+			#//////////////////////////////////////////////////////////////////////////////////////////#
+			# Applies break instead of reverse gear when Acceleration is negative and RPM's are high.
+			# Also prevents cars from being sling shooted when suddenly pressing reverse button.
+			# Keep it at -0.11 to prevent instant breaking when leaving throrile
+			# Note: This needs to check for both Acceleration and RPM, otherwise it might cause
+			# some issues with gears being applied incorrectly
+			if acceleration <= -0.11 and rpm_calclated >= 0.00:
+				brake = 5.0
+			else: brake = 0.0
+			
+			
+			#//////////////////////////////////////////////////////////////////////////////////////////#
+			# Checks if our Acceleration is at -0.11 "Just like with brakes" then turns rare lights
+			# ON and if Acceleration is above this value then turns it OFF
+			if acceleration <= -0.11:
+				rare_lights.show()
+			else: rare_lights.hide()
+			
+
+			_nitro_system() # Controls how nitro is set and bechaves
+			_gearbox_system(rpm_calclated, delta) # Logic for Manual and Automatic Gearbox
+			_burnout() # Logic for burnout and particle system when drivig off
+			_apply_torque() # Kicks in the function to apply engine power
+			lights_switch() # Calls our light switch
+			reset_vehicle() # Allows player to reset vehicle if needed
+
+
+func _nitro_system() -> void:
+	#//////////////////////////////////////////////////////////////////////////////////////////#
+	# Checks If we have NOS lock, this is based on the way we want our NOS to be triggered
+	# There are 2 ways of triggering NOS. 1) Traditionall while holding button
+	# 2) Tap NOS button to use it until it runs out, NFS ProStreet NOS system
+	if !nos_lock:
+		nos_boost = 0.0 # We constantly reset our NOS Boost rate to prevent constant boost
+		if Input.is_action_pressed(key_nitro): # This checks if we are holding NOS Button
+			match nos_system: # We check which trigger type for the NOS our car uses
+				0: # Hold Button to use NOS
+					if nos_in_tank > 0.0:
+						nos_in_tank = nos_in_tank - nos_consumption_rate[nos_tier]
+						nos_boost = nos_power[nos_tier] # We apply boost from NOS based on our Tier
 					
 					
+				1: # Tap Button to keep on using NOS until it runs out
+					if nos_in_tank >= nos_tank[nos_tier]: # Checks if we have full tank and If not then do not allow on using NOS again
+						nos_in_tank = nos_tank[nos_tier]
+						nos_lock = true
+	else: # If our NOS Lock is on
+		if nos_in_tank > 0.0: # Check if we have enough NOS to use
+			nos_in_tank = nos_in_tank - nos_consumption_rate[nos_tier] # Drain our NOS when in use
+			nos_boost = nos_power[nos_tier] # We apply boost from NOS based on our Tier
+		elif nos_in_tank < 0.0: # If We don't have enough NOS then stop applying boost and unlock it
+			nos_boost = 0.0
+			nos_lock = false
+
+
+func _gearbox_system(rpm_calclated : float, delta) -> void:
+	# Gearbox system
+	match gearbox_transmission:
+				
+				transmission.automatic:
 					
-				#//////////////////////////////////////////////////////////////////////////////////#
-				# Manual transmission system
-				match shifter:
+					#//////////////////////////////////////////////////////////////////////////////////#
+					# Limits Negative RPM when driving in revers to prevent limitless speed
+					# while driving on reverse gear, it also checks if we are cheating with gears
+					# by driving off a clif and reversing in mid air while sustaining high gear
+					if acceleration <= -0.00 and gear >= -1.0:
+						if rpm_calclated < -100.0:
+							brake = 10.0
 					
-					false: # This is here if you dont use external shifter, gear change will be button based
-						if Input.is_action_just_pressed(key_shift_up): # Default Button is Q
-							if !gear == 5: # Prevents us from going above the gear limit
-								gear = gear + 1 # Increase gear by 1
-								brake = 10.0 # Applies brake for a second to simulate clutch
-								await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+					#//////////////////////////////////////////////////////////////////////////////////#
+					# Gets our already calculated RPM values and Clamps it to swith gears for us
+					# Here it takes our calculated RPM and clamps it
+					# If our RPM reaches its max or min value, gear will be switched and we will
+					# get different ratio for another gear
+					# Note: We dont need to add Neutral in automatic transmission
+					if rpm_calclated == clamp(rpm_calclated, 0.0, 200.0): # This should switch gears at 200 RPM or above 25km
+						gear = 1
+					elif rpm_calclated == clamp(rpm_calclated,  200.0,  ratio_limiter[0]):
+						gear = 2
+					elif rpm_calclated == clamp(rpm_calclated,  ratio_limiter[0] + 1.0, ratio_limiter[1]):
+						gear = 3
+					elif rpm_calclated == clamp(rpm_calclated, ratio_limiter[1] + 1.0, ratio_limiter[2]):
+						gear = 4
+					#//////////////////////////////////////////////////////////////////////////////#
+					# Last gear. It will go beyond ratio limiter but it doesn't matter at this point
+					# Note: Adding more gears will require adjustment in all 3 "Gear Ratio, Differential and Ratio Limiter"
+					elif rpm_calclated == clamp(rpm_calclated, ratio_limiter[2] + 1.0, ratio_limiter[3]): 
+						gear = 5
+					# Small logic change by OSH QRD to allow car to have burnout
+					# Checks if our RPM are on negative and if we dont push acceleration
+					elif rpm_calclated == clamp(rpm_calclated, -100.0, -0.11) and acceleration < 0.0: 
+						gear = -1
+					
+					# Check if we are rolling backwards and pressing acceleration, this will initiate burnout
+					elif rpm_calclated < 0.0 and acceleration > 0.0:
+						gear = 1 # Force fist gear to allow for burnout
+					
+					
+				# Switch for manual transmission
+				transmission.manual:
+					
+						
+						
+					#//////////////////////////////////////////////////////////////////////////////////#
+					# Manual transmission system
+					match shifter:
+						
+						false: # This is here if you dont use external shifter, gear change will be button based
+							if !force_neutral: # Checks if vechicle is not forced to neurtal and if so, allow for changing gears
+								if Input.is_action_just_pressed(key_shift_up): # Default Button is Q
+									if !gear == 5: # Prevents us from going above the gear limit
+										gear = gear + 1 # Increase gear by 1
+										brake = 10.0 # Applies brake for a second to simulate clutch
+										await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+									
+								elif Input.is_action_just_pressed(key_shift_down): # Default Button is A
+									if !gear == -1: # Prevents us from hitting gear lower than -1 where -1 is Reverse gear
+										gear = gear - 1 # Decrease gear by 1 when shifting donw
+										brake = 10.0 # Applies brake for a second to simulate clutch
+										await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+										
+						true: # This is here in case you want to use external shifter instead of buttons
+							if !force_neutral: # Checks if vechicle is not forced to neurtal and if so, allow for changing gears
+								if Input.is_action_just_pressed(key_gear_1): # This will change gear to gear 1 if external gear shaft is moved to gear 1 position
+									gear = 1 # Set Gear
+									brake = 10.0 # Applies brake for a second to simulate clutch
+									await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+								if Input.is_action_just_pressed(key_gear_2):
+									gear = 2 # Set Gear
+									brake = 10.0 # Applies brake for a second to simulate clutch
+									await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+								if Input.is_action_just_pressed(key_gear_3):
+									gear = 3 # Set Gear
+									brake = 10.0 # Applies brake for a second to simulate clutch
+									await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+								if Input.is_action_just_pressed(key_gear_4):
+									gear = 4 # Set Gear
+									brake = 10.0 # Applies brake for a second to simulate clutch1
+									await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+								if Input.is_action_just_pressed(key_gear_5):
+									gear = 5 # Set Gear
+									brake = 10.0 # Applies brake for a second to simulate clutch
+									await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+								if Input.is_action_just_pressed(key_gear_reverse):
+									gear = -1 # Set Gear
+									brake = 10.0 # Applies brake for a second to simulate clutch
+									await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+									
+					#//////////////////////////////////////////////////////////////////////////////////#
+					# For Manual Gearbox only. It checks what gear it is and will
+					# apply brake if RPM's are trying to go over the limit.
+					# This is to prevent driving 200km on first gear and force player
+					# to switch gears.
+					match gear:
+						-1: # Reverse gear, this one only limits our car from going above 00 RPM or 30Km in reverse
+							if rpm_calclated <= -400:
+								brake = 5
 							
-						elif Input.is_action_just_pressed(key_shift_down): # Default Button is A
-							if !gear == -1: # Prevents us from hitting gear lower than -1 where -1 is Reverse gear
-								gear = gear - 1 # Decrease gear by 1 when shifting donw
-								brake = 10.0 # Applies brake for a second to simulate clutch
-								await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-								
-					true: # This is here in case you want to use external shifter instead of buttons
-						if Input.is_action_just_pressed(key_gear_1): # This will change gear to gear 1 if external gear shaft is moved to gear 1 position
-							gear = 1 # Set Gear
-							brake = 10.0 # Applies brake for a second to simulate clutch
-							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						if Input.is_action_just_pressed(key_gear_2):
-							gear = 2 # Set Gear
-							brake = 10.0 # Applies brake for a second to simulate clutch
-							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						if Input.is_action_just_pressed(key_gear_3):
-							gear = 3 # Set Gear
-							brake = 10.0 # Applies brake for a second to simulate clutch
-							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						if Input.is_action_just_pressed(key_gear_4):
-							gear = 4 # Set Gear
-							brake = 10.0 # Applies brake for a second to simulate clutch1
-							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						if Input.is_action_just_pressed(key_gear_5):
-							gear = 5 # Set Gear
-							brake = 10.0 # Applies brake for a second to simulate clutch
-							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
-						if Input.is_action_just_pressed(key_gear_reverse):
-							gear = -1 # Set Gear
-							brake = 10.0 # Applies brake for a second to simulate clutch
-							await get_tree().create_timer(10.0).timeout # Prevents from switching gears instantly
+							# Prevents our car from driving forward on reverse gear
+							# Technically its still possible but it drives at 0.9 RPM which is not even 1Km
+							# Note this has to be applied for all gears!
+							if rpm_calclated >= 0.1 and acceleration >= 0.00:
+								brake = 10
+						0:
+							if rpm_calclated > manual_ratio_limiter[0]: # Checks if our RPM hits the limit then apply brakes to force gear shift
+								brake = 5
 							
-				#//////////////////////////////////////////////////////////////////////////////////#
-				# For Manual Gearbox only. It checks what gear it is and will
-				# apply brake if RPM's are trying to go over the limit.
-				# This is to prevent driving 200km on first gear and force player
-				# to switch gears.
-				match gear:
-					-1: # Reverse gear, this one only limits our car from going above 00 RPM or 30Km in reverse
-						if rpm_calclated <= -400:
-							brake = 5
-						
-						# Prevents our car from driving forward on reverse gear
-						# Technically its still possible but it drives at 0.9 RPM which is not even 1Km
-						# Note this has to be applied for all gears!
-						if rpm_calclated >= 0.1 and acceleration >= 0.00:
-							brake = 10
-					0:
-						if rpm_calclated >= ratio_limiter[0]: # Checks if our RPM hits the limit then apply brakes to force gear shift
-							brake = 5
-						
-						if rpm_calclated <= 0.00 and acceleration <= -0.11:
-							brake = 10
-					1:
-						if rpm_calclated >= ratio_limiter[0]: # Checks if our RPM hits the limit then apply brakes to force gear shift
-							brake = 5
-						
-						if rpm_calclated <= 0.00 and acceleration <= -0.11:
-							brake = 10
-					2:
-						if rpm_calclated >= ratio_limiter[1]:
-							brake = 3
-						
-						if rpm_calclated <= 0.00 and acceleration <= -0.11:
-							brake = 10
-					3:
-						if rpm_calclated >= ratio_limiter[2]:
-							brake = 2.5
-						
-						if rpm_calclated <= 0.00 and acceleration <= -0.11:
-							brake = 10
-					4:
-						if rpm_calclated >= ratio_limiter[3]:
-							brake = 2.5
-						
-						if rpm_calclated <= 0.00 and acceleration <= -0.11:
-							brake = 10
-					5:
-						#//////////////////////////////////////////////////////////////////////////#
-						# Last gear. Unlike previous gears, this has no limit just like in Automatic transmission
-						# Gear limits itself at a certain point on its own just like on automatic,
-						# with default values its max speed should stop around 112Km roughly
-						# Function below only does the same as above, which is prevents this gear
-						# from driving in reverse and applies brake if car tries to drive in reverse
-						if rpm_calclated <= 0.00 and acceleration <= -0.11:
-							brake = 10
-						
-		_apply_torque() # Kicks in the function to apply engine power
-		lights_switch() # Calls our light switch
-		reset_vehicle() # Allows player to reset vehicle if needed
+							if rpm_calclated <= 0.00 and acceleration <= -0.11:
+								brake = 10
+						1:
+							if rpm_calclated >= manual_ratio_limiter[0]: # Checks if our RPM hits the limit then apply brakes to force gear shift
+								brake = 10
+							
+							if rpm_calclated <= 0.00 and acceleration <= -0.11:
+								brake = 10
+						2:
+							if rpm_calclated >= manual_ratio_limiter[1]:
+								brake = 10
+							
+							if rpm_calclated <= 0.00 and acceleration <= -0.11:
+								brake = 10
+						3:
+							if rpm_calclated >= manual_ratio_limiter[2]:
+								brake = 10
+							
+							if rpm_calclated <= 0.00 and acceleration <= -0.11:
+								brake = 10
+						4:
+							if rpm_calclated >= manual_ratio_limiter[3]:
+								brake = 10
+							
+							if rpm_calclated <= 0.00 and acceleration <= -0.11:
+								brake = 10
+						5:
+							#//////////////////////////////////////////////////////////////////////////#
+							# Last gear. Unlike previous gears, this has no limit just like in Automatic transmission
+							# Gear limits itself at a certain point on its own just like on automatic,
+							# with default values its max speed should stop around 112Km roughly
+							# Function below only does the same as above, which is prevents this gear
+							# from driving in reverse and applies brake if car tries to drive in reverse
+							if rpm_calclated <= 0.00 and acceleration <= -0.11:
+								brake = 10
+
 
 # Here is where we give our car some force
 func _apply_torque() -> void:
@@ -598,35 +603,47 @@ func reset_vehicle() -> void:
 		can_reset = !can_reset 
 
 
-func add_visuals() -> void:
-	
-	var mod_instance = mod_list.new()  # Create an instance of the script
-	# From here we instantiate all the mods that our modlist contains, everything is sorted in its own array so it can be easily modified
-	# Everything can be modified from the Mod List file and does not require any changes here, just keep in mind that first mod on the list should always be the FACTORY PART of the car
-	# Note: This will add the mods as a child node to our Location markers, this is here to ensure that mods are positioned correctly and always at the same place, It also makes it easier for adjusting everything while editing
 
-
-	# From here we just check if we have installed the mods and change their material. Note: Use the same material as the car uses for better consistency and keep it the same.
-	# To avoid any bugs and issues with colors, The main material of the part should always be in slot 0 of the material list IF it uses more than one materials since it is easier to keep it consistent for all the parts that way, you can change material order in Blender before exporting it
-	if "Mod_Hood" in mod_instance: # This will check if there is Mod_Hood Array in our Mod list file, this is to prevent game from crashing if specific car will not have specific mods, you can easily restrict it for cars to have only specific parts available
-		hood_location.add_child(load(mod_instance.Mod_Hood[hood_mod]["part"]).instantiate())
+func switch_color(veh_color) -> void:
+	# This part controlls switching colors for every vehicle and coresponding parts
+	# For the purpose of Main Menu example, I've separated that to make it possible to change vehicle color
+	# inside menu example, however, the idea is still the same
+	if allow_color_change and veh_mesh.get_surface_override_material(material_id): # If player is allowed to change colour of this specific vehicle
+		veh_mesh.get_surface_override_material(material_id).albedo_color = veh_color # We get our material that controlls vehicle color and change its albed to our albedo value
+		veh_mesh.get_surface_override_material(material_id).roughness = material_tint # This one changes roughness of our materiall which makes it matte or shiny metalic
+	if rare_bumper_location:
+		if allow_color_change and rare_bumper_location.get_child_count() > 0:
+			rare_bumper_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color
+			rare_bumper_location.get_child(0).get_surface_override_material(0).roughness = material_tint
+	if front_bumper_location:
+		if allow_color_change and front_bumper_location.get_child_count() > 0: 
+			front_bumper_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color
+			front_bumper_location.get_child(0).get_surface_override_material(0).roughness = material_tint
+	if hood_location:
 		if allow_color_change and hood_location.get_child_count() > 0: # Here we check if our Hood location marker have any modifications added to it, mostly to prevent crashes
 			hood_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color # Here we take the color of our main material of the car and apply it to out main color material in our custom par
 			hood_location.get_child(0).get_surface_override_material(0).roughness = material_tint # Here we copy the tint of out material to make it consisten with car body, This will make our part matte or metalic at the same level as our car is
 
+
+
+	# From here we instantiate all new mod parts for vehicle, we check if parts are available for each car then attach to them
+	# For the sole purpose of adding example menu to the project, this logic has been changed and separated into individual parts
+	# This prevents from adding duplicated parts to the car while changing them in main menu
+	# However the logic stays as it was before, nothing more has been changed aside from being individual per part
+func update_hood() -> void:
+	if "Mod_Hood" in mod_instance: # This will check if there is Mod_Hood Array in our Mod list file, this is to prevent game from crashing if specific car will not have specific mods, you can easily restrict it for cars to have only specific parts available
+		hood_location.add_child(load(mod_instance.Mod_Hood[hood_mod]["part"]).instantiate())
+
+func update_f_bumper() -> void:
 	# For the next two checks, same rule apply, we only change to what part we apply the color and tint and for what part we are actully looking for
 	if "Mod_FBumper" in mod_instance:
 		front_bumper_location.add_child(load(mod_instance.Mod_FBumper[front_bumper_mod]["part"]).instantiate())
-		if allow_color_change and front_bumper_location.get_child_count() > 0:
-			front_bumper_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color
-			front_bumper_location.get_child(0).get_surface_override_material(0).roughness = material_tint
 
+func update_r_bumper() -> void:
 	if "Mod_RBumper" in mod_instance:
 		rare_bumper_location.add_child(load(mod_instance.Mod_RBumper[rare_bumper_mod]["part"]).instantiate())
-		if allow_color_change and rare_bumper_location.get_child_count() > 0:
-			rare_bumper_location.get_child(0).get_surface_override_material(0).albedo_color = veh_color
-			rare_bumper_location.get_child(0).get_surface_override_material(0).roughness = material_tint
-	
+		
+func update_spoiler() -> void:
 	if "Mod_Spoiler" in mod_instance:
 		if !no_default_spoiler: # We check if this vehicle have stock spoiler
 			spoiler_location.add_child(load(mod_instance.Mod_Spoiler[spoiler_mod]["part"]).instantiate()) # If car have stock spoiler model, simply add it to the car
@@ -635,84 +652,76 @@ func add_visuals() -> void:
 				if spoiler_location.get_child_count() > 0: # If we select no spoiler in case of car not having stock spoiler then check if we already have any spoiler
 					spoiler_location.get_child(0).queue_free() # If we do have different spoiler and we want to remove it then simply remove any spoiler if stock is selected
 			else: # In case of selecting different spoiler, simply add different one
-				spoiler_location.add_child(load(mod_instance.Mod_Spoiler[spoiler_mod]["part"]).instantiate())
+				spoiler_location.add_child(mod_instance.Mod_Spoiler[spoiler_mod]["part"].instantiate())
 
 
 func modify_rims() -> void:
-	
-	
 	# This is the system for swaping rims in car, it allows to change front and back rims independently along
 	# With both sides at the same time, this also allows to color them independently or together if desired
 	# In future it will also allow for a different tire texture to have different settings for it too
 	# Swaping tire color and texture is planed and will be added in future along with tire marks and smoke
 	# Color swap to match tire color :)
 	
-	if rim_list != null: # Check if we have list of rims for our car
-		var rim_instance = rim_list.new() # Generates an array of our rims based on our original list
-		if "Rim_list" in rim_instance: # Checks if we have any rims in our array
-			
-			
-			if !use_default_rims_front: # Check if we want to use default rims or not
-				all_wheels[0].get_child(0).add_child(load(rim_instance.Rim_list[front_rim_id]["part"]).instantiate()) # We place custom rims for front wheels
-				all_wheels[1].get_child(0).add_child(load(rim_instance.Rim_list[front_rim_id]["part"]).instantiate())
-			else:
-				set_default_rims() # Jump to setting vehicle default rims
-			
-			
-			if !use_default_rims_back:
-				all_wheels[2].get_child(0).add_child(load(rim_instance.Rim_list[back_rim_id]["part"]).instantiate()) # We place custom rims for back wheels
-				all_wheels[3].get_child(0).add_child(load(rim_instance.Rim_list[back_rim_id]["part"]).instantiate())
-			else:
-				set_default_rims()# Jump to setting vehicle default rims
-			
-		if separate_rim_colors: # We check if we are using separate colors or not
-			
-			if rim_instance.Rim_list[front_rim_id]["paintable"] == true: # We check if rims can be painted and if not then set its default colors
-				all_wheels[0].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = front_rim_color
-				all_wheels[1].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = front_rim_color
-			else: # Assign default colors from its informations
-				all_wheels[0].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[front_rim_id]["color"]
-				all_wheels[1].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[front_rim_id]["color"]
-			
-			
-			if rim_instance.Rim_list[back_rim_id]["paintable"] == true: # Same as above but we paint the back wheels for our car
-				all_wheels[2].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = back_rim_color
-				all_wheels[3].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = back_rim_color
-			else: # Again if wheels cant be painted then fall back to predefined color in our data list
-				all_wheels[2].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[back_rim_id]["color"]
-				all_wheels[3].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[back_rim_id]["color"]
+	
+	if "Rim_list" in rim_instance: # Checks if we have any rims in our array
+		
+		
+		if !use_default_rims_front: # Check if we want to use default rims or not
+			all_wheels[0].get_child(0).add_child(load(rim_instance.Rim_list[front_rim_id]["part"]).instantiate()) # We place custom rims for front wheels
+			all_wheels[1].get_child(0).add_child(load(rim_instance.Rim_list[front_rim_id]["part"]).instantiate())
+		else:
+			set_default_rims() # Jump to setting vehicle default rims
+		
+		
+		if !use_default_rims_back:
+			all_wheels[2].get_child(0).add_child(load(rim_instance.Rim_list[back_rim_id]["part"]).instantiate()) # We place custom rims for back wheels
+			all_wheels[3].get_child(0).add_child(load(rim_instance.Rim_list[back_rim_id]["part"]).instantiate())
+		else:
+			set_default_rims()# Jump to setting vehicle default rims
+		
+	if separate_rim_colors: # We check if we are using separate colors or not
+		
+		if rim_instance.Rim_list[front_rim_id]["paintable"] == true: # We check if rims can be painted and if not then set its default colors
+			all_wheels[0].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = front_rim_color
+			all_wheels[1].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = front_rim_color
+		else: # Assign default colors from its informations
+			all_wheels[0].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[front_rim_id]["color"]
+			all_wheels[1].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[front_rim_id]["color"]
+		
+		
+		if rim_instance.Rim_list[back_rim_id]["paintable"] == true: # Same as above but we paint the back wheels for our car
+			all_wheels[2].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = back_rim_color
+			all_wheels[3].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = back_rim_color
+		else: # Again if wheels cant be painted then fall back to predefined color in our data list
+			all_wheels[2].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[back_rim_id]["color"]
+			all_wheels[3].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[back_rim_id]["color"]
 
-		
-		else: # If we want to paint all rims the same color then we can use both rim color for that
-			if rim_instance.Rim_list[front_rim_id]["paintable"] == true: # Again check if wheels can be painted
-				all_wheels[0].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = both_rim_color
-				all_wheels[1].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = both_rim_color
-			else:
-				all_wheels[0].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[front_rim_id]["color"]
-				all_wheels[1].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[front_rim_id]["color"]
-			
-			
-			if rim_instance.Rim_list[back_rim_id]["paintable"] == true:
-				all_wheels[2].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = both_rim_color
-				all_wheels[3].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = both_rim_color
-			else:
-				all_wheels[2].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[back_rim_id]["color"]
-				all_wheels[3].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[back_rim_id]["color"]
-		
 	
-	else:
-		set_default_rims() # Jump to setting vehicle default rims
-	
+	else: # If we want to paint all rims the same color then we can use both rim color for that
+		if rim_instance.Rim_list[front_rim_id]["paintable"] == true: # Again check if wheels can be painted
+			all_wheels[0].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = both_rim_color
+			all_wheels[1].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = both_rim_color
+		else:
+			all_wheels[0].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[front_rim_id]["color"]
+			all_wheels[1].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[front_rim_id]["color"]
+		
+		
+		if rim_instance.Rim_list[back_rim_id]["paintable"] == true:
+			all_wheels[2].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = both_rim_color
+			all_wheels[3].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = both_rim_color
+		else:
+			all_wheels[2].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[back_rim_id]["color"]
+			all_wheels[3].get_child(0).get_child(0).get_surface_override_material(0).albedo_color = rim_instance.Rim_list[back_rim_id]["color"]
 	
 func set_default_rims() -> void:
 	
 	if default_rims: # If we skipped custom rims then simply add default ones for our car that were assigned
 		if use_default_rims_front:
-			all_wheels[0].get_child(0).add_child(load(default_rims).instantiate())
-			all_wheels[1].get_child(0).add_child(load(default_rims).instantiate())
+			all_wheels[0].get_child(0).add_child(default_rims.instantiate())
+			all_wheels[1].get_child(0).add_child(default_rims.instantiate())
 		if use_default_rims_back:
-			all_wheels[2].get_child(0).add_child(load(default_rims).instantiate())
-			all_wheels[3].get_child(0).add_child(load(default_rims).instantiate())
+			all_wheels[2].get_child(0).add_child(default_rims.instantiate())
+			all_wheels[3].get_child(0).add_child(default_rims.instantiate())
 	else: # IF car doesn't have default rims set then inform us about it
 		print("WARNING: ", veh_name, " has no default rims set!")
 		
@@ -729,7 +738,37 @@ func puncture_wheels() -> void:
 			#print(tire_points[i].name, " Hit: ", tire_points[i].get_collider(0).name)
 
 
-func skiding_effects() -> void:
+func _burnout() -> void:
+	#//////////////////////////////////////////////////////////////////////////////////////////#
+	# Hand Brake function, applies brake and stops giving power to the engine
+	# If statement to check the acceleration, current gear and speed of the car
+	var is_burnout = abs(acceleration) > 0.95 and veh_speed < 10.0 and gear == 1
+	# Hand Brake function, applies brake and stops giving power to the engine
+	if Input.is_action_pressed(key_handbrake):
+		brake = 10.0
+		engine_force = 0.0
+		rare_lights.show()
+
+		# Applies wet_grip value to make car more drifty when applying hand brake
+		for i in wheels.size(): # We run through all of our wheels that are affected by hand brake and check if any is punctured
+			if punctured_tires[i] == false: # If our wheel is not punctured then change its grip while holding Hand Brake to allow for drift
+				wheels[i].wheel_friction_slip = wheel_grip - wet_grip # If wheel is not punctured then apply normal grip minus wet grip to imitate drift
+
+	elif is_burnout:
+		# We check if we are doing burnout and if so, dont reduce engine force but
+		# change only grip of the wheels
+		for i in wheels.size(): 
+			if punctured_tires[i] == false: # If our wheel is not punctrued then do burnout
+				wheels[i].wheel_friction_slip = burnout_slip # Apply burnout grip
+	else: 
+		# Returns back to default grip if we dont do burnout or have handbrake on
+		for i in all_wheels.size(): 
+			if punctured_tires[i] == false: 
+				all_wheels[i].wheel_friction_slip = wheel_grip
+				
+
+
+func _skiding_effects() -> void:
 #//////////////////////////////////////////////////////////////////////////////////////////////#
 # Here we are applying our particles under the wheels, both of these IF statements do the exact
 # same thing but for each individual wheel, this is soo that if one wheel will be sliding

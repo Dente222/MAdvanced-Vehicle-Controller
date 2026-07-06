@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://tlig68fieiqj" path="res://addons/M.A.V.S/Vehicle/Wheels/Wheels_list.gd" id="3_26aqg"]
 [ext_resource type="Material" uid="uid://c1bjp86ep2i3p" path="res://addons/M.A.V.S/Vehicle/Cleo V8/CleoV8_GlassNDeco.tres" id="3_kgjb1"]
 [ext_resource type="PackedScene" uid="uid://ojw67kgcwe61" path="res://addons/M.A.V.S/Vehicle/Modular Components/Tire_smoke.tscn" id="4_kgjb1"]
+[ext_resource type="PackedScene" uid="uid://dyf5m4enddmyo" path="res://addons/M.A.V.S/Vehicle/Wheels/rim_beta.tscn" id="4_wjipj"]
 [ext_resource type="AudioStream" uid="uid://lwrq5l0gacr4" path="res://addons/M.A.V.S/Vehicle/Modular Components/Car Engine.mp3" id="5_q0tkg"]
 [ext_resource type="PackedScene" uid="uid://cdgqq4lyuyefj" path="res://addons/M.A.V.S/Vehicle/Wheels/tire.tscn" id="5_wjipj"]
 [ext_resource type="AudioStream" uid="uid://c721hburp5xh5" path="res://addons/M.A.V.S/Vehicle/Modular Components/rubber_sound.mp3" id="6_tn01k"]
@@ -99,6 +100,8 @@ size = Vector3(0.265, 0.135, 0.565)
 [node name="CleoV8" type="VehicleBody3D" unique_id=1299177662 node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "hood_location", "front_bumper_location", "rare_bumper_location", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
 collision_layer = 3
 collision_mask = 3
+mass = 120.0
+center_of_mass_mode = 1
 max_contacts_reported = 5
 script = ExtResource("1_x26hy")
 veh_name = "Cleo V8"
@@ -107,6 +110,8 @@ front_light = NodePath("Front_Lights")
 rare_lights = NodePath("Rare_Lights")
 hood_cam = NodePath("Hood_Camera")
 remote_transformer = NodePath("RemoteTransform3D")
+debug_hud = true
+steering_model = 1
 engine_sound = NodePath("Engine Sound")
 tyre_sound = NodePath("Tire Sound")
 smoke_particles = [NodePath("LWParticle"), NodePath("RWParticle")]
@@ -116,8 +121,10 @@ hood_location = NodePath("Bodymod_Locations/Hood_Location")
 front_bumper_location = NodePath("Bodymod_Locations/Front_Bumper_Location")
 rare_bumper_location = NodePath("Bodymod_Locations/Rare_Bumper_Location")
 rim_list = ExtResource("3_26aqg")
-default_rims = "res://addons/M.A.V.S/Vehicle/Wheels/rim_beta.tscn"
+default_rims = ExtResource("4_wjipj")
 front_rim_id = 1
+gear_ratio = [0.0, 12.5, 10.5, 8.9, 8.5, 7.6]
+differential = [0.0, 48.0, 43.0, 38.6, 34.7, 32.5]
 rpm_wheel = NodePath("LBWheel")
 wheels = [NodePath("LBWheel"), NodePath("RBWheel")]
 all_wheels = [NodePath("LFWheel"), NodePath("RFWheel"), NodePath("LBWheel"), NodePath("RBWheel")]
@@ -238,6 +245,7 @@ emitting = false
 [node name="Engine Sound" type="AudioStreamPlayer3D" parent="." unique_id=176528161]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.871111, -1.29563)
 stream = ExtResource("5_q0tkg")
+pitch_scale = 0.1
 bus = &"Engine"
 
 [node name="Tire Sound" type="AudioStreamPlayer3D" parent="." unique_id=1547186086]

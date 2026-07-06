@@ -72,10 +72,19 @@ func _run_game() -> void:
 		identify_veh.front_rim_id = wheels
 		identify_veh.back_rim_id = wheels
 		identify_veh.steering_model = steering
-		identify_veh.veh_color = veh_color
+		update_visuals()
+		identify_veh.switch_color(veh_color)
 	#endregion
 		identify_veh.debug_hud = $CheckButton.button_pressed # Sets visible debug for the car
 		identify_veh.assign_vehicle() # Triggers function that will assign us to our car and add all requred nodes
 		self.queue_free() # Deletes this menu because we don't need it anymore
 	else: # If we don't have car that we can select or array have null entries, print error
 		return print_rich("[color=salmon][b]WARNING:[/b] There is no vehicle that player can be assigned to!")
+func update_visuals() -> void:
+		if identify_veh.mod_list != null:
+			identify_veh.hood_location.get_child(0).free()
+			identify_veh.front_bumper_location.get_child(0).free()
+			identify_veh.rare_bumper_location.get_child(0).free()
+			identify_veh.update_hood()
+			identify_veh.update_f_bumper()
+			identify_veh.update_r_bumper()

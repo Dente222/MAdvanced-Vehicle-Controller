@@ -1,5 +1,4 @@
 StandardMaterial3D
-Vehicle_List
 GDScript
 PhysicsMaterial
 VisualShader

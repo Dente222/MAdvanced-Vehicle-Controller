@@ -3,10 +3,11 @@ extends Node3D
 @export var player_id : int = 0 # ID for player in case of multiplayer
 @export var cam_parent : Node3D # Camera Anchor node for easy access to the vehicle
 @export var cam_holder : Node3D # Camera holder for easy rotation with analogue "We could use cam_parent but then we have to adjust its heigh"
-@export var camera : Camera3D # Camera itself if necessary to change
+@export var veh_camera : Camera3D # Camera itself if necessary to change
 @export var cam_arm : SpringArm3D # Spring arm used to prevent camera from clipping
 @export var cam_position : Node3D # Position where we want our spring arm to be "Replaced with a single location for better compatibility with spring arm"
 @export var cam_angle_limit : int = 20 # Limit camera angle for both X angle when moving manualy and for vehicle rotation
+@export var cam_distance : float = 4.0 # How far camera will go from vehicle
 @export var orbit_speed : float = 2.0 # How fast we rotate camera manualy
 @export var orbit_smoothness : float = 5.0 # How smooth it rotates when moved manually
 @export var auto_reset_delay : float = 1.0 # Seconds before reset starts
@@ -22,8 +23,8 @@ var time_since_input : float = 0.0 # Delay timer before camera possitione itself
 
 const X_SMOOTHNESS : float = 2.0 # Smoothing for manual camera rotation
 
-
 func _ready() -> void:
+	cam_arm.spring_length = cam_distance # Sets default distance for spring arm
 	if cam_parent.get_parent().is_truck: # Check if our Vehicle is truck type
 		self.position = Vector3(0, 3.0, 0) # Rise our camera a bit for better visiblity
 		self.get_child(0).rotation_degrees.x = -15 # Angle our camera a bit for better visiblity
@@ -108,18 +109,18 @@ func switch_camera():
 	match current_cam: # Match our Camera ID with specific setup
 		0:
 			cam_position.rotation_degrees.x = 0.0 # We set rotation for our camera target to keep it default, this cant be global or it will take parent rotation and add it up
-			camera.reparent(cam_arm) # We reparent camera back to spring arm
-			cam_arm.spring_length = 4.0 # We set the lenght of spring arm to be 4m away
-			camera.rotation_degrees.x = 0.0 # We reset camera angle for each axis just in case
-			camera.rotation_degrees.y = 0.0
-			camera.rotation_degrees.z = 0.0
+			veh_camera.reparent(cam_arm) # We reparent camera back to spring arm
+			cam_arm.spring_length = cam_distance # We set the lenght of spring arm to be 4m away
+			veh_camera.rotation_degrees.x = 0.0 # We reset camera angle for each axis just in case
+			veh_camera.rotation_degrees.y = 0.0
+			veh_camera.rotation_degrees.z = 0.0
 			if cam_parent.get_parent().is_truck: # Updates camer for trucks types to be consisten
 				self.position = Vector3(0, 3.0, 0)
 				self.get_child(0).rotation_degrees.x = -15
 			
 		1:
 			cam_position.rotation_degrees.x = 7.5 # Same here we tilt camera position to be a bit lower and closer
-			cam_arm.spring_length = 4.0 # We set the lenght of spring arm to be 4m away
+			cam_arm.spring_length = cam_distance # We set the lenght of spring arm to be 4m away
 			if cam_parent.get_parent().is_truck: # Updates camer for trucks types to be consisten
 				self.position = Vector3(0, 2.0, 0)
 				self.get_child(0).rotation_degrees.x = -15
@@ -127,8 +128,8 @@ func switch_camera():
 				current_cam = -1
 			
 		2:
-			camera.reparent(hood) # Parent camera to the hood marker
-			camera.global_position = hood.global_position # Sets position of camera to hood marker
-			camera.rotation_degrees.x = hood.rotation_degrees.x # Resets camera degrees to face forward
-			camera.rotation_degrees.y = 180.0 # Flips camera, otherwise it will be facing the windshield
-			camera.rotation_degrees.z = 0.0
+			veh_camera.reparent(hood) # Parent camera to the hood marker
+			veh_camera.global_position = hood.global_position # Sets position of camera to hood marker
+			veh_camera.rotation_degrees.x = hood.rotation_degrees.x # Resets camera degrees to face forward
+			veh_camera.rotation_degrees.y = 180.0 # Flips camera, otherwise it will be facing the windshield
+			veh_camera.rotation_degrees.z = 0.0

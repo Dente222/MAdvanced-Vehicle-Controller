@@ -91,6 +91,7 @@ size = Vector3(0.265, 0.135, 0.565)
 [node name="GT30" type="VehicleBody3D" unique_id=639259667 node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "rpm_wheel", "wheels", "all_wheels", "tire_points")]
 collision_layer = 3
 collision_mask = 3
+center_of_mass_mode = 1
 script = ExtResource("1_y5skb")
 veh_name = "GT30"
 veh_mesh = NodePath("GT30")

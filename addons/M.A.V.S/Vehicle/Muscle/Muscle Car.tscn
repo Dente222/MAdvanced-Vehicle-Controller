@@ -73,6 +73,7 @@ shadow_mesh = SubResource("ArrayMesh_bdd1i")
 [node name="Muscle Car" type="VehicleBody3D" unique_id=468340122 node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "rpm_wheel", "wheels", "all_wheels") groups=["Vehicle"]]
 collision_layer = 3
 collision_mask = 3
+center_of_mass_mode = 1
 script = ExtResource("1_v3wvo")
 veh_name = "Muscle"
 veh_mesh = NodePath("CollisionShape3D/Muscle_Car")

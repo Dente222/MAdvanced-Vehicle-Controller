@@ -97,6 +97,7 @@ size = Vector3(0.265, 0.135, 0.67)
 [node name="TRG" type="VehicleBody3D" unique_id=2006650688 node_paths=PackedStringArray("veh_mesh", "front_light", "rare_lights", "hood_cam", "remote_transformer", "engine_sound", "tyre_sound", "smoke_particles", "skidmarks_particle", "rpm_wheel", "wheels", "all_wheels", "tire_points") groups=["Vehicle"]]
 collision_layer = 3
 collision_mask = 3
+center_of_mass_mode = 1
 script = ExtResource("1_dqu01")
 veh_name = "TRG"
 veh_mesh = NodePath("CollisionShape3D/TRG_Mesh")

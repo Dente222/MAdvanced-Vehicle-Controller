@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://c4e3s327ghxhu"]
+[gd_scene format=4 uid="uid://c4e3s327ghxhu"]
 
 [ext_resource type="Script" uid="uid://sgl2831dr1i0" path="res://addons/M.A.V.S/Scripts/Race_follow_AI.gd" id="1_ns4ic"]
 [ext_resource type="Material" uid="uid://1ngebcmdw4nk" path="res://addons/M.A.V.S/Vehicle/TGR/TRG_Glass_And_Details.tres" id="2_fpmqr"]
@@ -79,7 +79,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_v5nm0")
 
-[node name="MVehicleBasicFollowAI" type="VehicleBody3D" node_paths=PackedStringArray("veh_indicator", "veh_mesh", "all_wheels") groups=["Vehicle"]]
+[node name="MVehicleBasicFollowAI" type="VehicleBody3D" unique_id=1498892004 node_paths=PackedStringArray("veh_indicator", "veh_mesh", "all_wheels") groups=["Vehicle"]]
 center_of_mass_mode = 1
 script = ExtResource("1_ns4ic")
 veh_indicator = NodePath("Car_Indicator")
@@ -89,16 +89,16 @@ random_color = true
 all_wheels = [NodePath("LF_Wheel"), NodePath("RF_Wheel"), NodePath("LB_Wheel"), NodePath("RB_Wheel")]
 metadata/_custom_type_script = "uid://sgl2831dr1i0"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1395888606]
 shape = SubResource("ConvexPolygonShape3D_vw55t")
 
-[node name="TRG_Mesh" type="MeshInstance3D" parent="CollisionShape3D"]
+[node name="TRG_Mesh" type="MeshInstance3D" parent="CollisionShape3D" unique_id=162504895]
 layers = 3
 mesh = SubResource("ArrayMesh_ol6dc")
 surface_material_override/0 = ExtResource("2_fpmqr")
 surface_material_override/1 = ExtResource("3_gvkr3")
 
-[node name="LF_Wheel" type="VehicleWheel3D" parent="."]
+[node name="LF_Wheel" type="VehicleWheel3D" parent="." unique_id=555337366]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.572659, 0.3357563, 0.900775)
 use_as_steering = true
 wheel_radius = 0.335
@@ -106,9 +106,9 @@ wheel_rest_length = 0.12
 wheel_friction_slip = 3.0
 suspension_stiffness = 35.0
 
-[node name="TRG_Wheel" parent="LF_Wheel" instance=ExtResource("4_83n87")]
+[node name="TRG_Wheel" parent="LF_Wheel" unique_id=1227693496 instance=ExtResource("4_83n87")]
 
-[node name="RF_Wheel" type="VehicleWheel3D" parent="."]
+[node name="RF_Wheel" type="VehicleWheel3D" parent="." unique_id=1333066509]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.573, 0.33568954, 0.901)
 use_as_steering = true
 wheel_radius = 0.335
@@ -116,10 +116,10 @@ wheel_rest_length = 0.12
 wheel_friction_slip = 3.0
 suspension_stiffness = 35.0
 
-[node name="TRG_Wheel" parent="RF_Wheel" instance=ExtResource("4_83n87")]
+[node name="TRG_Wheel" parent="RF_Wheel" unique_id=1954129469 instance=ExtResource("4_83n87")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
-[node name="LB_Wheel" type="VehicleWheel3D" parent="."]
+[node name="LB_Wheel" type="VehicleWheel3D" parent="." unique_id=1668596938]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.573, 0.38168907, -0.897252)
 use_as_traction = true
 wheel_radius = 0.335
@@ -127,9 +127,9 @@ wheel_rest_length = 0.12
 wheel_friction_slip = 3.0
 suspension_stiffness = 35.0
 
-[node name="TRG_Wheel" parent="LB_Wheel" instance=ExtResource("4_83n87")]
+[node name="TRG_Wheel" parent="LB_Wheel" unique_id=745842829 instance=ExtResource("4_83n87")]
 
-[node name="RB_Wheel" type="VehicleWheel3D" parent="."]
+[node name="RB_Wheel" type="VehicleWheel3D" parent="." unique_id=1430698031]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.573, 0.38168907, -0.897)
 use_as_traction = true
 wheel_radius = 0.335
@@ -137,10 +137,10 @@ wheel_rest_length = 0.12
 wheel_friction_slip = 3.0
 suspension_stiffness = 35.0
 
-[node name="TRG_Wheel" parent="RB_Wheel" instance=ExtResource("4_83n87")]
+[node name="TRG_Wheel" parent="RB_Wheel" unique_id=836696470 instance=ExtResource("4_83n87")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
-[node name="Car_Indicator" type="Sprite3D" parent="."]
+[node name="Car_Indicator" type="Sprite3D" parent="." unique_id=743235910]
 transform = Transform3D(1, 0, -1.67037e-22, 0, 1, 0, -1.67037e-22, 0, 1, 0, 20, 0)
 visible = false
 layers = 512
